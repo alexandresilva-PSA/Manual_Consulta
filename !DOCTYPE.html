@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual do Usuário — Consulta de XMLs v3.0 (Completo)</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8 28L20 16L32 28' stroke='%2384CC16' stroke-width='4' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3Cpath d='M8 20L20 8L32 20' stroke='%2314B8A6' stroke-width='4' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <style>
+        :root {
+            --teal-500: #14B8A6;
+            --teal-600: #0D9488;
+            --teal-700: #0F766E;
+            --lime-400: #A3E635;
+            --lime-500: #84CC16;
+            --lime-600: #65A30D;
+            --gray-50: #F9FAFB;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-400: #9CA3AF;
+            --gray-500: #6B7280;
+            --gray-600: #4B5563;
+            --gray-700: #374151;
+            --gray-800: #1F2937;
+            --gray-900: #111827;
+            --red-500: #EF4444;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Work Sans', sans-serif;
+            font-size: 16px;
+            line-height: 1.7;
+            color: var(--gray-700);
+            background-color: var(--gray-100);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* HEADER */
+        .header {
+            background-color: var(--gray-900);
+            padding: 0 1.5rem;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        .header-left { display: flex; align-items: center; gap: 1rem; }
+        .logo { height: 48px; width: auto; }
+        .header-divider { width: 1px; height: 28px; background-color: var(--gray-600); margin: 0 0.5rem; }
+        .header-title { color: var(--gray-200); font-size: 1rem; font-weight: 400; }
+        .header-right { display: flex; align-items: center; gap: 1rem; }
+        .badge-versao {
+            background-color: rgba(20, 184, 166, 0.15); color: var(--teal-500);
+            border: 1px solid rgba(20, 184, 166, 0.3); padding: 0.25rem 0.75rem;
+            border-radius: 20px; font-size: 0.75rem; font-weight: 600; outline: none;
+        }
+        .header-buttons { display: flex; gap: 0.5rem; }
+        .btn {
+            display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem;
+            border-radius: 8px; font-family: 'Work Sans', sans-serif; font-size: 0.8125rem;
+            font-weight: 500; cursor: pointer; border: none; transition: all 0.2s;
+        }
+        .btn-salvar { background-color: var(--teal-500); color: #fff; }
+        .btn-salvar:hover { background-color: var(--teal-600); }
+        .btn-exportar { background-color: var(--lime-500); color: #fff; }
+        .btn-exportar:hover { background-color: var(--lime-600); }
+        .btn-toggle-sidebar { background: none; border: none; color: var(--gray-400); padding: 0.5rem; cursor: pointer; border-radius: 4px; display: flex; align-items: center; justify-content: center; }
+        .btn-toggle-sidebar:hover { background: rgba(255,255,255,0.1); color: #fff; }
+
+        /* LAYOUT */
+        .layout { display: flex; flex: 1; overflow: hidden; }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 280px; background-color: #fff; border-right: 1px solid var(--gray-200);
+            display: flex; flex-direction: column; overflow-y: auto; flex-shrink: 0;
+            transition: margin-left 0.3s ease; z-index: 90;
+        }
+        .sidebar.collapsed { margin-left: -280px; }
+        .sidebar-header { padding: 1.5rem; border-bottom: 1px solid var(--gray-100); }
+        .sidebar-header h2 { font-size: 0.6875rem; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.1em; }
+        .sidebar-nav { padding: 1rem; flex: 1; }
+
+        /* NAV ACCORDION */
+        .nav-group { border: 1px solid var(--gray-200); border-radius: 8px; margin-bottom: 1rem; overflow: hidden; }
+        .nav-group-header {
+            background-color: var(--gray-50); padding: 0.75rem 1rem; cursor: pointer;
+            display: flex; align-items: center; justify-content: space-between;
+            font-weight: 600; font-size: 0.875rem; color: var(--gray-800);
+            transition: background 0.2s;
+        }
+        .nav-group-header:hover { background-color: var(--gray-100); }
+        .nav-group-header .material-icons-round { color: var(--gray-500); transition: transform 0.3s; }
+        .nav-group.collapsed .nav-group-header .material-icons-round { transform: rotate(-90deg); }
+        .nav-group-content { display: block; border-top: 1px solid var(--gray-200); }
+        .nav-group.collapsed .nav-group-content { display: none; }
+
+        .sidebar-nav a {
+            display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.75rem 1rem;
+            text-decoration: none; font-size: 0.8125rem; font-weight: 500;
+            color: var(--gray-600); border-left: 3px solid transparent;
+            white-space: normal; line-height: 1.4; transition: all 0.2s;
+        }
+        .sidebar-nav a:hover { background-color: var(--gray-50); color: var(--teal-600); }
+        .sidebar-nav a.active { background-color: rgba(20, 184, 166, 0.1); border-left-color: var(--teal-500); color: var(--teal-700); }
+
+        /* MAIN CONTENT */
+        .main-content { flex: 1; overflow-y: auto; padding: 2rem 3rem; background-color: var(--gray-50); scroll-behavior: smooth; }
+        .content-wrapper { max-width: 900px; margin: 0 auto; padding-bottom: 100px; }
+
+        /* SEÇÕES */
+        .secao {
+            background-color: #fff; border-radius: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            margin-bottom: 2rem; overflow: hidden; position: relative; scroll-margin-top: 90px;
+        }
+        .secao-header { display: flex; align-items: center; gap: 1rem; padding: 1.5rem 2rem; border-bottom: 1px solid var(--gray-100); }
+        .secao-numero {
+            width: 40px; height: 40px; border-radius: 50%; background-color: rgba(20, 184, 166, 0.1);
+            color: var(--teal-600); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.125rem; flex-shrink: 0;
+        }
+        .secao-header h2 { font-size: 1.5rem; font-weight: 700; color: var(--gray-800); flex: 1; outline: none; }
+        .secao-header h2:focus { background-color: var(--gray-50); border-radius: 4px; }
+        
+        .btn-delete-section { background: none; border: none; color: var(--gray-400); cursor: pointer; padding: 8px; border-radius: 8px; }
+        .btn-delete-section:hover { color: var(--red-500); background: #FEF2F2; }
+
+        .secao-conteudo { padding: 2rem; }
+        .secao-conteudo h3 { font-size: 1.125rem; font-weight: 600; color: var(--gray-800); margin: 2rem 0 0.75rem 0; outline: none; }
+        .secao-conteudo h3:first-child { margin-top: 0; }
+        .secao-conteudo p { margin-bottom: 1rem; color: var(--gray-600); outline: none; }
+        .secao-conteudo strong { color: var(--teal-600); font-weight: 600; }
+
+        /* --- SISTEMA DE IMAGEM V2 --- */
+        .img-container { margin: 1.5rem 0; text-align: center; }
+        .img-wrapper {
+            position: relative; width: 100%; border: 1px solid var(--gray-200);
+            border-radius: 12px; overflow: hidden; background-color: var(--gray-100); 
+            user-select: none;
+        }
+        .img-viewport {
+            width: 100%; cursor: default; transform-origin: 0 0;
+            /* Importante: transition none para drag rápido */
+        }
+        .img-viewport.grabbing { cursor: grabbing; }
+        .img-viewport.grab { cursor: grab; }
+        .img-screenshot { display: block; width: 100%; height: auto; pointer-events: none; }
+        .img-caption {
+            margin-top: 0.75rem; font-size: 0.8125rem; font-weight: 400; color: var(--gray-500); 
+            font-style: italic; outline: none;
+        }
+
+        /* BARRA FLUTUANTE */
+        .floating-toolbar {
+            position: absolute; bottom: 16px; right: 16px;
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid var(--gray-200); border-radius: 50px;
+            padding: 4px; display: flex; align-items: center; gap: 4px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 20;
+        }
+        .btn-float {
+            width: 32px; height: 32px; border-radius: 50%;
+            border: none; background: transparent; color: var(--gray-600);
+            cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s;
+        }
+        .btn-float:hover { background-color: var(--gray-100); color: var(--gray-900); }
+        .btn-mark-float {
+            padding: 0 12px 0 8px; width: auto; border-radius: 20px;
+            font-size: 0.75rem; font-weight: 600; color: var(--teal-600);
+            background-color: rgba(20, 184, 166, 0.1);
+        }
+        .btn-mark-float:hover { background-color: rgba(20, 184, 166, 0.2); }
+        .divider-vertical { width: 1px; height: 20px; background: var(--gray-300); margin: 0 2px; }
+
+        /* MARCADORES */
+        .marker {
+            position: absolute; width: 50px; height: 50px;
+            border: 3px solid var(--red-500); border-radius: 50%;
+            box-shadow: 0 0 0 2px rgba(255,255,255,0.4);
+            cursor: move; z-index: 10;
+        }
+        /* Alça Resize Dinâmica */
+        .marker-resize-handle {
+            position: absolute; bottom: -6px; right: -6px;
+            width: 14px; height: 14px; background-color: var(--red-500);
+            border: 2px solid #fff; border-radius: 50%; /* Redondo */
+            cursor: nwse-resize; z-index: 12;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            opacity: 0; transition: opacity 0.2s;
+        }
+        .marker:hover .marker-resize-handle { opacity: 1; }
+
+        /* Botão Excluir Dinâmico */
+        .marker-delete-btn {
+            position: absolute; top: -10px; right: -10px;
+            width: 20px; height: 20px; background-color: var(--red-500);
+            color: white; border-radius: 50%; border: 2px solid #fff;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px; font-weight: bold; cursor: pointer; z-index: 12;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            opacity: 0; transition: opacity 0.2s;
+        }
+        .marker:hover .marker-delete-btn { opacity: 1; }
+
+        /* BLOQUEIO DE LEITURA (Quando exportado) */
+        body.mode-read-only .marker { cursor: default; }
+        body.mode-read-only .img-viewport { cursor: default !important; }
+
+        /* DICAS */
+        .dica {
+            background-color: #ECFDF5; border-left: 4px solid var(--teal-500);
+            padding: 1rem 1.25rem; margin: 1.5rem 0; border-radius: 0 8px 8px 0;
+            display: flex; gap: 0.75rem; align-items: flex-start;
+        }
+        .dica .material-icons-round { color: var(--teal-500); font-size: 1.25rem; flex-shrink: 0; }
+        .dica p { margin: 0; font-size: 0.875rem; color: var(--teal-700); }
+        .lista-dicas { list-style: none; padding: 0; }
+        .lista-dicas li { padding: 0.75rem 0 0.75rem 2rem; position: relative; color: var(--gray-600); border-bottom: 1px solid var(--gray-100); outline: none; }
+        .lista-dicas li::before { content: "✓"; position: absolute; left: 0; color: var(--teal-500); font-weight: 700; }
+
+        /* UTILS */
+        .admin-only {}
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background-color: var(--gray-300); border-radius: 20px; }
+
+        /* FAB */
+        .fab-add {
+            position: fixed; bottom: 30px; right: 30px;
+            width: 60px; height: 60px; border-radius: 50%;
+            background-color: var(--teal-500); color: white; border: none;
+            box-shadow: 0 6px 20px rgba(20, 184, 166, 0.4);
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            z-index: 100; transition: transform 0.2s;
+        }
+        .fab-add:hover { transform: scale(1.1); background-color: var(--teal-600); }
+
+        @media (max-width: 768px) {
+            .header-title, .header-divider { display: none; }
+            .sidebar { position: fixed; top: 72px; bottom: 0; left: 0; box-shadow: 4px 0 15px rgba(0,0,0,0.1); }
+            .fab-add { bottom: 20px; right: 20px; width: 50px; height: 50px; }
+        }
+        @media print {
+            .header-buttons, .admin-only, .fab-add, .sidebar { display: none !important; }
+            .layout { display: block; }
+            .main-content { padding: 0; }
+            .secao { break-inside: avoid; border: 1px solid #ddd; }
+        }
+    </style>
+</head>
+<body onload="initSystem()">
+
+    <header class="header">
+        <div class="header-left">
+            <button class="btn-toggle-sidebar" onclick="toggleSidebar()" title="Alternar menu">
+                <span class="material-icons-round">menu</span>
+            </button>
+            <img src="imagens/logo_psa_branca.png" alt="PSA Consultores" class="logo">
+            <div class="header-divider"></div>
+            <span class="header-title">Manual do Usuário — Consulta de XMLs</span>
+        </div>
+        <div class="header-right">
+            <span class="badge-versao" contenteditable="true">v3.0</span>
+            <div class="header-buttons admin-only">
+                <button class="btn btn-salvar" onclick="salvarAlteracoes()">
+                    <span class="material-icons-round">save</span>
+                    <span>Salvar HTML</span>
+                </button>
+                <button class="btn btn-exportar" onclick="exportarHTML()">
+                    <span class="material-icons-round">visibility</span>
+                    <span>Exportar Leitura</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="layout">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>Sumário</h2>
+            </div>
+            <nav class="sidebar-nav" id="sidebar-nav">
+                </nav>
+        </aside>
+
+        <main class="main-content" id="main-scroll">
+            <div class="content-wrapper" id="content-area">
+
+                <section class="secao" id="secao-1">
+                    <div class="secao-header">
+                        <span class="secao-numero">1</span>
+                        <h2 contenteditable="true">Introdução</h2>
+                        <button class="btn-delete-section admin-only" onclick="deletarSecao(this)"><span class="material-icons-round">delete_outline</span></button>
+                    </div>
+                    <div class="secao-conteudo">
+                        <p contenteditable="true">Este manual apresenta as funcionalidades da ferramenta <strong>Consulta de XMLs</strong>, parte integrante do sistema PSA Elevate. A ferramenta permite buscar, visualizar, exportar e baixar documentos fiscais eletrônicos (NFe e CTe) de forma centralizada.</p>
+                        <p contenteditable="true">O objetivo deste documento é orientar analistas fiscais na utilização eficiente de todos os recursos disponíveis, desde a aplicação de filtros até a exportação de dados para análise.</p>
+                        <div class="dica">
+                            <span class="material-icons-round">info</span>
+                            <p contenteditable="true">Certifique-se de que seu perfil de usuário possui as permissões necessárias para acessar o módulo de Consulta de XMLs antes de prosseguir.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="secao" id="secao-2">
+                    <div class="secao-header">
+                        <span class="secao-numero">2</span>
+                        <h2 contenteditable="true">Acessando o Sistema</h2>
+                        <button class="btn-delete-section admin-only" onclick="deletarSecao(this)"><span class="material-icons-round">delete_outline</span></button>
+                    </div>
+                    <div class="secao-conteudo">
+                        <h3 contenteditable="true">2.1 Acesso ao PSA Elevate</h3>
+                        <p contenteditable="true">Acesse o site do PSA Elevate através do navegador. Na página inicial, localize o ícone de equipe no canto superior direito da tela.</p>
+                        
+                        <div class="img-container"><div class="img-wrapper"><div class="img-viewport"><img src="imagens/01_acesso_site.png" class="img-screenshot"></div><div class="floating-toolbar admin-only"><button class="btn-float" onclick="controlZoom(this, 0.2)"><span class="material-icons-round">add</span></button><button class="btn-float" onclick="controlZoom(this, -0.2)"><span class="material-icons-round">remove</span></button><div class="divider-vertical"></div><button class="btn-float btn-mark-float" onclick="addMarker(this)"><span class="material-icons-round">radio_button_unchecked</span> Marcação</button></div></div><p class="img-caption" contenteditable="true">Página inicial do PSA Elevate</p></div>
+
+                        <p contenteditable="true">Posicione o cursor sobre o ícone para visualizar o menu suspenso e clique em <strong>Equipe</strong>.</p>
+                        
+                        <div class="img-container"><div class="img-wrapper"><div class="img-viewport"><img src="imagens/02_acesso_menu_equipe.png" class="img-screenshot"></div><div class="floating-toolbar admin-only"><button class="btn-float" onclick="controlZoom(this, 0.2)"><span class="material-icons-round">add</span></button><button class="btn-float" onclick="controlZoom(this, -0.2)"><span class="material-icons-round">remove</span></button><div class="divider-vertical"></div><button class="btn-float btn-mark-float" onclick="addMarker(this)"><span class="material-icons-round">radio_button_unchecked</span> Marcação</button></div></div><p class="img-caption" contenteditable="true">Menu Equipe no canto superior direito</p></div>
+
+                        <h3 contenteditable="true">2.2 Seleção de Área</h3>
+                        <p contenteditable="true">Na tela de seleção de área, escolha o setor correspondente às suas atividades. Para acessar as ferramentas de consulta fiscal, selecione a opção <strong>Digital</strong>.</p>
+                        
+                        <div class="img-container"><div class="img-wrapper"><div class="img-viewport"><img src="imagens/03_selecao_area.png" class="img-screenshot"></div><div class="floating-toolbar admin-only"><button class="btn-float" onclick="controlZoom(this, 0.2)"><span class="material-icons-round">add</span></button><button class="btn-float" onclick="controlZoom(this, -0.2)"><span class="material-icons-round">remove</span></button><div class="divider-vertical"></div><button class="btn-float btn-mark-float" onclick="addMarker(this)"><span class="material-icons-round">radio_button_unchecked</span> Marcação</button></div></div><p class="img-caption" contenteditable="true">Seleção da área de atuação</p></div>
+
+                        <h3 contenteditable="true">2.3 Login</h3>
+                        <p contenteditable="true">Insira suas credenciais de acesso nos campos correspondentes. No campo <strong>Email</strong>, digite seu endereço de e-mail corporativo. No campo <strong>Senha</strong>, insira sua senha. Em seguida, clique em <strong>Entrar</strong>.</p>
+                        
+                        <div class="img-container"><div class="img-wrapper"><div class="img-viewport"><img src="imagens/04_login.png" class="img-screenshot"></div><div class="floating-toolbar admin-only"><button class="btn-float" onclick="controlZoom(this, 0.2)"><span class="material-icons-round">add</span></button><button class="btn-float" onclick="controlZoom(this, -0.2)"><span class="material-icons-round">remove</span></button><div class="divider-vertical"></div><button class="btn-float btn-mark-float" onclick="addMarker(this)"><span class="material-icons-round">radio_button_unchecked</span> Marcação</button></div></div><p class="img-caption" contenteditable="true">Tela de login com credenciais</p></div>
+
+                        <h3 contenteditable="true">2.4 Seleção de Ambiente</h3>
+                        <p contenteditable="true">Após o login, selecione o ambiente de trabalho apropriado. Para acessar as ferramentas de consulta e desenvolvimento, clique em <strong>Digital Dev</strong>.</p>
+                        
+                        <div class="img-container"><div class="img-wrapper"><div class="img-viewport"><img src="imagens/05_selecao_ambiente.png" class="img-screenshot"></div><div class="floating-toolbar admin-only"><button class="btn-float" onclick="controlZoom(this, 0.2)"><span class="material-icons-round">add</span></button><button class="btn-float" onclick="controlZoom(this, -0.2)"><span class="material-icons-round">remove</span></button><div class="divider-vertical"></div><button class="btn-float btn-mark-float" onclick="addMarker(this)"><span class="material-icons-round">radio_button_unchecked</span> Marcação</button></div></div><p class="img-caption" contenteditable="true">Escolha entre Digital Rotina e Digital Dev</p></div>
+                    </div>
+                </section>
+
+                <section class="secao" id="secao-3">
+                    <div class="secao-header">
+                        <span class="secao-numero">3</span>
+                        <h2 contenteditable="true">Navegação até Consulta de XMLs</h2>
+                        <button class="btn-delete-section admin-only" onclick="deletarSecao(this)"><span class="material-icons-round">delete_outline</span></button>
+                    </div>
+                    <div class="secao-conteudo">
+                        <h3 contenteditable="true">3.1 Dashboard e Menu Lateral</h3>
+                        <p contenteditable="true">No Dashboard Dev, localize o menu lateral à esquerda da tela. Clique na opção <strong>Consulta de XMLs</strong> para acessar a ferramenta de busca de documentos fiscais.</p>
+                        <div class="img-container"><div class="img-wrapper"><div class="img-viewport"><img src="imagens/06_dashboard_dev.png" class="img-screenshot"></div><div class="floating-toolbar admin-only"><button class="btn-float" onclick="controlZoom(this, 0.2)"><span class="material-icons-round">add</span></button><button class="btn-float" onclick="controlZoom(this, -0.2)"><span class="material-icons-round">remove</span></button><div class="divider-vertical"></div><button class="btn-float btn-mark-float" onclick="addMarker(this)"><span class="material-icons-round">radio_button_unchecked</span> Marcação</button></div></div><p class="img-caption" contenteditable="true">Dashboard Dev — menu lateral com opção Consulta de XMLs</p></div>
+                    </div>
+                </section>
+
+                <section class="secao" id="secao-4">
+                    <div class="secao-header">
+                        <span class="secao-numero">4</span>
+                        <h2 contenteditable="true">Visão Geral da Interface</h2>
+                        <button class="btn-delete-section admin-only" onclick="deletarSecao(this)"><span class="material-icons-round">delete_outline</span></button>
+                    </div>
+                    <div class="secao-conteudo">
+                        <h3 contenteditable="true">4.1 Estrutura da Tela</h3>
+                        <p contenteditable="true">A interface da Consulta de XMLs está organizada em duas áreas principais: a área de <strong>Filtros</strong> na parte superior, onde você define os critérios de busca, e a área de <strong>Documentos</strong> na parte inferior, onde os resultados são exibidos em formato de tabela.</p>
+                        <p contenteditable="true">Na barra de ações, você encontra os botões <strong>Limpar Filtros</strong>, <strong>Baixar XMLs</strong>, <strong>Exportar Excel</strong> e <strong>Buscar</strong>.</p>
+                        <div class="img-container"><div class="img-wrapper"><div class="img-viewport"><img src="imagens/07_tela_inicial.png" class="img-screenshot"></div><div class="floating-toolbar admin-only"><button class="btn-float" onclick="controlZoom(this, 0.2)"><span class="material-icons-round">add</span></button><button class="btn-float" onclick="controlZoom(this, -0.2)"><span class="material-icons-round">remove</span></button><div class="divider-vertical"></div><button class="btn-float btn-mark-float" onclick="addMarker(this)"><span class="material-icons-round">radio_button_unchecked</span> Marcação</button></div></div><p class="img-caption" contenteditable="true">Visão geral da interface — filtros e área de documentos</p></div>
+                    </div>
+                </section>
+
+                <section class="secao" id="secao-5">
+                    <div class="secao-header">
+                        <span class="secao-numero">5</span>
+                        <h2 contenteditable="true">Utilizando os Filtros</h2>
+                        <button class="btn-delete-section admin-only" onclick="deletarSecao(this)"><span class="material-icons-round">delete_outline</span></button>
+                    </div>
+                    <div class="secao-conteudo">
+                        <h3 contenteditable="true">5.1 Cliente</h3>
+                        <p contenteditable="true">O filtro <strong>Cliente</strong> permite selecionar a empresa ou grupo empresarial cujos documentos serão consultados. Clique no campo e selecione o cliente desejado na lista suspensa.</p>
+                        <div class="img-container"><div class="img-wrapper"><div class="img-viewport"><img src="imagens/08_filtro_cliente.png" class="img-screenshot"></div><div class="floating-toolbar admin-only"><button class="btn-float" onclick="controlZoom(this, 0.2)"><span class="material-icons-round">add</span></button><button class="btn-float" onclick="controlZoom(this, -0.2)"><span class="material-icons-round">remove</span></button><div class="divider-vertical"></div><button class="btn-float btn-mark-float" onclick="addMarker(this)"><span class="material-icons-round">radio_button_unchecked</span> Marcação</button></div></div><p class="img-caption" contenteditable="true">Dropdown do filtro Cliente</p></div>
+
+                        <h3 contenteditable="true">5.2 Contribuinte</h3>
+                        <p contenteditable="true">Após selecionar o cliente, o filtro <strong>Contribuinte</strong> exibe os estabelecimentos vinculados. Selecione o contribuinte específico (identificado pelo CNPJ) para filtrar os documentos relacionados.</p>
+                        <div class="img-container"><div class="img-wrapper"><div class="img-viewport"><img src="imagens/09_filtro_contribuinte.png" class="img-screenshot"></div><div class="floating-toolbar admin-only"><button class="btn-float" onclick="controlZoom(this, 0.2)"><span class="material-icons-round">add</span></button><button class="btn-float" onclick="controlZoom(this, -0.2)"><span class="material-icons-round">remove</span></button><div class="divider-vertical"></div><button class="btn-float btn-mark-float" onclick="addMarker(this)"><span class="material-icons-round">radio_button_unchecked</span> Marcação</button></div></div><p class="img-caption" contenteditable="true">Seleção do contribuinte vinculado ao cliente</p></div>
+
+                        <h3 contenteditable="true">5.3 Tipo de Documento</h3>
+                        <p contenteditable="true">O filtro <strong>Tipo Doc.</strong> permite escolher entre NFe (Nota Fiscal Eletrônica) e CTe (Conhecimento de Transporte Eletrônico).</p>
+                        <div class="img-container"><div class="img-wrapper"><div class="img-viewport"><img src="imagens/10_filtro_tipo_doc.png" class="img-screenshot"></div><div class="floating-toolbar admin-only"><button class="btn-float" onclick="controlZoom(this, 0.2)"><span class="material-icons-round">add</span></button><button class="btn-float" onclick="controlZoom(this, -0.2)"><span class="material-icons-round">remove</span></button><div class="divider-vertical"></div><button class="btn-float btn-mark-float" onclick="addMarker(this)"><span class="material-icons-round">radio_button_unchecked</span> Marcação</button></div></div><p class="img-caption" contenteditable="true">Opções NFe e CTe</p></div>
+
+                        <h3 contenteditable="true">5.4 Tipo de Movimento</h3>
+                        <p contenteditable="true">O filtro <strong>Tipo Mov.</strong> define a direção do movimento fiscal. Selecione <strong>Entrada</strong> para documentos recebidos, <strong>Saída</strong> para documentos emitidos, ou <strong>Todos</strong> para visualizar ambos.</p>
+                        <div class="img-container"><div class="img-wrapper"><div class="img-viewport"><img src="imagens/11_filtro_tipo_mov.png" class="img-screenshot"></div><div class="floating-toolbar admin-only"><button class="btn-float" onclick="controlZoom(this, 0.2)"><span class="material-icons-round">add</span></button><button class="btn-float" onclick="controlZoom(this, -0.2)"><span class="material-icons-round">remove</span></button><div class="divider-vertical"></div><button class="btn-float btn-mark-float" onclick="addMarker(this)"><span class="material-icons-round">radio_button_unchecked</span> Marcação</button></div></div><p class="img-caption" contenteditable="true">Opções Todos, Entrada e Saída</p></div>
+
+                        <h3 contenteditable="true">5.5 Período</h3>
+                        <p contenteditable="true">Defina o intervalo de datas utilizando os campos <strong>Data Início</strong> e <strong>Data Fim</strong>. Clique no ícone de calendário para selecionar as datas.</p>
+                        <div class="img-container"><div class="img-wrapper"><div class="img-viewport"><img src="imagens/12_filtro_data_inicio.png" class="img-screenshot"></div><div class="floating-toolbar admin-only"><button class="btn-float" onclick="controlZoom(this, 0.2)"><span class="material-icons-round">add</span></button><button class="btn-float" onclick="controlZoom(this, -0.2)"><span class="material-icons-round">remove</span></button><div class="divider-vertical"></div><button class="btn-float btn-mark-float" onclick="addMarker(this)"><span class="material-icons-round">radio_button_unchecked</span> Marcação</button></div></div><p class="img-caption" contenteditable="true">Seleção da data de início</p></div>
+                        <div class="img-container"><div class="img-wrapper"><div class="img-viewport"><img src="imagens/13_filtro_data_fim.png" class="img-screenshot"></div><div class="floating-toolbar admin-only"><button class="btn-float" onclick="controlZoom(this, 0.2)"><span class="material-icons-round">add</span></button><button class="btn-float" onclick="controlZoom(this, -0.2)"><span class="material-icons-round">remove</span></button><div class="divider-vertical"></div><button class="btn-float btn-mark-float" onclick="addMarker(this)"><span class="material-icons-round">radio_button_unchecked</span> Marcação</button></div></div><p class="img-caption" contenteditable="true">Seleção da data de fim</p></div>
+
+                        <h3 contenteditable="true">5.6 CPF/CNPJ Emitente</h3>
+                        <p contenteditable="true">O campo <strong>CPF/CNPJ Emitente</strong> permite filtrar documentos por um emitente específico.</p>
+                        <div class="img-container"><div class="img-wrapper"><div class="img-viewport"><img src="imagens/14_filtro_emitente.png" class="img-screenshot"></div><div class="floating-toolbar admin-only"><button class="btn-float" onclick="controlZoom(this, 0.2)"><span class="material-icons-round">add</span></button><button class="btn-float" onclick="controlZoom(this, -0.2)"><span class="material-icons-round">remove</span></button><div class="divider-vertical"></div><button class="btn-float btn-mark-float" onclick="addMarker(this)"><span class="material-icons-round">radio_button_unchecked</span> Marcação</button></div></div><p class="img-caption" contenteditable="true">Preenchimento do CPF/CNPJ do emitente</p></div>
+
+                        <h3 contenteditable="true">5.7 CPF/CNPJ Destinatário</h3>
+                        <p contenteditable="true">O campo <strong>CPF/CNPJ Destinatário</strong> funciona de forma similar. Utilize quando precisar localizar documentos enviados para um destinatário específico.</p>
+                        <div class="img-container"><div class="img-wrapper"><div class="img-viewport"><img src="imagens/15_filtro_destinatario.png" class="img-screenshot"></div><div class="floating-toolbar admin-only"><button class="btn-float" onclick="controlZoom(this, 0.2)"><span class="material-icons-round">add</span></button><button class="btn-float" onclick="controlZoom(this, -0.2)"><span class="material-icons-round">remove</span></button><div class="divider-vertical"></div><button class="btn-float btn-mark-float" onclick="addMarker(this)"><span class="material-icons-round">radio_button_unchecked</span> Marcação</button></div></div><p class="img-caption" contenteditable="true">Preenchimento do CPF/CNPJ do destinatário</p></div>
+
+                        <h3 contenteditable="true">5.8 Executando a Busca</h3>
+                        <p contenteditable="true">Após configurar os filtros desejados, clique no botão <strong>Buscar</strong> para executar a consulta.</p>
+                        <div class="dica">
+                            <span class="material-icons-round">lightbulb</span>
+                            <p contenteditable="true">Utilize combinações de filtros para otimizar o tempo de busca e obter resultados mais precisos.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="secao" id="secao-6">
+                    <div class="secao-header">
+                        <span class="secao-numero">6</span>
+                        <h2 contenteditable="true">Visualizando Resultados</h2>
+                        <button class="btn-delete-section admin-only" onclick="deletarSecao(this)"><span class="material-icons-round">delete_outline</span></button>
+                    </div>
+                    <div class="secao-conteudo">
+                        <h3 contenteditable="true">6.1 Tabela de Documentos</h3>
+                        <p contenteditable="true">A tabela de resultados apresenta os documentos fiscais encontrados com as seguintes informações: CNPJ Emitente, Razão Social, Chave de Acesso, UF, Número, Data Emissão, Valor e quantidade de Produtos.</p>
+                        <div class="img-container"><div class="img-wrapper"><div class="img-viewport"><img src="imagens/16_resultados_busca.png" class="img-screenshot"></div><div class="floating-toolbar admin-only"><button class="btn-float" onclick="controlZoom(this, 0.2)"><span class="material-icons-round">add</span></button><button class="btn-float" onclick="controlZoom(this, -0.2)"><span class="material-icons-round">remove</span></button><div class="divider-vertical"></div><button class="btn-float btn-mark-float" onclick="addMarker(this)"><span class="material-icons-round">radio_button_unchecked</span> Marcação</button></div></div><p class="img-caption" contenteditable="true">Tabela com documentos encontrados</p></div>
+                    </div>
+                </section>
+
+                <section class="secao" id="secao-7">
+                    <div class="secao-header">
+                        <span class="secao-numero">7</span>
+                        <h2 contenteditable="true">Exportação para Excel</h2>
+                        <button class="btn-delete-section admin-only" onclick="deletarSecao(this)"><span class="material-icons-round">delete_outline</span></button>
+                    </div>
+                    <div class="secao-conteudo">
+                        <h3 contenteditable="true">7.1 Abrindo o Modal de Exportação</h3>
+                        <p contenteditable="true">Para exportar os dados para Excel, clique no botão <strong>Exportar Excel</strong>.</p>
+                        <div class="img-container"><div class="img-wrapper"><div class="img-viewport"><img src="imagens/17_btn_exportar_excel.png" class="img-screenshot"></div><div class="floating-toolbar admin-only"><button class="btn-float" onclick="controlZoom(this, 0.2)"><span class="material-icons-round">add</span></button><button class="btn-float" onclick="controlZoom(this, -0.2)"><span class="material-icons-round">remove</span></button><div class="divider-vertical"></div><button class="btn-float btn-mark-float" onclick="addMarker(this)"><span class="material-icons-round">radio_button_unchecked</span> Marcação</button></div></div><p class="img-caption" contenteditable="true">Botão Exportar Excel</p></div>
+
+                        <h3 contenteditable="true">7.2 Selecionando Colunas</h3>
+                        <p contenteditable="true">Na aba <strong>Colunas</strong>, escolha quais informações serão incluídas na exportação. As colunas estão organizadas em grupos temáticos.</p>
+                        <div class="img-container"><div class="img-wrapper"><div class="img-viewport"><img src="imagens/18_modal_colunas.png" class="img-screenshot"></div><div class="floating-toolbar admin-only"><button class="btn-float" onclick="controlZoom(this, 0.2)"><span class="material-icons-round">add</span></button><button class="btn-float" onclick="controlZoom(this, -0.2)"><span class="material-icons-round">remove</span></button><div class="divider-vertical"></div><button class="btn-float btn-mark-float" onclick="addMarker(this)"><span class="material-icons-round">radio_button_unchecked</span> Marcação</button></div></div><p class="img-caption" contenteditable="true">Modal de exportação com grupos de colunas</p></div>
+
+                        <h3 contenteditable="true">7.3 Grupos de Colunas</h3>
+                        <p contenteditable="true">Os grupos disponíveis são: <strong>Documento</strong>, <strong>Emitente</strong>, <strong>Destinatário</strong>, <strong>Totais</strong>, <strong>Info Adicionais</strong>, <strong>Produtos</strong> e <strong>ICMS Produto</strong>.</p>
+                        <div class="img-container"><div class="img-wrapper"><div class="img-viewport"><img src="imagens/19_grupo_documento.png" class="img-screenshot"></div><div class="floating-toolbar admin-only"><button class="btn-float" onclick="controlZoom(this, 0.2)"><span class="material-icons-round">add</span></button><button class="btn-float" onclick="controlZoom(this, -0.2)"><span class="material-icons-round">remove</span></button><div class="divider-vertical"></div><button class="btn-float btn-mark-float" onclick="addMarker(this)"><span class="material-icons-round">radio_button_unchecked</span> Marcação</button></div></div><p class="img-caption" contenteditable="true">Grupo Documento expandido</p></div>
+
+                        <h3 contenteditable="true">7.4 Marcar e Desmarcar Todos</h3>
+                        <p contenteditable="true">Utilize <strong>Marcar todos</strong> para selecionar todas as colunas ou <strong>Desmarcar todos</strong> para limpar a seleção.</p>
+                        <div class="img-container"><div class="img-wrapper"><div class="img-viewport"><img src="imagens/20_marcar_todos.png" class="img-screenshot"></div><div class="floating-toolbar admin-only"><button class="btn-float" onclick="controlZoom(this, 0.2)"><span class="material-icons-round">add</span></button><button class="btn-float" onclick="controlZoom(this, -0.2)"><span class="material-icons-round">remove</span></button><div class="divider-vertical"></div><button class="btn-float btn-mark-float" onclick="addMarker(this)"><span class="material-icons-round">radio_button_unchecked</span> Marcação</button></div></div><p class="img-caption" contenteditable="true">Botão Marcar todos</p></div>
+                        <div class="img-container"><div class="img-wrapper"><div class="img-viewport"><img src="imagens/21_desmarcar_todos.png" class="img-screenshot"></div><div class="floating-toolbar admin-only"><button class="btn-float" onclick="controlZoom(this, 0.2)"><span class="material-icons-round">add</span></button><button class="btn-float" onclick="controlZoom(this, -0.2)"><span class="material-icons-round">remove</span></button><div class="divider-vertical"></div><button class="btn-float btn-mark-float" onclick="addMarker(this)"><span class="material-icons-round">radio_button_unchecked</span> Marcação</button></div></div><p class="img-caption" contenteditable="true">Botão Desmarcar todos</p></div>
+
+                        <h3 contenteditable="true">7.5 Visualização Prévia</h3>
+                        <p contenteditable="true">Clique na aba <strong>Preview</strong> para visualizar como os dados aparecerão na planilha.</p>
+                        <div class="img-container"><div class="img-wrapper"><div class="img-viewport"><img src="imagens/25_preview_11col.png" class="img-screenshot"></div><div class="floating-toolbar admin-only"><button class="btn-float" onclick="controlZoom(this, 0.2)"><span class="material-icons-round">add</span></button><button class="btn-float" onclick="controlZoom(this, -0.2)"><span class="material-icons-round">remove</span></button><div class="divider-vertical"></div><button class="btn-float btn-mark-float" onclick="addMarker(this)"><span class="material-icons-round">radio_button_unchecked</span> Marcação</button></div></div><p class="img-caption" contenteditable="true">Preview com 11 colunas</p></div>
+                        <div class="img-container"><div class="img-wrapper"><div class="img-viewport"><img src="imagens/26_preview_51col.png" class="img-screenshot"></div><div class="floating-toolbar admin-only"><button class="btn-float" onclick="controlZoom(this, 0.2)"><span class="material-icons-round">add</span></button><button class="btn-float" onclick="controlZoom(this, -0.2)"><span class="material-icons-round">remove</span></button><div class="divider-vertical"></div><button class="btn-float btn-mark-float" onclick="addMarker(this)"><span class="material-icons-round">radio_button_unchecked</span> Marcação</button></div></div><p class="img-caption" contenteditable="true">Preview com 51 colunas</p></div>
+
+                        <h3 contenteditable="true">7.6 Executando a Exportação</h3>
+                        <p contenteditable="true">Clique em <strong>Exportar Excel</strong> para gerar e baixar o arquivo .xlsx.</p>
+                        <div class="img-container"><div class="img-wrapper"><div class="img-viewport"><img src="imagens/27_download_excel.png" class="img-screenshot"></div><div class="floating-toolbar admin-only"><button class="btn-float" onclick="controlZoom(this, 0.2)"><span class="material-icons-round">add</span></button><button class="btn-float" onclick="controlZoom(this, -0.2)"><span class="material-icons-round">remove</span></button><div class="divider-vertical"></div><button class="btn-float btn-mark-float" onclick="addMarker(this)"><span class="material-icons-round">radio_button_unchecked</span> Marcação</button></div></div><p class="img-caption" contenteditable="true">Arquivo Excel baixado</p></div>
+                    </div>
+                </section>
+
+                <section class="secao" id="secao-8">
+                    <div class="secao-header">
+                        <span class="secao-numero">8</span>
+                        <h2 contenteditable="true">Gerenciando Perfis de Exportação</h2>
+                        <button class="btn-delete-section admin-only" onclick="deletarSecao(this)"><span class="material-icons-round">delete_outline</span></button>
+                    </div>
+                    <div class="secao-conteudo">
+                        <h3 contenteditable="true">8.1 Salvando um Perfil</h3>
+                        <p contenteditable="true">Para reutilizar uma configuração de colunas, clique no botão <strong>Salvar</strong> (ícone de disquete).</p>
+                        <div class="img-container"><div class="img-wrapper"><div class="img-viewport"><img src="imagens/23_btn_salvar_perfil.png" class="img-screenshot"></div><div class="floating-toolbar admin-only"><button class="btn-float" onclick="controlZoom(this, 0.2)"><span class="material-icons-round">add</span></button><button class="btn-float" onclick="controlZoom(this, -0.2)"><span class="material-icons-round">remove</span></button><div class="divider-vertical"></div><button class="btn-float btn-mark-float" onclick="addMarker(this)"><span class="material-icons-round">radio_button_unchecked</span> Marcação</button></div></div><p class="img-caption" contenteditable="true">Botão Salvar perfil</p></div>
+
+                        <h3 contenteditable="true">8.2 Favoritando um Perfil</h3>
+                        <p contenteditable="true">Clique no botão <strong>Favoritar</strong> (ícone de estrela) para marcar um perfil como favorito.</p>
+                        <div class="img-container"><div class="img-wrapper"><div class="img-viewport"><img src="imagens/22_btn_favoritar.png" class="img-screenshot"></div><div class="floating-toolbar admin-only"><button class="btn-float" onclick="controlZoom(this, 0.2)"><span class="material-icons-round">add</span></button><button class="btn-float" onclick="controlZoom(this, -0.2)"><span class="material-icons-round">remove</span></button><div class="divider-vertical"></div><button class="btn-float btn-mark-float" onclick="addMarker(this)"><span class="material-icons-round">radio_button_unchecked</span> Marcação</button></div></div><p class="img-caption" contenteditable="true">Botão Favoritar</p></div>
+
+                        <h3 contenteditable="true">8.3 Carregando Perfis Salvos</h3>
+                        <p contenteditable="true">Para utilizar um perfil existente, clique no seletor de perfis e escolha o perfil desejado.</p>
+                        <div class="img-container"><div class="img-wrapper"><div class="img-viewport"><img src="imagens/24_dropdown_perfis.png" class="img-screenshot"></div><div class="floating-toolbar admin-only"><button class="btn-float" onclick="controlZoom(this, 0.2)"><span class="material-icons-round">add</span></button><button class="btn-float" onclick="controlZoom(this, -0.2)"><span class="material-icons-round">remove</span></button><div class="divider-vertical"></div><button class="btn-float btn-mark-float" onclick="addMarker(this)"><span class="material-icons-round">radio_button_unchecked</span> Marcação</button></div></div><p class="img-caption" contenteditable="true">Lista de perfis salvos</p></div>
+                    </div>
+                </section>
+
+                <section class="secao" id="secao-9">
+                    <div class="secao-header">
+                        <span class="secao-numero">9</span>
+                        <h2 contenteditable="true">Download de XMLs</h2>
+                        <button class="btn-delete-section admin-only" onclick="deletarSecao(this)"><span class="material-icons-round">delete_outline</span></button>
+                    </div>
+                    <div class="secao-conteudo">
+                        <h3 contenteditable="true">9.1 Selecionando Documentos</h3>
+                        <p contenteditable="true">Na tabela de resultados, marque os documentos que deseja baixar clicando na caixa de seleção à esquerda de cada linha.</p>
+                        <div class="img-container"><div class="img-wrapper"><div class="img-viewport"><img src="imagens/28_selecao_docs.png" class="img-screenshot"></div><div class="floating-toolbar admin-only"><button class="btn-float" onclick="controlZoom(this, 0.2)"><span class="material-icons-round">add</span></button><button class="btn-float" onclick="controlZoom(this, -0.2)"><span class="material-icons-round">remove</span></button><div class="divider-vertical"></div><button class="btn-float btn-mark-float" onclick="addMarker(this)"><span class="material-icons-round">radio_button_unchecked</span> Marcação</button></div></div><p class="img-caption" contenteditable="true">Documentos selecionados na tabela</p></div>
+
+                        <h3 contenteditable="true">9.2 Executando o Download</h3>
+                        <p contenteditable="true">Com os documentos selecionados, clique no botão <strong>Baixar XMLs</strong>. O número entre parênteses indica a quantidade de arquivos.</p>
+                        <div class="img-container"><div class="img-wrapper"><div class="img-viewport"><img src="imagens/29_btn_baixar_xmls.png" class="img-screenshot"></div><div class="floating-toolbar admin-only"><button class="btn-float" onclick="controlZoom(this, 0.2)"><span class="material-icons-round">add</span></button><button class="btn-float" onclick="controlZoom(this, -0.2)"><span class="material-icons-round">remove</span></button><div class="divider-vertical"></div><button class="btn-float btn-mark-float" onclick="addMarker(this)"><span class="material-icons-round">radio_button_unchecked</span> Marcação</button></div></div><p class="img-caption" contenteditable="true">Botão Baixar XMLs (9)</p></div>
+
+                        <h3 contenteditable="true">9.3 Arquivo ZIP Gerado</h3>
+                        <p contenteditable="true">O sistema gera um arquivo ZIP contendo todos os XMLs selecionados. O download inicia automaticamente.</p>
+                        <div class="img-container"><div class="img-wrapper"><div class="img-viewport"><img src="imagens/30_download_zip.png" class="img-screenshot"></div><div class="floating-toolbar admin-only"><button class="btn-float" onclick="controlZoom(this, 0.2)"><span class="material-icons-round">add</span></button><button class="btn-float" onclick="controlZoom(this, -0.2)"><span class="material-icons-round">remove</span></button><div class="divider-vertical"></div><button class="btn-float btn-mark-float" onclick="addMarker(this)"><span class="material-icons-round">radio_button_unchecked</span> Marcação</button></div></div><p class="img-caption" contenteditable="true">Download concluído — arquivo ZIP com XMLs</p></div>
+                    </div>
+                </section>
+
+                <section class="secao" id="secao-10">
+                    <div class="secao-header">
+                        <span class="secao-numero">10</span>
+                        <h2 contenteditable="true">Dicas e Boas Práticas</h2>
+                        <button class="btn-delete-section admin-only" onclick="deletarSecao(this)"><span class="material-icons-round">delete_outline</span></button>
+                    </div>
+                    <div class="secao-conteudo">
+                        <ul class="lista-dicas">
+                            <li contenteditable="true">Utilize filtros específicos para otimizar o tempo de busca e reduzir a quantidade de resultados.</li>
+                            <li contenteditable="true">Crie perfis de exportação para configurações que você utiliza frequentemente.</li>
+                            <li contenteditable="true">Ao exportar grandes volumes de dados, selecione apenas as colunas necessárias para reduzir o tamanho do arquivo.</li>
+                            <li contenteditable="true">Verifique sempre o período selecionado antes de executar a busca.</li>
+                            <li contenteditable="true">Utilize o filtro de CPF/CNPJ quando precisar localizar documentos de um parceiro comercial específico.</li>
+                            <li contenteditable="true">Favoritar um perfil de exportação garante que ele seja carregado automaticamente ao abrir o modal.</li>
+                        </ul>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <button class="fab-add admin-only" onclick="adicionarSecao()"><span class="material-icons-round" style="font-size: 32px;">add</span></button>
+
+    <script>
+        // --- 1. INICIALIZAÇÃO ---
+        function initSystem() {
+            reindexarSecoes();
+            initImageInteractions(); 
+            // Só ativa a edição de marcadores se NÃO for modo leitura
+            if (!document.body.classList.contains('mode-read-only')) {
+                document.querySelectorAll('.marker').forEach(setupMarkerInteraction);
+            }
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+        }
+
+        // --- 2. SISTEMA DE ZOOM E PAN (Limitado) ---
+        function controlZoom(btn, delta) {
+            const wrapper = btn.closest('.img-wrapper');
+            const viewport = wrapper.querySelector('.img-viewport');
+            
+            let scale = parseFloat(viewport.dataset.scale || 1);
+            let x = parseFloat(viewport.dataset.x || 0);
+            let y = parseFloat(viewport.dataset.y || 0);
+
+            let newScale = scale + delta;
+            if (newScale < 1) newScale = 1; 
+            if (newScale > 5) newScale = 5;
+
+            if (newScale === 1) { 
+                x = 0; y = 0; 
+                viewport.classList.remove('grab', 'grabbing'); 
+            } else { 
+                viewport.classList.add('grab'); 
+            }
+
+            // Recalcula limites ao dar zoom out para garantir que não fique "vazio"
+            if (newScale > 1) {
+                const rect = wrapper.getBoundingClientRect();
+                const contentWidth = rect.width * newScale;
+                const contentHeight = rect.height * newScale;
+                const minX = rect.width - contentWidth;
+                const minY = rect.height - contentHeight;
+                
+                if (x < minX) x = minX;
+                if (y < minY) y = minY;
+                if (x > 0) x = 0;
+                if (y > 0) y = 0;
+            }
+
+            updateTransform(viewport, x, y, newScale);
+        }
+
+        function updateTransform(el, x, y, scale) {
+            el.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+            el.dataset.x = x; el.dataset.y = y; el.dataset.scale = scale;
+        }
+
+        function initImageInteractions() {
+            document.querySelectorAll('.img-wrapper').forEach(wrapper => {
+                const viewport = wrapper.querySelector('.img-viewport');
+                let isPanning = false, startX, startY, initialX, initialY;
+
+                viewport.onmousedown = (e) => {
+                    const scale = parseFloat(viewport.dataset.scale || 1);
+                    // Só arrasta se tiver zoom e se não estiver clicando em um marcador
+                    if (scale <= 1 || e.target.closest('.marker')) return;
+
+                    isPanning = true;
+                    viewport.classList.add('grabbing');
+                    startX = e.clientX; startY = e.clientY;
+                    initialX = parseFloat(viewport.dataset.x || 0);
+                    initialY = parseFloat(viewport.dataset.y || 0);
+                    e.preventDefault();
+                };
+
+                window.addEventListener('mousemove', (e) => {
+                    if (!isPanning) return;
+                    e.preventDefault();
+                    
+                    const dx = e.clientX - startX;
+                    const dy = e.clientY - startY;
+                    let newX = initialX + dx;
+                    let newY = initialY + dy;
+
+                    // Limites (Trava nas bordas)
+                    const scale = parseFloat(viewport.dataset.scale || 1);
+                    const rect = wrapper.getBoundingClientRect();
+                    const contentWidth = rect.width * scale;
+                    const contentHeight = rect.height * scale;
+                    const minX = rect.width - contentWidth;
+                    const minY = rect.height - contentHeight;
+                    
+                    if (newX > 0) newX = 0;
+                    if (newX < minX) newX = minX;
+                    if (newY > 0) newY = 0;
+                    if (newY < minY) newY = minY;
+                    
+                    updateTransform(viewport, newX, newY, scale);
+                });
+
+                window.addEventListener('mouseup', () => {
+                    if(isPanning) { isPanning = false; viewport.classList.remove('grabbing'); }
+                });
+            });
+        }
+
+        // --- 3. MARCADORES ---
+        function addMarker(btn) {
+            const wrapper = btn.closest('.img-wrapper');
+            const viewport = wrapper.querySelector('.img-viewport');
+            
+            const marker = document.createElement('div');
+            marker.className = 'marker';
+            marker.style.top = '40%'; marker.style.left = '40%';
+            
+            // Botão Redondo Excluir
+            const delBtn = document.createElement('div');
+            delBtn.className = 'marker-delete-btn';
+            delBtn.innerHTML = '×';
+            delBtn.onclick = function(e) { e.stopPropagation(); marker.remove(); };
+            marker.appendChild(delBtn);
+
+            // Alça Redonda Resize
+            const handle = document.createElement('div');
+            handle.className = 'marker-resize-handle';
+            marker.appendChild(handle);
+
+            viewport.appendChild(marker);
+            setupMarkerInteraction(marker);
+        }
+
+        function setupMarkerInteraction(marker) {
+            // Mover Marcador
+            marker.onmousedown = function(e) {
+                // Impede drag se clicou nos controles ou se está em modo leitura
+                if(document.body.classList.contains('mode-read-only')) return;
+                if(e.target.className.includes('resize') || e.target.className.includes('delete')) return;
+                
+                e.preventDefault(); e.stopPropagation();
+                let startX = e.clientX, startY = e.clientY;
+                let startL = marker.offsetLeft, startT = marker.offsetTop;
+                const scale = parseFloat(marker.parentElement.dataset.scale || 1);
+
+                function onMove(e) {
+                    let dx = (e.clientX - startX) / scale;
+                    let dy = (e.clientY - startY) / scale;
+                    marker.style.left = (startL + dx) + 'px';
+                    marker.style.top = (startT + dy) + 'px';
+                }
+                function onUp() { window.removeEventListener('mousemove', onMove); window.removeEventListener('mouseup', onUp); }
+                window.addEventListener('mousemove', onMove); window.addEventListener('mouseup', onUp);
+            };
+
+            // Redimensionar Marcador
+            const handle = marker.querySelector('.marker-resize-handle');
+            if(handle) {
+                handle.onmousedown = function(e) {
+                    if(document.body.classList.contains('mode-read-only')) return;
+                    e.preventDefault(); e.stopPropagation();
+                    let startX = e.clientX, startY = e.clientY;
+                    let startW = marker.offsetWidth;
+                    const scale = parseFloat(marker.parentElement.dataset.scale || 1);
+
+                    function onResize(e) {
+                        let dx = (e.clientX - startX) / scale;
+                        let dy = (e.clientY - startY) / scale;
+                        // Proporcional (usa o maior delta)
+                        let delta = Math.max(dx, dy);
+                        let newSize = Math.max(20, startW + delta);
+                        marker.style.width = newSize + 'px'; marker.style.height = newSize + 'px';
+                    }
+                    function onUpResize() { window.removeEventListener('mousemove', onResize); window.removeEventListener('mouseup', onUpResize); }
+                    window.addEventListener('mousemove', onResize); window.addEventListener('mouseup', onUpResize);
+                };
+            }
+        }
+
+        // --- 4. GESTÃO DE SEÇÕES (ACCORDION) ---
+        function reindexarSecoes() {
+            const secoes = document.querySelectorAll('.secao');
+            const nav = document.getElementById('sidebar-nav');
+            
+            // Cria estrutura do grupo
+            let groupHtml = `
+                <div class="nav-group" id="nav-group-xml">
+                    <div class="nav-group-header" onclick="toggleNavGroup('nav-group-xml')">
+                        <span>Consulta de XMLs</span>
+                        <span class="material-icons-round">expand_more</span>
+                    </div>
+                    <div class="nav-group-content" id="nav-content-xml"></div>
+                </div>
+            `;
+            nav.innerHTML = groupHtml;
+            const contentContainer = document.getElementById('nav-content-xml');
+
+            secoes.forEach((secao, index) => {
+                const num = index + 1;
+                // Atualiza número na bolinha
+                secao.querySelector('.secao-numero').innerText = num;
+                // Título
+                const titulo = secao.querySelector('h2').innerText || `Passo ${num}`;
+                
+                const a = document.createElement('a');
+                a.href = '#';
+                a.onclick = (e) => { e.preventDefault(); secao.scrollIntoView({behavior:'smooth'}); };
+                a.innerHTML = `<span style="font-weight:700; color:var(--teal-500)">${num}.</span> ${titulo}`;
+                contentContainer.appendChild(a);
+            });
+        }
+
+        function toggleNavGroup(id) {
+            document.getElementById(id).classList.toggle('collapsed');
+        }
+
+        function deletarSecao(btn) {
+            if(confirm("Excluir esta seção?")) {
+                btn.closest('.secao').remove();
+                reindexarSecoes();
+            }
+        }
+
+        function adicionarSecao() {
+            const area = document.getElementById('content-area');
+            const clone = document.querySelector('.secao').cloneNode(true);
+            
+            // Reset Básico
+            clone.querySelector('h2').innerText = "Novo Passo";
+            const content = clone.querySelector('.secao-conteudo');
+            content.innerHTML = `<p contenteditable="true">Descreva o passo aqui...</p><div class="img-container"><div class="img-wrapper"><div class="img-viewport"><img src="https://via.placeholder.com/800x400" class="img-screenshot"></div><div class="floating-toolbar admin-only"><button class="btn-float" onclick="controlZoom(this, 0.2)"><span class="material-icons-round">add</span></button><button class="btn-float" onclick="controlZoom(this, -0.2)"><span class="material-icons-round">remove</span></button><div class="divider-vertical"></div><button class="btn-float btn-mark-float" onclick="addMarker(this)"><span class="material-icons-round">radio_button_unchecked</span> Marcação</button></div></div><p class="img-caption" contenteditable="true">Legenda</p></div>`;
+            
+            area.appendChild(clone);
+            reindexarSecoes();
+            initImageInteractions(); 
+            clone.scrollIntoView({behavior:'smooth'});
+        }
+
+        // --- 5. EXPORTAÇÃO ---
+        function salvarAlteracoes() {
+            const clone = document.documentElement.cloneNode(true);
+            const html = '<!DOCTYPE html>\n' + clone.outerHTML;
+            download(html, 'Manual_Editavel_v3.0.html');
+        }
+
+        function exportarHTML() {
+            const clone = document.documentElement.cloneNode(true);
+            
+            // 1. Adiciona classe de leitura para travar marcadores e zoom drag
+            clone.querySelector('body').classList.add('mode-read-only');
+            
+            // 2. Remove controles administrativos (Barra flutuante, Header buttons, Delete section, FAB)
+            clone.querySelectorAll('.admin-only').forEach(el => el.remove());
+            clone.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
+            
+            // 3. Remove botões internos dos marcadores (X e Resize)
+            clone.querySelectorAll('.marker-delete-btn, .marker-resize-handle').forEach(el => el.remove());
+
+            download('<!DOCTYPE html>\n' + clone.outerHTML, 'Manual_Final_Leitura.html');
+        }
+
+        function download(content, name) {
+            const a = document.createElement('a');
+            const blob = new Blob([content], {type:'text/html'});
+            a.href = URL.createObjectURL(blob);
+            a.download = name;
+            a.click();
+        }
+    </script>
+</body>
+</html>
