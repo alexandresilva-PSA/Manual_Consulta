@@ -687,7 +687,7 @@
             </button>
             <img src="imagens/logo_psa_branca.png" alt="PSA Consultores" class="logo">
             <div class="header-divider"></div>
-            <span class="header-title">Manual do Usuário — EFD Contribuições</span>
+            <span class="header-title" contenteditable="true">Manual do Usuário — EFD Contribuições</span>
         </div>
         <div class="header-right">
             <span class="badge-versao" contenteditable="true">v1.2</span>
@@ -1281,6 +1281,15 @@
             // Só ativa a edição de marcadores se NÃO for modo leitura
             if (!document.body.classList.contains('mode-read-only')) {
                 document.querySelectorAll('.marker').forEach(setupMarkerInteraction);
+
+                // Adiciona listener para atualizar sumário em tempo real ao editar título
+                document.querySelectorAll('.secao-header h2').forEach(h2 => {
+                    h2.addEventListener('input', () => {
+                        // Debounce simples para não reindexar a cada tecla
+                        clearTimeout(h2.reindexTimeout);
+                        h2.reindexTimeout = setTimeout(reindexarSecoes, 500);
+                    });
+                });
             }
         }
 
@@ -1511,7 +1520,23 @@
 
         // --- 5. EXPORTAÇÃO ---
         function salvarAlteracoes() {
+            // Reindexa antes de salvar para garantir sumário atualizado
+            reindexarSecoes();
+
             const clone = document.documentElement.cloneNode(true);
+
+            // Garante que o clone NÃO tenha a classe de modo leitura para manter editável
+            clone.querySelector('body').classList.remove('mode-read-only');
+
+            // Remove estados de zoom/pan temporários do clone
+            clone.querySelectorAll('.img-viewport').forEach(v => {
+                v.style.transform = '';
+                delete v.dataset.x;
+                delete v.dataset.y;
+                delete v.dataset.scale;
+                v.classList.remove('grab', 'grabbing');
+            });
+
             const html = '<!DOCTYPE html>\n' + clone.outerHTML;
             download(html, 'Manual_EFD_Contrib_Editavel.html');
         }
