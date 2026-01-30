@@ -1,117 +1,562 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manual do Usuário - Consulta EFD Contribuições</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
-    
+
     <style>
         /* --- CSS ORIGINAL (Visual e Layout) --- */
         :root {
-            --teal-500: #14B8A6; --teal-600: #0D9488; --teal-700: #0F766E;
-            --lime-400: #A3E635; --lime-500: #84CC16;
-            --gray-50: #F9FAFB; --gray-100: #F3F4F6; --gray-200: #E5E7EB;
-            --gray-400: #9CA3AF; --gray-500: #6B7280; --gray-600: #4B5563;
-            --gray-700: #374151; --gray-800: #1F2937; --gray-900: #111827;
-            --amber-100: #FEF3C7; --amber-500: #F59E0B;
+            --teal-500: #14B8A6;
+            --teal-600: #0D9488;
+            --teal-700: #0F766E;
+            --lime-400: #A3E635;
+            --lime-500: #84CC16;
+            --gray-50: #F9FAFB;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-400: #9CA3AF;
+            --gray-500: #6B7280;
+            --gray-600: #4B5563;
+            --gray-700: #374151;
+            --gray-800: #1F2937;
+            --gray-900: #111827;
+            --amber-100: #FEF3C7;
+            --amber-500: #F59E0B;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Work Sans', sans-serif; font-size: 16px; line-height: 1.7; color: var(--gray-700); background-color: var(--gray-100); display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
-        
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Work Sans', sans-serif;
+            font-size: 16px;
+            line-height: 1.7;
+            color: var(--gray-700);
+            background-color: var(--gray-100);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
         /* HEADER */
-        .header { background-color: var(--gray-900); padding: 0 1.5rem; height: 72px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
-        .header-left { display: flex; align-items: center; gap: 1rem; }
-        .logo { height: 48px; width: auto; }
-        .header-divider { width: 1px; height: 28px; background-color: var(--gray-600); margin: 0 0.5rem; }
-        .header-title { color: var(--gray-200); font-size: 1rem; font-weight: 400; }
-        .header-right { display: flex; align-items: center; gap: 1rem; }
-        .badge-versao { background-color: rgba(20, 184, 166, 0.15); color: var(--teal-500); border: 1px solid rgba(20, 184, 166, 0.3); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
-        
+        .header {
+            background-color: var(--gray-900);
+            padding: 0 1.5rem;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            height: 48px;
+            width: auto;
+        }
+
+        .header-divider {
+            width: 1px;
+            height: 28px;
+            background-color: var(--gray-600);
+            margin: 0 0.5rem;
+        }
+
+        .header-title {
+            color: var(--gray-200);
+            font-size: 1rem;
+            font-weight: 400;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .badge-versao {
+            background-color: rgba(20, 184, 166, 0.15);
+            color: var(--teal-500);
+            border: 1px solid rgba(20, 184, 166, 0.3);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
         /* LAYOUT & SIDEBAR */
-        .layout { display: flex; flex: 1; overflow: hidden; }
-        .sidebar { width: 280px; background-color: #fff; border-right: 1px solid var(--gray-200); display: flex; flex-direction: column; overflow-y: auto; flex-shrink: 0; transition: margin-left 0.3s ease; z-index: 90; }
-        .sidebar.collapsed { margin-left: -280px; }
-        .sidebar-header { padding: 1.5rem; border-bottom: 1px solid var(--gray-100); }
-        .sidebar-header h2 { font-size: 0.6875rem; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.1em; }
-        .sidebar-nav { padding: 1rem; flex: 1; }
-        
-        .nav-group { border: 1px solid var(--gray-200); border-radius: 8px; margin-bottom: 1rem; overflow: hidden; }
-        .nav-group-header { background-color: var(--gray-50); padding: 0.75rem 1rem; cursor: pointer; display: flex; align-items: center; justify-content: space-between; font-weight: 600; font-size: 0.875rem; color: var(--gray-800); transition: background 0.2s; }
-        .nav-group-header:hover { background-color: var(--gray-100); }
-        .nav-group.collapsed .nav-group-content { display: none; }
-        .nav-group.collapsed .nav-group-header .material-icons-round { transform: rotate(-90deg); }
-        .nav-group-content { display: block; border-top: 1px solid var(--gray-200); }
-        .sidebar-nav a { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.75rem 1rem; text-decoration: none; font-size: 0.8125rem; font-weight: 500; color: var(--gray-600); border-left: 3px solid transparent; white-space: normal; line-height: 1.4; transition: all 0.2s; }
-        .sidebar-nav a:hover { background-color: var(--gray-50); color: var(--teal-600); }
-        .sidebar-nav a.active { background-color: rgba(20, 184, 166, 0.1); border-left-color: var(--teal-500); color: var(--teal-700); }
+        .layout {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 280px;
+            background-color: #fff;
+            border-right: 1px solid var(--gray-200);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            flex-shrink: 0;
+            transition: margin-left 0.3s ease;
+            z-index: 90;
+        }
+
+        .sidebar.collapsed {
+            margin-left: -280px;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .sidebar-header h2 {
+            font-size: 0.6875rem;
+            font-weight: 700;
+            color: var(--gray-400);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .sidebar-nav {
+            padding: 1rem;
+            flex: 1;
+        }
+
+        .nav-group {
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .nav-group-header {
+            background-color: var(--gray-50);
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: var(--gray-800);
+            transition: background 0.2s;
+        }
+
+        .nav-group-header:hover {
+            background-color: var(--gray-100);
+        }
+
+        .nav-group.collapsed .nav-group-content {
+            display: none;
+        }
+
+        .nav-group.collapsed .nav-group-header .material-icons-round {
+            transform: rotate(-90deg);
+        }
+
+        .nav-group-content {
+            display: block;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            text-decoration: none;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            color: var(--gray-600);
+            border-left: 3px solid transparent;
+            white-space: normal;
+            line-height: 1.4;
+            transition: all 0.2s;
+        }
+
+        .sidebar-nav a:hover {
+            background-color: var(--gray-50);
+            color: var(--teal-600);
+        }
+
+        .sidebar-nav a.active {
+            background-color: rgba(20, 184, 166, 0.1);
+            border-left-color: var(--teal-500);
+            color: var(--teal-700);
+        }
 
         /* MAIN CONTENT */
-        .main-content { flex: 1; overflow-y: auto; padding: 2rem 3rem; background-color: var(--gray-50); scroll-behavior: smooth; }
-        .content-wrapper { max-width: 900px; margin: 0 auto; padding-bottom: 100px; }
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 2rem 3rem;
+            background-color: var(--gray-50);
+            scroll-behavior: smooth;
+        }
+
+        .content-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            padding-bottom: 100px;
+        }
 
         /* COMPONENTES */
-        .secao { background-color: #fff; border-radius: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); margin-bottom: 2rem; overflow: hidden; position: relative; scroll-margin-top: 90px; }
-        .secao-header { display: flex; align-items: center; gap: 1rem; padding: 1.5rem 2rem; border-bottom: 1px solid var(--gray-100); }
-        .secao-numero { width: 40px; height: 40px; border-radius: 50%; background-color: rgba(20, 184, 166, 0.1); color: var(--teal-600); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.125rem; flex-shrink: 0; }
-        .secao-header h2 { font-size: 1.5rem; font-weight: 700; color: var(--gray-800); flex: 1; outline: none; }
-        .secao-conteudo { padding: 2rem; outline: none; }
-        .secao-conteudo h3 { font-size: 1.125rem; font-weight: 600; color: var(--gray-800); margin: 2rem 0 0.75rem 0; }
-        .secao-conteudo h3:first-child { margin-top: 0; }
-        .secao-conteudo p { margin-bottom: 1rem; color: var(--gray-600); }
-        
-        .img-container { margin: 1.5rem 0; text-align: center; }
-        .img-wrapper { position: relative; width: 100%; border: 1px solid var(--gray-200); border-radius: 12px; overflow: hidden; background-color: #f3f4f6; display: flex; align-items: center; justify-content: center; min-height: 200px; }
-        .img-screenshot { display: block; width: 100%; height: auto; }
-        .img-caption { font-size: 0.875rem; color: var(--gray-500); font-style: italic; margin-top: 0.5rem; }
-        
-        .dica, .aviso { display: flex; gap: 1rem; padding: 1rem 1.25rem; border-radius: 8px; margin: 1.5rem 0; }
-        .dica { background-color: rgba(20, 184, 166, 0.08); border-left: 4px solid var(--teal-500); }
-        .dica .material-icons-round { color: var(--teal-500); }
-        .aviso { background-color: var(--amber-100); border-left: 4px solid var(--amber-500); }
-        .aviso .material-icons-round { color: var(--amber-500); }
+        .secao {
+            background-color: #fff;
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+            overflow: hidden;
+            position: relative;
+            scroll-margin-top: 90px;
+        }
 
-        .tabela-info { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.9375rem; }
-        .tabela-info th, .tabela-info td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--gray-200); }
-        .tabela-info th { background-color: var(--gray-50); font-weight: 600; color: var(--gray-700); }
-        
-        .btn-toggle-sidebar { background: none; border: none; color: var(--gray-400); padding: 0.5rem; cursor: pointer; }
+        .secao-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .secao-numero {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(20, 184, 166, 0.1);
+            color: var(--teal-600);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.125rem;
+            flex-shrink: 0;
+        }
+
+        .secao-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gray-800);
+            flex: 1;
+            outline: none;
+        }
+
+        .secao-conteudo {
+            padding: 2rem;
+            outline: none;
+        }
+
+        .secao-conteudo h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--gray-800);
+            margin: 2rem 0 0.75rem 0;
+        }
+
+        .secao-conteudo h3:first-child {
+            margin-top: 0;
+        }
+
+        .secao-conteudo p {
+            margin-bottom: 1rem;
+            color: var(--gray-600);
+        }
+
+        .img-container {
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+
+        .img-wrapper {
+            position: relative;
+            width: 100%;
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            overflow: hidden;
+            background-color: #f3f4f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 200px;
+        }
+
+        .img-screenshot {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .img-caption {
+            font-size: 0.875rem;
+            color: var(--gray-500);
+            font-style: italic;
+            margin-top: 0.5rem;
+        }
+
+        .dica,
+        .aviso {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+
+        .dica {
+            background-color: rgba(20, 184, 166, 0.08);
+            border-left: 4px solid var(--teal-500);
+        }
+
+        .dica .material-icons-round {
+            color: var(--teal-500);
+        }
+
+        .aviso {
+            background-color: var(--amber-100);
+            border-left: 4px solid var(--amber-500);
+        }
+
+        .aviso .material-icons-round {
+            color: var(--amber-500);
+        }
+
+        .tabela-info {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.9375rem;
+        }
+
+        .tabela-info th,
+        .tabela-info td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .tabela-info th {
+            background-color: var(--gray-50);
+            font-weight: 600;
+            color: var(--gray-700);
+        }
+
+        .btn-toggle-sidebar {
+            background: none;
+            border: none;
+            color: var(--gray-400);
+            padding: 0.5rem;
+            cursor: pointer;
+        }
 
         /* --- NOVO CSS: BARRA DE FERRAMENTAS DO EDITOR --- */
         #admin-toolbar {
-            position: fixed; bottom: 20px; right: 20px; 
-            background: var(--gray-900); padding: 10px; border-radius: 50px;
-            display: flex; gap: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); z-index: 1000;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--gray-900);
+            padding: 10px;
+            border-radius: 50px;
+            display: flex;
+            gap: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
         }
+
         .admin-btn {
-            background: rgba(255,255,255,0.1); border: none; width: 44px; height: 44px;
-            border-radius: 50%; color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;
-            transition: all 0.2s; position: relative;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            position: relative;
         }
-        .admin-btn:hover { background: var(--teal-500); transform: translateY(-2px); }
-        .admin-btn.active { background: var(--teal-500); box-shadow: 0 0 10px var(--teal-500); }
-        
+
+        .admin-btn:hover {
+            background: var(--teal-500);
+            transform: translateY(-2px);
+        }
+
+        .admin-btn.active {
+            background: var(--teal-500);
+            box-shadow: 0 0 10px var(--teal-500);
+        }
+
         /* Tooltip simples */
         .admin-btn::after {
-            content: attr(data-tooltip); position: absolute; bottom: 55px; left: 50%; transform: translateX(-50%);
-            background: #000; color: #fff; padding: 5px 10px; border-radius: 4px; font-size: 12px;
-            white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.2s;
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 55px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #000;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
         }
-        .admin-btn:hover::after { opacity: 1; }
+
+        .admin-btn:hover::after {
+            opacity: 1;
+        }
 
         /* Estilo visual quando em modo edição */
         body.editing-mode [contenteditable="true"] {
             outline: 2px dashed rgba(20, 184, 166, 0.3);
             cursor: text;
         }
+
         body.editing-mode [contenteditable="true"]:focus {
-            outline: 2px solid var(--teal-500); background-color: rgba(255,255,255,0.8);
+            outline: 2px solid var(--teal-500);
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* --- SISTEMA DE ZOOM E MARCAÇÃO (Adicionado) --- */
+        .img-wrapper {
+            /* Sobrescreve o original para permitir overflow hidden correto */
+            display: block;
+            position: relative;
+            overflow: hidden;
+            cursor: grab;
+        }
+
+        .img-viewport {
+            width: 100%;
+            height: 100%;
+            transform-origin: 0 0;
+            transition: transform 0.1s;
+            /* Suavidade no zoom */
+        }
+
+        .img-viewport.grabbing {
+            cursor: grabbing;
+        }
+
+        /* Barra Flutuante de Zoom */
+        .floating-toolbar {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid var(--gray-200);
+            border-radius: 50px;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            z-index: 20;
+            opacity: 0;
+            transition: opacity 0.3s;
+            /* Esconde quando não usa */
+        }
+
+        .img-wrapper:hover .floating-toolbar {
+            opacity: 1;
+        }
+
+        /* Mostra ao passar mouse */
+
+        .btn-float {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: none;
+            background: transparent;
+            color: var(--gray-600);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-float:hover {
+            background-color: var(--gray-200);
+        }
+
+        /* Marcadores */
+        .marker {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 3px solid #EF4444;
+            border-radius: 50%;
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.4);
+            cursor: move;
+            z-index: 10;
+        }
+
+        .marker-delete-btn {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 18px;
+            height: 18px;
+            background: #EF4444;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Botão de Excluir Seção */
+        .section-delete-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: #EF4444;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 4px;
+            transition: background 0.2s;
+            margin-left: auto;
+        }
+
+        .section-delete-btn:hover {
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        body.editing-mode .section-delete-btn {
+            display: flex;
         }
     </style>
 </head>
+
 <body>
 
     <div id="admin-toolbar">
@@ -129,9 +574,12 @@
     <header class="header">
         <div class="header-left">
             <svg class="logo" viewBox="0 0 180 48" fill="none" xmlns="imagens/01-01-homepage-psa.png">
-                <path d="M8 38L20 26L32 38" stroke="#84CC16" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M8 28L20 16L32 28" stroke="#14B8A6" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-                <text x="44" y="34" fill="#E5E7EB" font-family="Work Sans" font-weight="700" font-size="22" class="editable-text">PSA</text>
+                <path d="M8 38L20 26L32 38" stroke="#84CC16" stroke-width="4" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                <path d="M8 28L20 16L32 28" stroke="#14B8A6" stroke-width="4" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                <text x="44" y="34" fill="#E5E7EB" font-family="Work Sans" font-weight="700" font-size="22"
+                    class="editable-text">PSA</text>
             </svg>
             <div class="header-divider"></div>
             <span class="header-title editable-text">Manual de uso da Ferramenta de Consulta de EFD Contribuições</span>
@@ -153,8 +601,10 @@
                         <span class="material-icons-round" style="font-size:18px">expand_more</span>
                     </div>
                     <div class="nav-group-content">
-                        <a href="#secao-1-1"><span class="material-icons-round" style="font-size:18px">login</span>Seleção de Área e Login</a>
-                        <a href="#secao-1-2"><span class="material-icons-round" style="font-size:18px">dns</span>Seleção de Ambiente</a>
+                        <a href="#secao-1-1"><span class="material-icons-round"
+                                style="font-size:18px">login</span>Seleção de Área e Login</a>
+                        <a href="#secao-1-2"><span class="material-icons-round" style="font-size:18px">dns</span>Seleção
+                            de Ambiente</a>
                     </div>
                 </div>
 
@@ -164,8 +614,10 @@
                         <span class="material-icons-round" style="font-size:18px">expand_more</span>
                     </div>
                     <div class="nav-group-content">
-                        <a href="#secao-2-1"><span class="material-icons-round" style="font-size:18px">search</span>Acesso à Ferramenta</a>
-                        <a href="#secao-2-2"><span class="material-icons-round" style="font-size:18px">filter_alt</span>Definição de Parâmetros</a>
+                        <a href="#secao-2-1"><span class="material-icons-round"
+                                style="font-size:18px">search</span>Acesso à Ferramenta</a>
+                        <a href="#secao-2-2"><span class="material-icons-round"
+                                style="font-size:18px">filter_alt</span>Definição de Parâmetros</a>
                     </div>
                 </div>
 
@@ -175,7 +627,8 @@
                         <span class="material-icons-round" style="font-size:18px">expand_more</span>
                     </div>
                     <div class="nav-group-content">
-                        <a href="#secao-3-1"><span class="material-icons-round" style="font-size:18px">download</span>Listagem e Download</a>
+                        <a href="#secao-3-1"><span class="material-icons-round"
+                                style="font-size:18px">download</span>Listagem e Download</a>
                     </div>
                 </div>
 
@@ -185,12 +638,18 @@
                         <span class="material-icons-round" style="font-size:18px">expand_more</span>
                     </div>
                     <div class="nav-group-content">
-                        <a href="#secao-4-1"><span class="material-icons-round" style="font-size:18px">checklist</span>Seleção de Registros</a>
-                        <a href="#secao-4-2"><span class="material-icons-round" style="font-size:18px">table_chart</span>Escolha de Campos e Geração</a>
-                        <a href="#secao-4-3"><span class="material-icons-round" style="font-size:18px">save</span>Salvando Perfis de Exportação</a>
-                        <a href="#secao-4-4"><span class="material-icons-round" style="font-size:18px">library_add</span>Gerenciando Múltiplos Perfis</a>
-                        <a href="#secao-4-5"><span class="material-icons-round" style="font-size:18px">settings</span>Manutenção de Perfis</a>
-                        <a href="#secao-4-6"><span class="material-icons-round" style="font-size:18px">assignment</span>Geração do Relatório</a>
+                        <a href="#secao-4-1"><span class="material-icons-round"
+                                style="font-size:18px">checklist</span>Seleção de Registros</a>
+                        <a href="#secao-4-2"><span class="material-icons-round"
+                                style="font-size:18px">table_chart</span>Escolha de Campos e Geração</a>
+                        <a href="#secao-4-3"><span class="material-icons-round"
+                                style="font-size:18px">save</span>Salvando Perfis de Exportação</a>
+                        <a href="#secao-4-4"><span class="material-icons-round"
+                                style="font-size:18px">library_add</span>Gerenciando Múltiplos Perfis</a>
+                        <a href="#secao-4-5"><span class="material-icons-round"
+                                style="font-size:18px">settings</span>Manutenção de Perfis</a>
+                        <a href="#secao-4-6"><span class="material-icons-round"
+                                style="font-size:18px">assignment</span>Geração do Relatório</a>
                     </div>
                 </div>
 
@@ -200,8 +659,10 @@
                         <span class="material-icons-round" style="font-size:18px">expand_more</span>
                     </div>
                     <div class="nav-group-content">
-                        <a href="#secao-5-1"><span class="material-icons-round" style="font-size:18px">visibility</span>Visualização Detalhada</a>
-                        <a href="#secao-5-2"><span class="material-icons-round" style="font-size:18px">table_view</span>Interação com Dados</a>
+                        <a href="#secao-5-1"><span class="material-icons-round"
+                                style="font-size:18px">visibility</span>Visualização Detalhada</a>
+                        <a href="#secao-5-2"><span class="material-icons-round"
+                                style="font-size:18px">table_view</span>Interação com Dados</a>
                     </div>
                 </div>
             </nav>
@@ -222,24 +683,49 @@
                     <div class="secao-conteudo editable-area">
                         <h3>1.1. Seleção de Área e Login</h3>
                         <p>Para iniciar, acesse a plataforma e identifique sua área de atuação.</p>
-                        
-                        <p><strong>Passo 1:</strong> Na tela inicial, localize o menu de seleção.</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/01-01-homepage-psa.png" class="img-screenshot" alt="Homepage PSA Consultores"> </div> <p class="img-caption">Homepage PSA Consultores com menu de navegação</p> </div>
 
-                        <p><strong>Passo 2:</strong> Caso visualize a versão alternativa da home, localize o menu no canto superior.</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/01-02-homepage-psa-alt.png" class="img-screenshot" alt="Homepage alternativa PSA Consultores"> </div> <p class="img-caption">Visualização alternativa da página inicial</p> </div>
+                        <p><strong>Passo 1:</strong> Na tela inicial, localize o menu de seleção.</p>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/01-01-homepage-psa.png" class="img-screenshot"
+                                    alt="Homepage PSA Consultores"> </div>
+                            <p class="img-caption">Homepage PSA Consultores com menu de navegação</p>
+                        </div>
+
+                        <p><strong>Passo 2:</strong> Caso visualize a versão alternativa da home, localize o menu no
+                            canto superior.</p>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/01-02-homepage-psa-alt.png"
+                                    class="img-screenshot" alt="Homepage alternativa PSA Consultores"> </div>
+                            <p class="img-caption">Visualização alternativa da página inicial</p>
+                        </div>
 
                         <p><strong>Passo 3:</strong> Prossiga para a tela de autenticação e seleção de área.</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/01-03-area-equipe-fechado.png" class="img-screenshot" alt="Tela de Seleção de Área"> </div> <p class="img-caption">Tela inicial de seleção antes do login</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/01-03-area-equipe-fechado.png"
+                                    class="img-screenshot" alt="Tela de Seleção de Área"> </div>
+                            <p class="img-caption">Tela inicial de seleção antes do login</p>
+                        </div>
 
                         <p><strong>Passo 4:</strong> No menu suspenso, selecione a opção "Digital".</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/01-04-area-equipe-dropdown.png" class="img-screenshot" alt="Dropdown Área da Equipe"> </div> <p class="img-caption">Seleção da área Digital no menu</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/01-04-area-equipe-dropdown.png"
+                                    class="img-screenshot" alt="Dropdown Área da Equipe"> </div>
+                            <p class="img-caption">Seleção da área Digital no menu</p>
+                        </div>
 
                         <p><strong>Passo 5:</strong> A tela de login será exibida.</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/01-05-tela-login.png" class="img-screenshot" alt="Tela de login vazia"> </div> <p class="img-caption">Formulário de acesso restrito</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/01-05-tela-login.png" class="img-screenshot"
+                                    alt="Tela de login vazia"> </div>
+                            <p class="img-caption">Formulário de acesso restrito</p>
+                        </div>
 
                         <p><strong>Passo 6:</strong> Insira suas credenciais (E-mail e Senha) e clique em "Entrar".</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/01-06-login-preenchido.png" class="img-screenshot" alt="Login preenchido"> </div> <p class="img-caption">Exemplo de preenchimento de credenciais</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/01-06-login-preenchido.png"
+                                    class="img-screenshot" alt="Login preenchido"> </div>
+                            <p class="img-caption">Exemplo de preenchimento de credenciais</p>
+                        </div>
                     </div>
                 </section>
 
@@ -251,12 +737,22 @@
                     <div class="secao-conteudo editable-area">
                         <h3>1.2. Seleção de Ambiente</h3>
                         <p>Após o login, defina o ambiente de trabalho correto para as operações fiscais.</p>
-                        
-                        <p><strong>Passo 7:</strong> Selecione o card "Digital Dev" (Ambiente de criação e desenvolvimento).</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/01-07-area-digital-escolha.png" class="img-screenshot" alt="Seleção de Ambiente Digital Dev"> </div> <p class="img-caption">Seleção do ambiente de trabalho</p> </div>
 
-                        <p><strong>Passo 8:</strong> O Dashboard inicial será carregado, exibindo o resumo das ferramentas.</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/01-08-dashboard-dev.png" class="img-screenshot" alt="Dashboard Digital Dev"> </div> <p class="img-caption">Visão geral do sistema</p> </div>
+                        <p><strong>Passo 7:</strong> Selecione o card "Digital Dev" (Ambiente de criação e
+                            desenvolvimento).</p>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/01-07-area-digital-escolha.png"
+                                    class="img-screenshot" alt="Seleção de Ambiente Digital Dev"> </div>
+                            <p class="img-caption">Seleção do ambiente de trabalho</p>
+                        </div>
+
+                        <p><strong>Passo 8:</strong> O Dashboard inicial será carregado, exibindo o resumo das
+                            ferramentas.</p>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/01-08-dashboard-dev.png" class="img-screenshot"
+                                    alt="Dashboard Digital Dev"> </div>
+                            <p class="img-caption">Visão geral do sistema</p>
+                        </div>
                     </div>
                 </section>
 
@@ -269,12 +765,22 @@
                     <div class="secao-conteudo editable-area">
                         <h3>2.1. Acesso à Ferramenta</h3>
                         <p>Localize o módulo específico para tratamento de arquivos SPED.</p>
-                        
-                        <p><strong>Passo 9:</strong> No menu lateral esquerdo, identifique a opção "EFD Contribuições".</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/01-08-dashboard-dev.png" class="img-screenshot" alt="Menu Lateral com EFD Contribuições"> </div> <p class="img-caption">Acesso via menu lateral</p> </div>
 
-                        <p><strong>Passo 10:</strong> Clique sobre a opção para abrir o painel de consulta (inicialmente vazio).</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/02-01-filtros-vazio.png" class="img-screenshot" alt="Filtros de busca vazios"> </div> <p class="img-caption">Estado inicial da ferramenta</p> </div>
+                        <p><strong>Passo 9:</strong> No menu lateral esquerdo, identifique a opção "EFD Contribuições".
+                        </p>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/01-08-dashboard-dev.png" class="img-screenshot"
+                                    alt="Menu Lateral com EFD Contribuições"> </div>
+                            <p class="img-caption">Acesso via menu lateral</p>
+                        </div>
+
+                        <p><strong>Passo 10:</strong> Clique sobre a opção para abrir o painel de consulta (inicialmente
+                            vazio).</p>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/02-01-filtros-vazio.png" class="img-screenshot"
+                                    alt="Filtros de busca vazios"> </div>
+                            <p class="img-caption">Estado inicial da ferramenta</p>
+                        </div>
                     </div>
                 </section>
 
@@ -286,24 +792,50 @@
                     <div class="secao-conteudo editable-area">
                         <h3>2.2. Definição de Parâmetros</h3>
                         <p>Configure os filtros para localizar os arquivos desejados.</p>
-                        
+
                         <p><strong>Passo 11:</strong> Abra o seletor "Cliente" e escolha a empresa desejada.</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/02-02-dropdown-cliente.png" class="img-screenshot" alt="Dropdown de Seleção de Cliente"> </div> <p class="img-caption">Seleção da empresa cliente</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/02-02-dropdown-cliente.png"
+                                    class="img-screenshot" alt="Dropdown de Seleção de Cliente"> </div>
+                            <p class="img-caption">Seleção da empresa cliente</p>
+                        </div>
 
-                        <p><strong>Passo 12:</strong> Abra o seletor "Contribuinte" e selecione o CNPJ/Filial correspondente.</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/02-03-dropdown-contribuinte.png" class="img-screenshot" alt="Dropdown de Seleção de Contribuinte"> </div> <p class="img-caption">Seleção do contribuinte específico</p> </div>
+                        <p><strong>Passo 12:</strong> Abra o seletor "Contribuinte" e selecione o CNPJ/Filial
+                            correspondente.</p>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/02-03-dropdown-contribuinte.png"
+                                    class="img-screenshot" alt="Dropdown de Seleção de Contribuinte"> </div>
+                            <p class="img-caption">Seleção do contribuinte específico</p>
+                        </div>
 
-                        <p><strong>Passo 13:</strong> Defina o período. Utilize o seletor de ano para navegação rápida.</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/02-04-calendario-2021.png" class="img-screenshot" alt="Navegação rápida por ano"> </div> <p class="img-caption">Navegação facilitada pelo calendário</p> </div>
+                        <p><strong>Passo 13:</strong> Defina o período. Utilize o seletor de ano para navegação rápida.
+                        </p>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/02-04-calendario-2021.png"
+                                    class="img-screenshot" alt="Navegação rápida por ano"> </div>
+                            <p class="img-caption">Navegação facilitada pelo calendário</p>
+                        </div>
 
                         <p><strong>Passo 14:</strong> Selecione o mês inicial e final da busca.</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/02-05-calendario-2026.png" class="img-screenshot" alt="Seleção de mês no calendário"> </div> <p class="img-caption">Definição do intervalo de datas</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/02-05-calendario-2026.png"
+                                    class="img-screenshot" alt="Seleção de mês no calendário"> </div>
+                            <p class="img-caption">Definição do intervalo de datas</p>
+                        </div>
 
                         <p><strong>Passo 15:</strong> Clique no botão "Buscar Arquivos" (cor verde).</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/02-06-filtros-preenchidos.png" class="img-screenshot" alt="Filtros preenchidos"> </div> <p class="img-caption">Filtros configurados prontos para busca</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/02-06-filtros-preenchidos.png"
+                                    class="img-screenshot" alt="Filtros preenchidos"> </div>
+                            <p class="img-caption">Filtros configurados prontos para busca</p>
+                        </div>
 
                         <p><strong>Passo 16:</strong> Após configurar os filtros, clique em Buscar Arquivos.</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/02-07-filtros-preenchidos-alt.png" class="img-screenshot" alt="Variação de filtros"> </div> <p class="img-caption">Configuração alternativa de busca</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/02-07-filtros-preenchidos-alt.png"
+                                    class="img-screenshot" alt="Variação de filtros"> </div>
+                            <p class="img-caption">Configuração alternativa de busca</p>
+                        </div>
                     </div>
                 </section>
 
@@ -316,24 +848,51 @@
                     <div class="secao-conteudo editable-area">
                         <h3>3.1. Listagem e Download</h3>
                         <p>Visualize os resultados e baixe os arquivos originais.</p>
-                        
-                        <p><strong>Passo 17:</strong> A lista de arquivos será carregada com detalhes de Período, Tipo e Valores.</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/03-01-lista-arquivos.png" class="img-screenshot" alt="Lista de arquivos encontrados"> </div> <p class="img-caption">Grid de resultados da busca</p> </div>
 
-                        <p><strong>Passo 18:</strong> Para baixar um arquivo individual, clique no ícone de download.</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/03-02-tooltip-baixar-txt.png" class="img-screenshot" alt="Tooltip Baixar Original TXT"> </div> <p class="img-caption">Download de arquivo único</p> </div>
+                        <p><strong>Passo 17:</strong> A lista de arquivos será carregada com detalhes de Período, Tipo e
+                            Valores.</p>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/03-01-lista-arquivos.png" class="img-screenshot"
+                                    alt="Lista de arquivos encontrados"> </div>
+                            <p class="img-caption">Grid de resultados da busca</p>
+                        </div>
+
+                        <p><strong>Passo 18:</strong> Para baixar um arquivo individual, clique no ícone de download.
+                        </p>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/03-02-tooltip-baixar-txt.png"
+                                    class="img-screenshot" alt="Tooltip Baixar Original TXT"> </div>
+                            <p class="img-caption">Download de arquivo único</p>
+                        </div>
 
                         <p><strong>Passo 19:</strong> Aguarde a mensagem de confirmação.</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/03-03-toast-download-iniciado.png" class="img-screenshot" alt="Toast de download iniciado"> </div> <p class="img-caption">Confirmação de download iniciado</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/03-03-toast-download-iniciado.png"
+                                    class="img-screenshot" alt="Toast de download iniciado"> </div>
+                            <p class="img-caption">Confirmação de download iniciado</p>
+                        </div>
 
-                        <p><strong>Passo 20:</strong> Para baixar múltiplos arquivos, utilize o botão "Baixar Todos".</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/03-04-tooltip-baixar-todos.png" class="img-screenshot" alt="Tooltip Baixar Todos"> </div> <p class="img-caption">Opção de download em lote</p> </div>
+                        <p><strong>Passo 20:</strong> Para baixar múltiplos arquivos, utilize o botão "Baixar Todos".
+                        </p>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/03-04-tooltip-baixar-todos.png"
+                                    class="img-screenshot" alt="Tooltip Baixar Todos"> </div>
+                            <p class="img-caption">Opção de download em lote</p>
+                        </div>
 
                         <p><strong>Passo 21:</strong> O sistema processará o arquivo ZIP (estado de carregamento).</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/03-05-baixar-todos-loading.png" class="img-screenshot" alt="Botão Baixar Todos em Loading"> </div> <p class="img-caption">Processando pacote de arquivos</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/03-05-baixar-todos-loading.png"
+                                    class="img-screenshot" alt="Botão Baixar Todos em Loading"> </div>
+                            <p class="img-caption">Processando pacote de arquivos</p>
+                        </div>
 
                         <p><strong>Passo 22:</strong> O download do ZIP será concluído.</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/03-06-toast-download-zip.png" class="img-screenshot" alt="Toast Download ZIP Concluído"> </div> <p class="img-caption">Notificação de conclusão do download em lote</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/03-06-toast-download-zip.png"
+                                    class="img-screenshot" alt="Toast Download ZIP Concluído"> </div>
+                            <p class="img-caption">Notificação de conclusão do download em lote</p>
+                        </div>
                     </div>
                 </section>
 
@@ -346,18 +905,34 @@
                     <div class="secao-conteudo editable-area">
                         <h3>4.1. Seleção de Registros</h3>
                         <p>Personalize quais blocos de informação serão extraídos para a planilha.</p>
-                        
+
                         <p><strong>Passo 23:</strong> Na listagem, clique em "Exportar para Excel".</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/04-01-lista-pre-exportacao.png" class="img-screenshot" alt="Botão Exportar Excel"> </div> <p class="img-caption">Iniciando processo de exportação</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/04-01-lista-pre-exportacao.png"
+                                    class="img-screenshot" alt="Botão Exportar Excel"> </div>
+                            <p class="img-caption">Iniciando processo de exportação</p>
+                        </div>
 
                         <p><strong>Passo 24:</strong> Um modal será aberto com a árvore de registros SPED.</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/04-02-modal-blocos-fechados.png" class="img-screenshot" alt="Modal Exportação Blocos Fechados"> </div> <p class="img-caption">Visão inicial dos blocos disponíveis</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/04-02-modal-blocos-fechados.png"
+                                    class="img-screenshot" alt="Modal Exportação Blocos Fechados"> </div>
+                            <p class="img-caption">Visão inicial dos blocos disponíveis</p>
+                        </div>
 
                         <p><strong>Passo 25:</strong> Expanda um bloco clicando no seu nome (Ex: Bloco A).</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/04-03-blocoA-expandido.png" class="img-screenshot" alt="Bloco A Expandido"> </div> <p class="img-caption">Estrutura expandida de registros</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/04-03-blocoA-expandido.png"
+                                    class="img-screenshot" alt="Bloco A Expandido"> </div>
+                            <p class="img-caption">Estrutura expandida de registros</p>
+                        </div>
 
                         <p><strong>Passo 26:</strong> Marque as opções desejadas (Ex: A001, A010).</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/04-04-blocoA-opcoes-marcadas.png" class="img-screenshot" alt="Checkboxes Marcados Bloco A"> </div> <p class="img-caption">Seleção de registros específicos</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/04-04-blocoA-opcoes-marcadas.png"
+                                    class="img-screenshot" alt="Checkboxes Marcados Bloco A"> </div>
+                            <p class="img-caption">Seleção de registros específicos</p>
+                        </div>
                     </div>
                 </section>
 
@@ -369,14 +944,24 @@
                     <div class="secao-conteudo editable-area">
                         <h3>4.2. Escolha de Campos e Geração</h3>
                         <p><strong>Passo 27:</strong> Expanda um registro para ver os campos disponíveis (Ex: A010).</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/04-05-registroA010-expandido.png" class="img-screenshot" alt="Registro A010 Expandido"> </div> <p class="img-caption">Campos detalhados do registro</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/04-05-registroA010-expandido.png"
+                                    class="img-screenshot" alt="Registro A010 Expandido"> </div>
+                            <p class="img-caption">Campos detalhados do registro</p>
+                        </div>
 
-                        <p><strong>Passo 28:</strong> Selecione campos específicos (Ex: CNPJ, IE) ou utilize "Selecionar Tudo".</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/04-06-campos-selecionados.png" class="img-screenshot" alt="Campos Individuais Selecionados"> </div> <p class="img-caption">Seleção granular de campos</p> </div>
+                        <p><strong>Passo 28:</strong> Selecione campos específicos (Ex: CNPJ, IE) ou utilize "Selecionar
+                            Tudo".</p>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/04-06-campos-selecionados.png"
+                                    class="img-screenshot" alt="Campos Individuais Selecionados"> </div>
+                            <p class="img-caption">Seleção granular de campos</p>
+                        </div>
 
                         <div class="dica">
                             <span class="material-icons-round">lightbulb</span>
-                            <p><strong>Dica:</strong> Utilize a opção "Selecionar Tudo" para exportar rapidamente todos os campos de um registro.</p>
+                            <p><strong>Dica:</strong> Utilize a opção "Selecionar Tudo" para exportar rapidamente todos
+                                os campos de um registro.</p>
                         </div>
                     </div>
                 </section>
@@ -389,38 +974,83 @@
                     <div class="secao-conteudo editable-area">
                         <h3>4.3. Salvando Perfis de Exportação</h3>
                         <p>Crie configurações personalizadas para reutilização futura.</p>
-                        
-                        <p><strong>Passo 29:</strong> Após configurar os registros, clique no botão "+" (Salvar Novo Perfil).</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/05-01-tooltip-salvar-perfil.png" class="img-screenshot" alt="Tooltip Salvar Novo Perfil"> </div> <p class="img-caption">Iniciando salvamento de perfil</p> </div>
+
+                        <p><strong>Passo 29:</strong> Após configurar os registros, clique no botão "+" (Salvar Novo
+                            Perfil).</p>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/05-01-tooltip-salvar-perfil.png"
+                                    class="img-screenshot" alt="Tooltip Salvar Novo Perfil"> </div>
+                            <p class="img-caption">Iniciando salvamento de perfil</p>
+                        </div>
 
                         <p><strong>Passo 30:</strong> Um modal solicitará o nome do perfil.</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/05-02-modal-salvar-perfil.png" class="img-screenshot" alt="Modal Salvar Perfil Vazio"> </div> <p class="img-caption">Criação de perfil personalizado</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/05-02-modal-salvar-perfil.png"
+                                    class="img-screenshot" alt="Modal Salvar Perfil Vazio"> </div>
+                            <p class="img-caption">Criação de perfil personalizado</p>
+                        </div>
 
                         <p><strong>Passo 31:</strong> Digite um nome descritivo (Ex: "Demonstração").</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/05-03-nome-perfil-digitado.png" class="img-screenshot" alt="Nome Perfil Preenchido"> </div> <p class="img-caption">Nomeando o perfil</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/05-03-nome-perfil-digitado.png"
+                                    class="img-screenshot" alt="Nome Perfil Preenchido"> </div>
+                            <p class="img-caption">Nomeando o perfil</p>
+                        </div>
 
                         <p><strong>Passo 32:</strong> Defina se este será o perfil padrão.</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/05-04-perfil-como-padrao.png" class="img-screenshot" alt="Checkbox Perfil Padrão Marcado"> </div> <p class="img-caption">Definindo como padrão</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/05-04-perfil-como-padrao.png"
+                                    class="img-screenshot" alt="Checkbox Perfil Padrão Marcado"> </div>
+                            <p class="img-caption">Definindo como padrão</p>
+                        </div>
 
                         <p><strong>Passo 33:</strong> Clique em "Salvar Perfil".</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/05-05-modal-pronto-salvar.png" class="img-screenshot" alt="Modal Confirmar Salvamento"> </div> <p class="img-caption">Confirmando salvamento</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/05-05-modal-pronto-salvar.png"
+                                    class="img-screenshot" alt="Modal Confirmar Salvamento"> </div>
+                            <p class="img-caption">Confirmando salvamento</p>
+                        </div>
 
                         <p><strong>Passo 34:</strong> Aguarde a confirmação.</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/05-06-toast-perfil-salvo.png" class="img-screenshot" alt="Toast Perfil Salvo com Sucesso"> </div> <p class="img-caption">Perfil criado com sucesso</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/05-06-toast-perfil-salvo.png"
+                                    class="img-screenshot" alt="Toast Perfil Salvo com Sucesso"> </div>
+                            <p class="img-caption">Perfil criado com sucesso</p>
+                        </div>
 
                         <p><strong>Passo 35:</strong> O perfil aparecerá no seletor.</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/05-07-dropdown-perfis.png" class="img-screenshot" alt="Dropdown com Perfil Salvo"> </div> <p class="img-caption">Acesso aos perfis salvos</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/05-07-dropdown-perfis.png"
+                                    class="img-screenshot" alt="Dropdown com Perfil Salvo"> </div>
+                            <p class="img-caption">Acesso aos perfis salvos</p>
+                        </div>
 
                         <p><strong>Passo 36:</strong> Selecione o perfil desejado.</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/05-08-dropdown-perfil-selecionando.png" class="img-screenshot" alt="Selecionando Perfil na Lista"> </div> <p class="img-caption">Aplicando perfil salvo</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/05-08-dropdown-perfil-selecionando.png"
+                                    class="img-screenshot" alt="Selecionando Perfil na Lista"> </div>
+                            <p class="img-caption">Aplicando perfil salvo</p>
+                        </div>
 
                         <p><strong>Passo 37:</strong> O modal exibirá o perfil ativo.</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/05-09-modal-perfil-selecionado.png" class="img-screenshot" alt="Detalhe do Perfil Selecionado"> </div> <p class="img-caption">Detalhe da seleção ativa</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/05-09-modal-perfil-selecionado.png"
+                                    class="img-screenshot" alt="Detalhe do Perfil Selecionado"> </div>
+                            <p class="img-caption">Detalhe da seleção ativa</p>
+                        </div>
 
                         <p><strong>Passo 38:</strong> Verifique o conteúdo expandindo os blocos (Ex: Bloco A).</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/05-10-blocoA-expandido.png" class="img-screenshot" alt="Bloco A Expandido no Perfil"> </div> <p class="img-caption">Conferindo seleção do Bloco A</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/05-10-blocoA-expandido.png"
+                                    class="img-screenshot" alt="Bloco A Expandido no Perfil"> </div>
+                            <p class="img-caption">Conferindo seleção do Bloco A</p>
+                        </div>
 
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/05-11-blocoA-selecao-parcial.png" class="img-screenshot" alt="Seleção Parcial Bloco A"> </div> <p class="img-caption">Seleção granular salva no perfil</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/05-11-blocoA-selecao-parcial.png"
+                                    class="img-screenshot" alt="Seleção Parcial Bloco A"> </div>
+                            <p class="img-caption">Seleção granular salva no perfil</p>
+                        </div>
                     </div>
                 </section>
 
@@ -432,20 +1062,44 @@
                     <div class="secao-conteudo editable-area">
                         <h3>4.4. Gerenciando Múltiplos Perfis</h3>
                         <p><strong>Passo 39:</strong> Para criar um segundo perfil, clique no "+" novamente.</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/05-12-tooltip-salvar-novo-perfil.png" class="img-screenshot" alt="Tooltip Salvar Novo Perfil"> </div> <p class="img-caption">Iniciando novo perfil</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/05-12-tooltip-salvar-novo-perfil.png"
+                                    class="img-screenshot" alt="Tooltip Salvar Novo Perfil"> </div>
+                            <p class="img-caption">Iniciando novo perfil</p>
+                        </div>
 
                         <p><strong>Passo 40:</strong> Configure o novo perfil (ex: "Demonstração 2").</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/05-13-modal-salvar-perfil2.png" class="img-screenshot" alt="Modal Segundo Perfil"> </div> <p class="img-caption">Criando variação de perfil</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/05-13-modal-salvar-perfil2.png"
+                                    class="img-screenshot" alt="Modal Segundo Perfil"> </div>
+                            <p class="img-caption">Criando variação de perfil</p>
+                        </div>
 
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/05-14-nome-perfil2-digitado.png" class="img-screenshot" alt="Nomeando Segundo Perfil"> </div> <p class="img-caption">Definindo nome da variação</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/05-14-nome-perfil2-digitado.png"
+                                    class="img-screenshot" alt="Nomeando Segundo Perfil"> </div>
+                            <p class="img-caption">Definindo nome da variação</p>
+                        </div>
 
                         <p><strong>Passo 41:</strong> Defina este novo como padrão.</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/05-15-perfil2-como-padrao.png" class="img-screenshot" alt="Definindo Segundo Perfil como Padrão"> </div> <p class="img-caption">Alterando o perfil padrão</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/05-15-perfil2-como-padrao.png"
+                                    class="img-screenshot" alt="Definindo Segundo Perfil como Padrão"> </div>
+                            <p class="img-caption">Alterando o perfil padrão</p>
+                        </div>
 
                         <p><strong>Passo 42:</strong> Confirme o salvamento.</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/05-16-modal-salvar-perfil2-confirm.png" class="img-screenshot" alt="Confirmar Salvar Perfil 2"> </div> <p class="img-caption">Salvando as alterações</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/05-16-modal-salvar-perfil2-confirm.png"
+                                    class="img-screenshot" alt="Confirmar Salvar Perfil 2"> </div>
+                            <p class="img-caption">Salvando as alterações</p>
+                        </div>
 
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/05-17-toast-perfil2-criado.png" class="img-screenshot" alt="Toast Segundo Perfil Criado"> </div> <p class="img-caption">Novo perfil criado com sucesso</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/05-17-toast-perfil2-criado.png"
+                                    class="img-screenshot" alt="Toast Segundo Perfil Criado"> </div>
+                            <p class="img-caption">Novo perfil criado com sucesso</p>
+                        </div>
                     </div>
                 </section>
 
@@ -457,18 +1111,38 @@
                     <div class="secao-conteudo editable-area">
                         <h3>4.5. Manutenção de Perfis</h3>
                         <p><strong>Passo 43:</strong> Na lista, visualize seus múltiplos perfis.</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/05-18-dropdown-multiplos-perfis.png" class="img-screenshot" alt="Dropdown com Múltiplos Perfis"> </div> <p class="img-caption">Lista de perfis disponíveis</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/05-18-dropdown-multiplos-perfis.png"
+                                    class="img-screenshot" alt="Dropdown com Múltiplos Perfis"> </div>
+                            <p class="img-caption">Lista de perfis disponíveis</p>
+                        </div>
 
                         <p><strong>Passo 44:</strong> Para excluir um antigo, clique no ícone de lixeira.</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/05-19-dropdown-icone-excluir.png" class="img-screenshot" alt="Clicando na Lixeira"> </div> <p class="img-caption">Ação de exclusão</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/05-19-dropdown-icone-excluir.png"
+                                    class="img-screenshot" alt="Clicando na Lixeira"> </div>
+                            <p class="img-caption">Ação de exclusão</p>
+                        </div>
 
                         <p><strong>Passo 45:</strong> Confirme a exclusão no modal.</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/05-20-modal-confirmar-exclusao.png" class="img-screenshot" alt="Modal Confirmar Exclusão"> </div> <p class="img-caption">Confirmação de segurança</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/05-20-modal-confirmar-exclusao.png"
+                                    class="img-screenshot" alt="Modal Confirmar Exclusão"> </div>
+                            <p class="img-caption">Confirmação de segurança</p>
+                        </div>
 
                         <p><strong>Passo 46:</strong> O perfil é removido permanentemente.</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/05-21-toast-perfil-excluido.png" class="img-screenshot" alt="Toast Perfil Excluído"> </div> <p class="img-caption">Feedback de exclusão</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/05-21-toast-perfil-excluido.png"
+                                    class="img-screenshot" alt="Toast Perfil Excluído"> </div>
+                            <p class="img-caption">Feedback de exclusão</p>
+                        </div>
 
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/05-22-dropdown-apos-exclusao.png" class="img-screenshot" alt="Lista Atualizada após Exclusão"> </div> <p class="img-caption">Lista atualizada</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/05-22-dropdown-apos-exclusao.png"
+                                    class="img-screenshot" alt="Lista Atualizada após Exclusão"> </div>
+                            <p class="img-caption">Lista atualizada</p>
+                        </div>
                     </div>
                 </section>
 
@@ -480,13 +1154,25 @@
                     <div class="secao-conteudo editable-area">
                         <h3>4.6. Geração do Relatório</h3>
                         <p><strong>Passo 47:</strong> Com o perfil definido, clique em "Gerar Relatório".</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/06-01-modal-pronto-exportar.png" class="img-screenshot" alt="Botão Gerar Relatório Ativo"> </div> <p class="img-caption">Iniciando a geração do arquivo</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/06-01-modal-pronto-exportar.png"
+                                    class="img-screenshot" alt="Botão Gerar Relatório Ativo"> </div>
+                            <p class="img-caption">Iniciando a geração do arquivo</p>
+                        </div>
 
                         <p><strong>Passo 48:</strong> Aguarde o processamento.</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/06-02-exportacao-processando.png" class="img-screenshot" alt="Botão Exportar Processando"> </div> <p class="img-caption">Aguarde o processamento</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/06-02-exportacao-processando.png"
+                                    class="img-screenshot" alt="Botão Exportar Processando"> </div>
+                            <p class="img-caption">Aguarde o processamento</p>
+                        </div>
 
                         <p><strong>Passo 49:</strong> O download será concluído.</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/06-03-toast-exportacao-concluida.png" class="img-screenshot" alt="Toast Exportação Concluída"> </div> <p class="img-caption">Download concluído com sucesso</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/06-03-toast-exportacao-concluida.png"
+                                    class="img-screenshot" alt="Toast Exportação Concluída"> </div>
+                            <p class="img-caption">Download concluído com sucesso</p>
+                        </div>
                     </div>
                 </section>
 
@@ -499,17 +1185,37 @@
                     <div class="secao-conteudo editable-area">
                         <h3>5.1. Visualização Detalhada</h3>
                         <p><strong>Passo 50:</strong> Na listagem principal, clique no botão escuro "Analisar".</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/07-01-lista-pre-analise.png" class="img-screenshot" alt="Botão Analisar na Lista"> </div> <p class="img-caption">Acessando o módulo de análise</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/07-01-lista-pre-analise.png"
+                                    class="img-screenshot" alt="Botão Analisar na Lista"> </div>
+                            <p class="img-caption">Acessando o módulo de análise</p>
+                        </div>
 
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/07-02-lista-pre-analise-alt.png" class="img-screenshot" alt="Destaque Botão Analisar"> </div> <p class="img-caption">Foco no botão de ação</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/07-02-lista-pre-analise-alt.png"
+                                    class="img-screenshot" alt="Destaque Botão Analisar"> </div>
+                            <p class="img-caption">Foco no botão de ação</p>
+                        </div>
 
                         <p><strong>Passo 51:</strong> O modal de análise será aberto (Reg 0000).</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/07-03-modal-analise-inicial.png" class="img-screenshot" alt="Modal de Análise Inicial"> </div> <p class="img-caption">Visão geral da auditoria</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/07-03-modal-analise-inicial.png"
+                                    class="img-screenshot" alt="Modal de Análise Inicial"> </div>
+                            <p class="img-caption">Visão geral da auditoria</p>
+                        </div>
 
                         <p><strong>Passo 52:</strong> Navegue pelos blocos na sidebar (Ex: Bloco 0, Bloco C).</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/07-04-sidebar-bloco0-expandido.png" class="img-screenshot" alt="Sidebar Bloco 0 Expandido"> </div> <p class="img-caption">Navegação pelo Bloco 0</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/07-04-sidebar-bloco0-expandido.png"
+                                    class="img-screenshot" alt="Sidebar Bloco 0 Expandido"> </div>
+                            <p class="img-caption">Navegação pelo Bloco 0</p>
+                        </div>
 
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/07-05-sidebar-blocoC-expandido.png" class="img-screenshot" alt="Sidebar Bloco C Expandido"> </div> <p class="img-caption">Navegação pelo Bloco C</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/07-05-sidebar-blocoC-expandido.png"
+                                    class="img-screenshot" alt="Sidebar Bloco C Expandido"> </div>
+                            <p class="img-caption">Navegação pelo Bloco C</p>
+                        </div>
                     </div>
                 </section>
 
@@ -520,33 +1226,72 @@
                     </div>
                     <div class="secao-conteudo editable-area">
                         <h3>5.2. Interação com Dados</h3>
-                        <p><strong>Passo 53:</strong> Ao selecionar registros volumosos (C170), aguarde o carregamento.</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/07-06-registro-c170-loading.png" class="img-screenshot" alt="Loading Registro C170"> </div> <p class="img-caption">Carregando dados volumosos</p> </div>
+                        <p><strong>Passo 53:</strong> Ao selecionar registros volumosos (C170), aguarde o carregamento.
+                        </p>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/07-06-registro-c170-loading.png"
+                                    class="img-screenshot" alt="Loading Registro C170"> </div>
+                            <p class="img-caption">Carregando dados volumosos</p>
+                        </div>
 
                         <p><strong>Passo 54:</strong> Analise os dados na tabela.</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/07-07-tabela-c170-dados.png" class="img-screenshot" alt="Tabela de Dados C170"> </div> <p class="img-caption">Visualização tabular dos dados</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/07-07-tabela-c170-dados.png"
+                                    class="img-screenshot" alt="Tabela de Dados C170"> </div>
+                            <p class="img-caption">Visualização tabular dos dados</p>
+                        </div>
 
-                        <p><strong>Passo 55:</strong> Use o scroll horizontal para ver todas as colunas (PIS/COFINS).</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/07-08-tabela-scroll-horizontal.png" class="img-screenshot" alt="Scroll Horizontal Tabela"> </div> <p class="img-caption">Rolagem para ver mais colunas</p> </div>
+                        <p><strong>Passo 55:</strong> Use o scroll horizontal para ver todas as colunas (PIS/COFINS).
+                        </p>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/07-08-tabela-scroll-horizontal.png"
+                                    class="img-screenshot" alt="Scroll Horizontal Tabela"> </div>
+                            <p class="img-caption">Rolagem para ver mais colunas</p>
+                        </div>
 
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/07-09-tabela-scroll-horizontal-alt.png" class="img-screenshot" alt="Variação Scroll Horizontal"> </div> <p class="img-caption">Navegação horizontal na tabela</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/07-09-tabela-scroll-horizontal-alt.png"
+                                    class="img-screenshot" alt="Variação Scroll Horizontal"> </div>
+                            <p class="img-caption">Navegação horizontal na tabela</p>
+                        </div>
 
                         <p><strong>Passo 56:</strong> Clique para destacar células ou linhas.</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/07-10-tabela-celula-selecionada.png" class="img-screenshot" alt="Célula Selecionada"> </div> <p class="img-caption">Destaque de célula individual</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/07-10-tabela-celula-selecionada.png"
+                                    class="img-screenshot" alt="Célula Selecionada"> </div>
+                            <p class="img-caption">Destaque de célula individual</p>
+                        </div>
 
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/07-11-tabela-linha-selecionada.png" class="img-screenshot" alt="Linha Selecionada"> </div> <p class="img-caption">Destaque de linha completa</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/07-11-tabela-linha-selecionada.png"
+                                    class="img-screenshot" alt="Linha Selecionada"> </div>
+                            <p class="img-caption">Destaque de linha completa</p>
+                        </div>
 
                         <p><strong>Passo 57:</strong> Visualize a estrutura completa dos blocos na sidebar.</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/07-12-sidebar-todos-blocos.png" class="img-screenshot" alt="Sidebar Todos os Blocos"> </div> <p class="img-caption">Árvore completa de registros</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/07-12-sidebar-todos-blocos.png"
+                                    class="img-screenshot" alt="Sidebar Todos os Blocos"> </div>
+                            <p class="img-caption">Árvore completa de registros</p>
+                        </div>
 
                         <p><strong>Passo 58:</strong> Para sair, clique no X.</p>
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/07-13-botao-fechar-modal.png" class="img-screenshot" alt="Botão Fechar Modal"> </div> <p class="img-caption">Encerrando a análise</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/07-13-botao-fechar-modal.png"
+                                    class="img-screenshot" alt="Botão Fechar Modal"> </div>
+                            <p class="img-caption">Encerrando a análise</p>
+                        </div>
 
-                        <div class="img-container"> <div class="img-wrapper"> <img src="imagens/07-14-lista-apos-fechar.png" class="img-screenshot" alt="Retorno à Lista"> </div> <p class="img-caption">Retorno à tela principal</p> </div>
+                        <div class="img-container">
+                            <div class="img-wrapper"> <img src="imagens/07-14-lista-apos-fechar.png"
+                                    class="img-screenshot" alt="Retorno à Lista"> </div>
+                            <p class="img-caption">Retorno à tela principal</p>
+                        </div>
 
                         <div class="aviso">
                             <span class="material-icons-round">warning</span>
-                            <p><strong>Importante:</strong> As alterações na análise não modificam os arquivos originais. Para edições, utilize o módulo de gestão apropriado.</p>
+                            <p><strong>Importante:</strong> As alterações na análise não modificam os arquivos
+                                originais. Para edições, utilize o módulo de gestão apropriado.</p>
                         </div>
                     </div>
                 </section>
@@ -578,17 +1323,17 @@
 
         // 2. LÓGICA DE EDIÇÃO (NOVA)
         let isEditing = false;
-        
+
         function toggleEditMode() {
             isEditing = !isEditing;
             const body = document.body;
             const btnIcon = document.getElementById('icon-edit');
-            
+
             // Alterna classe para visual
-            if(isEditing) {
+            if (isEditing) {
                 body.classList.add('editing-mode');
                 btnIcon.textContent = 'check'; // Muda ícone para Check
-                
+
                 // Torna elementos editáveis
                 document.querySelectorAll('.editable-text, .editable-area').forEach(el => {
                     el.contentEditable = "true";
@@ -596,7 +1341,7 @@
             } else {
                 body.classList.remove('editing-mode');
                 btnIcon.textContent = 'edit'; // Volta ícone para Lápis
-                
+
                 // Remove edição
                 document.querySelectorAll('.editable-text, .editable-area').forEach(el => {
                     el.contentEditable = "false";
@@ -604,29 +1349,237 @@
             }
         }
 
-        // 3. LÓGICA DE DOWNLOAD (NOVA)
+        // 3. LÓGICA DE DOWNLOAD (REFINADA)
         function downloadHtml() {
-            // Clona o documento atual
-            const htmlContent = document.documentElement.outerHTML;
-            
-            // Cria um blob
-            const blob = new Blob([htmlContent], {type: 'text/html'});
+            // Clona o documento para limpeza
+            const clone = document.documentElement.cloneNode(true);
+
+            // Remove elementos de administração e auxiliares
+            const toolbar = clone.querySelector('#admin-toolbar');
+            if (toolbar) toolbar.remove();
+
+            clone.querySelectorAll('.floating-toolbar').forEach(t => t.remove());
+            clone.querySelectorAll('.section-delete-btn').forEach(b => b.remove());
+            clone.querySelectorAll('.marker-delete-btn').forEach(b => b.remove());
+
+            // Remove o estado visual de edição
+            const body = clone.querySelector('body');
+            body.classList.remove('editing-mode');
+
+            const htmlContent = clone.outerHTML;
+            const blob = new Blob([htmlContent], { type: 'text/html' });
             const url = URL.createObjectURL(blob);
-            
-            // Cria link falso e clica
+
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'ConsultaEFD.html';
+            a.download = 'Manual_Consulta_Editado.html';
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
         }
 
-        // 4. LÓGICA DE IMPRESSÃO (NOVA)
+        // 4. LÓGICA DE EXPORTAÇÃO SOMENTE LEITURA
         function printManual() {
-            // Esconde sidebar e toolbar para impressão limpa
-            window.print();
+            // Clona o documento
+            const clone = document.documentElement.cloneNode(true);
+
+            // Limpeza completa de ferramentas
+            const toolbar = clone.querySelector('#admin-toolbar');
+            if (toolbar) toolbar.remove();
+            clone.querySelectorAll('.floating-toolbar').forEach(t => t.remove());
+            clone.querySelectorAll('.section-delete-btn').forEach(b => b.remove());
+            clone.querySelectorAll('.marker-delete-btn').forEach(b => b.remove());
+
+            // Remove capacidade de edição (Read-Only)
+            clone.querySelectorAll('[contenteditable="true"]').forEach(el => {
+                el.removeAttribute('contenteditable');
+                el.classList.remove('editable-text', 'editable-area');
+            });
+
+            const body = clone.querySelector('body');
+            body.classList.remove('editing-mode');
+
+            const htmlContent = clone.outerHTML;
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Manual_Consulta_Leitura.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
         }
+
+        // --- SISTEMA DE EDIÇÃO EXTRA ---
+
+        function deleteSection(btn) {
+            if (confirm('Tem certeza que deseja excluir esta seção inteira?')) {
+                btn.closest('.secao').remove();
+            }
+        }
+
+        function initEditorExtras() {
+            document.querySelectorAll('.secao-header').forEach(header => {
+                if (header.querySelector('.section-delete-btn')) return;
+                const btn = document.createElement('button');
+                btn.className = 'section-delete-btn';
+                btn.innerHTML = '<span class="material-icons-round">delete_forever</span>';
+                btn.title = "Excluir esta seção";
+                btn.onclick = () => deleteSection(btn);
+                header.appendChild(btn);
+            });
+        }
+
+        // --- SISTEMA DE ZOOM E MARCAÇÃO AUTOMÁTICO ---
+
+        // 1. Converte automaticamente a estrutura HTML simples para a estrutura de Zoom
+        function upgradeImagesToZoom() {
+            document.querySelectorAll('.img-wrapper').forEach(wrapper => {
+                // Evita duplicar se já tiver sido processado
+                if (wrapper.querySelector('.img-viewport')) return;
+
+                const img = wrapper.querySelector('img');
+                if (!img) return;
+
+                // 1. Cria a Viewport (camada de zoom)
+                const viewport = document.createElement('div');
+                viewport.className = 'img-viewport';
+
+                // 2. Move a imagem para dentro da viewport
+                wrapper.appendChild(viewport);
+                viewport.appendChild(img);
+
+                // 3. Cria a barra de ferramentas
+                const toolbar = document.createElement('div');
+                toolbar.className = 'floating-toolbar';
+                toolbar.innerHTML = `
+                    <button class="btn-float" onclick="controlZoom(this, 0.2)" title="Mais Zoom"><span class="material-icons-round">add</span></button>
+                    <button class="btn-float" onclick="controlZoom(this, -0.2)" title="Menos Zoom"><span class="material-icons-round">remove</span></button>
+                    <div style="width:1px; height:16px; background:#ddd; margin:0 4px;"></div>
+                    <button class="btn-float" onclick="addMarker(this)" title="Adicionar Marcação"><span class="material-icons-round" style="color:#EF4444">radio_button_unchecked</span></button>
+                `;
+                wrapper.appendChild(toolbar);
+
+                // 4. Inicializa os eventos de arrastar
+                initDragEvent(viewport);
+            });
+        }
+
+        // 2. Lógica de Zoom
+        function controlZoom(btn, delta) {
+            const wrapper = btn.closest('.img-wrapper');
+            const viewport = wrapper.querySelector('.img-viewport');
+
+            let scale = parseFloat(viewport.dataset.scale || 1);
+            let newScale = Math.max(1, Math.min(5, scale + delta)); // Limita entre 1x e 5x
+
+            // Reseta posição se voltar para 1x
+            if (newScale === 1) {
+                viewport.style.transform = `translate(0px, 0px) scale(1)`;
+                viewport.dataset.x = 0; viewport.dataset.y = 0;
+            } else {
+                updateTransform(viewport, parseFloat(viewport.dataset.x || 0), parseFloat(viewport.dataset.y || 0), newScale);
+            }
+            viewport.dataset.scale = newScale;
+
+            // Altera cursor
+            viewport.style.cursor = newScale > 1 ? 'grab' : 'default';
+        }
+
+        function updateTransform(el, x, y, scale) {
+            el.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+            el.dataset.x = x; el.dataset.y = y;
+        }
+
+        // 3. Lógica de Pan (Arrastar imagem com zoom)
+        function initDragEvent(viewport) {
+            let isPanning = false, startX, startY, initialX, initialY;
+
+            viewport.addEventListener('mousedown', (e) => {
+                const scale = parseFloat(viewport.dataset.scale || 1);
+                if (scale <= 1 || e.target.classList.contains('marker') || e.target.closest('.marker')) return;
+
+                isPanning = true;
+                viewport.classList.add('grabbing');
+                startX = e.clientX; startY = e.clientY;
+                initialX = parseFloat(viewport.dataset.x || 0);
+                initialY = parseFloat(viewport.dataset.y || 0);
+                e.preventDefault();
+            });
+
+            window.addEventListener('mousemove', (e) => {
+                if (!isPanning) return;
+                const scale = parseFloat(viewport.dataset.scale || 1);
+                const dx = e.clientX - startX;
+                const dy = e.clientY - startY;
+
+                // Lógica simples de pan (pode adicionar limites de borda se quiser aprimorar)
+                updateTransform(viewport, initialX + dx, initialY + dy, scale);
+            });
+
+            window.addEventListener('mouseup', () => {
+                isPanning = false;
+                viewport.classList.remove('grabbing');
+            });
+        }
+
+        // 4. Lógica de Marcadores
+        function addMarker(btn) {
+            const wrapper = btn.closest('.img-wrapper');
+            const viewport = wrapper.querySelector('.img-viewport');
+
+            const marker = document.createElement('div');
+            marker.className = 'marker';
+            marker.style.top = '50%'; marker.style.left = '50%';
+            marker.style.transform = 'translate(-50%, -50%)'; // Centraliza criação
+
+            // Botão Fechar
+            const close = document.createElement('div');
+            close.className = 'marker-delete-btn';
+            close.innerHTML = '×';
+            close.onclick = (e) => { e.stopPropagation(); marker.remove(); };
+
+            marker.appendChild(close);
+            viewport.appendChild(marker);
+            initMarkerDrag(marker);
+        }
+
+        function initMarkerDrag(marker) {
+            marker.addEventListener('mousedown', (e) => {
+                if (e.target.className.includes('delete')) return;
+                e.stopPropagation(); // Não arrastar a imagem de fundo
+
+                const viewport = marker.parentElement;
+                const scale = parseFloat(viewport.dataset.scale || 1);
+
+                let startX = e.clientX, startY = e.clientY;
+                let startLeft = marker.offsetLeft, startTop = marker.offsetTop;
+
+                function onMove(e) {
+                    // Corrige o movimento baseado no zoom atual (Diferencial matemático importante)
+                    const dx = (e.clientX - startX) / scale;
+                    const dy = (e.clientY - startY) / scale;
+                    marker.style.left = (startLeft + dx) + 'px';
+                    marker.style.top = (startTop + dy) + 'px';
+                }
+
+                function onUp() {
+                    window.removeEventListener('mousemove', onMove);
+                    window.removeEventListener('mouseup', onUp);
+                }
+                window.addEventListener('mousemove', onMove);
+                window.addEventListener('mouseup', onUp);
+            });
+        }
+
+        // --- INICIALIZAÇÃO ---
+        // Adicione esta chamada ao final do carregamento
+        window.addEventListener('load', () => {
+            upgradeImagesToZoom();
+            initEditorExtras();
+        });
     </script>
 </body>
+
 </html>
