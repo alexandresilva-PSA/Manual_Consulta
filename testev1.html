@@ -230,13 +230,21 @@
                 </div>
                 <div class="nav-group">
                     <div class="nav-group-header" onclick="toggleNavGroup(this)">
-                        Consulta de Arquivos
+                        Consulta e Filtros
                         <span class="material-icons-round">expand_more</span>
                     </div>
                     <div class="nav-group-content">
-                        <a href="#secao-3">3. Filtros de Busca</a>
-                        <a href="#secao-4">4. Lista de Resultados</a>
-                        <a href="#secao-5">5. Downloads (TXT/ZIP)</a>
+                        <a href="#secao-3">3. Configuração de Filtros</a>
+                        <a href="#secao-4">4. Resultado e Listagem</a>
+                    </div>
+                </div>
+                <div class="nav-group">
+                    <div class="nav-group-header" onclick="toggleNavGroup(this)">
+                        Downloads e Ações
+                        <span class="material-icons-round">expand_more</span>
+                    </div>
+                    <div class="nav-group-content">
+                        <a href="#secao-5">5. Baixando Arquivos</a>
                     </div>
                 </div>
                 <div class="nav-group">
@@ -246,8 +254,9 @@
                     </div>
                     <div class="nav-group-content">
                         <a href="#secao-6">6. Configuração de Colunas</a>
-                        <a href="#secao-7">7. Gerenciamento de Perfis</a>
-                        <a href="#secao-8">8. Geração e Status</a>
+                        <a href="#secao-7">7. Criando e Salvando Perfis</a>
+                        <a href="#secao-8">8. Gerenciamento de Perfis</a>
+                        <a href="#secao-9">9. Geração do Relatório</a>
                     </div>
                 </div>
                 <div class="nav-group">
@@ -256,8 +265,9 @@
                         <span class="material-icons-round">expand_more</span>
                     </div>
                     <div class="nav-group-content">
-                        <a href="#secao-9">9. Interface de Análise</a>
-                        <a href="#secao-10">10. Navegação e Detalhes</a>
+                        <a href="#secao-10">10. Interface de Análise</a>
+                        <a href="#secao-11">11. Navegação Hierárquica</a>
+                        <a href="#secao-12">12. Tabela Dinâmica</a>
                     </div>
                 </div>
             </nav>
@@ -275,14 +285,14 @@
                     </div>
                     <div class="secao-conteudo">
                         <h3>1.1 O que é a Consulta EFD Contribuições?</h3>
-                        <p>A ferramenta <strong>Consulta EFD Contribuições</strong> é um ambiente centralizado para gestão de arquivos SPED (PIS/COFINS). Ela permite que a equipe fiscal localize, baixe, audite e exporte dados de arquivos transmitidos de forma ágil, eliminando a dependência de processos manuais ou do PVA para consultas rápidas.</p>
+                        <p>A ferramenta de <strong>Consulta EFD Contribuições</strong> é um ambiente desenvolvido para simplificar a auditoria, extração e conferência de arquivos SPED (PIS/COFINS). Ela conecta diretamente à base de dados de arquivos transmitidos, oferecendo uma camada de inteligência que elimina a necessidade de softwares pesados como o PVA para tarefas cotidianas.</p>
                         
-                        <h3>1.2 Funcionalidades Chave</h3>
+                        <h3>1.2 Funcionalidades Principais</h3>
                         <ul class="lista-dicas">
-                            <li><strong>Repositório Histórico:</strong> Acesso rápido a todos os arquivos processados por Cliente e CNPJ.</li>
-                            <li><strong>Download Flexível:</strong> Opções para baixar o arquivo original (TXT) ou pacotes em lote (ZIP).</li>
-                            <li><strong>Exportação Inteligente:</strong> Geração de Excel customizável, com opção de salvar perfis de colunas para uso recorrente.</li>
-                            <li><strong>Auditoria Web:</strong> Visualização detalhada dos blocos e registros sem necessidade de download.</li>
+                            <li><strong>Repositório Centralizado:</strong> Histórico completo de arquivos transmitidos.</li>
+                            <li><strong>Exportação Inteligente:</strong> Crie planilhas Excel apenas com os registros que você precisa (ex: C100, M200).</li>
+                            <li><strong>Perfis de Exportação:</strong> Salve configurações de colunas para usar repetidamente.</li>
+                            <li><strong>Análise Web:</strong> Visualize dados brutos formatados sem precisar baixar o TXT.</li>
                         </ul>
                     </div>
                 </section>
@@ -295,138 +305,152 @@
                     </div>
                     <div class="secao-conteudo">
                         <h3>2.1 Login na Área da Equipe</h3>
-                        <p>Acesse o portal da <strong>PSA Consultores</strong> e clique em <strong>Área da Equipe</strong> no canto superior.</p>
+                        <p>Para iniciar, acesse o portal da PSA Consultores. Na página inicial, localize e clique no botão <strong>Área da Equipe</strong> no cabeçalho.</p>
                         <div class="img-container">
                             <div class="img-wrapper">
                                 <img src="imagens/01-01-homepage-psa.png" class="img-screenshot" alt="Homepage PSA">
                             </div>
-                            <p class="img-caption">Portal inicial PSA</p>
+                            <p class="img-caption">Tela inicial do portal PSA Consultores</p>
                         </div>
 
-                        <h3>2.2 Seleção de Área</h3>
-                        <p>No menu suspenso de seleção de área, escolha a opção <strong>Digital</strong>.</p>
+                        <h3>2.2 Seleção de Ambiente</h3>
+                        <p>No menu suspenso de seleção de áreas, escolha a opção <strong>Digital</strong>.</p>
                         <div class="img-container">
                             <div class="img-wrapper">
-                                <img src="imagens/01-04-area-equipe-dropdown.png" class="img-screenshot" alt="Seleção de Área Digital">
+                                <img src="imagens/01-04-area-equipe-dropdown.png" class="img-screenshot" alt="Dropdown de Áreas">
                             </div>
                         </div>
 
                         <h3>2.3 Autenticação</h3>
-                        <p>Informe suas credenciais corporativas na tela de login segura.</p>
+                        <p>Insira seu e-mail corporativo e senha para acessar o ambiente seguro.</p>
                         <div class="img-container">
                             <div class="img-wrapper">
                                 <img src="imagens/01-05-tela-login.png" class="img-screenshot" alt="Tela de Login">
                             </div>
                         </div>
 
-                        <h3>2.4 Navegação</h3>
-                        <p>No Dashboard, acesse o menu lateral <strong>Digital Dev</strong> e clique em <strong>EFD Contribuições</strong>.</p>
+                        <h3>2.4 Navegação no Dashboard</h3>
+                        <p>Após o login, você verá o Dashboard da equipe Digital. No menu lateral esquerdo, sob a seção "Digital Dev", clique em <strong>EFD Contribuições</strong>.</p>
                         <div class="img-container">
                             <div class="img-wrapper">
                                 <img src="imagens/01-08-dashboard-dev.png" class="img-screenshot" alt="Menu Lateral">
                             </div>
-                            <p class="img-caption">Acesso à ferramenta no menu lateral</p>
+                            <p class="img-caption">Menu de ferramentas do desenvolvedor/auditor</p>
                         </div>
                     </div>
                 </section>
 
-                <!-- SEÇÃO 3: FILTROS DE BUSCA -->
+                <!-- SEÇÃO 3: CONFIGURAÇÃO DE FILTROS -->
                 <section class="secao" id="secao-3">
                     <div class="secao-header">
                         <span class="secao-numero">3</span>
-                        <h2>Filtros de Busca</h2>
+                        <h2>Configuração de Filtros</h2>
                     </div>
                     <div class="secao-conteudo">
-                        <h3>3.1 Configuração Inicial</h3>
-                        <p>A tela inicial apresenta os filtros vazios, aguardando a definição do escopo de pesquisa.</p>
+                        <h3>3.1 Visão Geral dos Filtros</h3>
+                        <p>A tela inicial apresenta quatro critérios principais de busca. Todos devem ser preenchidos para garantir uma busca precisa.</p>
                         <div class="img-container">
                             <div class="img-wrapper">
                                 <img src="imagens/02-01-filtros-vazio.png" class="img-screenshot" alt="Filtros Vazios">
                             </div>
                         </div>
 
-                        <h3>3.2 Seleção de Cliente e Contribuinte</h3>
-                        <p>Selecione o <strong>Cliente</strong> e, em seguida, o <strong>Contribuinte</strong> (CNPJ). O sistema possui inteligência para pré-selecionar o contribuinte caso o cliente possua apenas um cadastro ativo.</p>
+                        <h3>3.2 Selecionando o Cliente</h3>
+                        <p>Clique no dropdown <strong>Cliente</strong>. A lista exibirá todos os clientes ativos vinculados à sua conta.</p>
                         <div class="img-container">
                             <div class="img-wrapper">
-                                <img src="imagens/02-02-dropdown-cliente.png" class="img-screenshot" alt="Seleção de Cliente">
-                            </div>
-                        </div>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/02-03-dropdown-contribuinte.png" class="img-screenshot" alt="Seleção de Contribuinte">
-                            </div>
-                            <p class="img-caption">Seleção hierárquica de Cliente e CNPJ</p>
-                        </div>
-
-                        <h3>3.3 Definição de Período</h3>
-                        <p>Utilize os seletores de mês/ano para definir o intervalo de busca (Início e Fim). O sistema buscará qualquer arquivo que tenha vigência dentro deste intervalo.</p>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/02-05-calendario-2026.png" class="img-screenshot" alt="Seletor de Data">
+                                <img src="imagens/02-02-dropdown-cliente.png" class="img-screenshot" alt="Lista de Clientes">
                             </div>
                         </div>
 
-                        <h3>3.4 Execução</h3>
-                        <p>Com os filtros definidos, clique em <strong>Buscar Arquivos</strong>.</p>
+                        <h3>3.3 Selecionando o Contribuinte</h3>
+                        <p>Após selecionar o cliente, o campo <strong>Contribuinte</strong> será desbloqueado. O sistema exibe a Razão Social seguida do CNPJ.</p>
+                        <div class="dica">
+                            <span class="material-icons-round">auto_awesome</span>
+                            <p>Se o cliente possuir apenas um contribuinte cadastrado, o sistema o selecionará automaticamente para você.</p>
+                        </div>
                         <div class="img-container">
                             <div class="img-wrapper">
-                                <img src="imagens/02-06-filtros-preenchidos.png" class="img-screenshot" alt="Busca Pronta">
+                                <img src="imagens/02-03-dropdown-contribuinte.png" class="img-screenshot" alt="Lista de Contribuintes">
+                            </div>
+                        </div>
+
+                        <h3>3.4 Definindo o Período</h3>
+                        <p>Utilize os seletores de Data Início e Data Fim. O calendário permite navegar entre anos e meses facilmente.</p>
+                        <div class="img-container">
+                            <div class="img-wrapper">
+                                <img src="imagens/02-05-calendario-2026.png" class="img-screenshot" alt="Calendário">
+                            </div>
+                            <p class="img-caption">Seleção de período (Mês/Ano)</p>
+                        </div>
+
+                        <h3>3.5 Executando a Busca</h3>
+                        <p>Com todos os campos preenchidos, o botão <strong>Buscar Arquivos</strong> ficará habilitado. Clique nele para consultar a base de dados.</p>
+                        <div class="img-container">
+                            <div class="img-wrapper">
+                                <img src="imagens/02-06-filtros-preenchidos.png" class="img-screenshot" alt="Filtros Prontos">
                             </div>
                         </div>
                     </div>
                 </section>
 
-                <!-- SEÇÃO 4: LISTA DE RESULTADOS -->
+                <!-- SEÇÃO 4: RESULTADO E LISTAGEM -->
                 <section class="secao" id="secao-4">
                     <div class="secao-header">
                         <span class="secao-numero">4</span>
-                        <h2>Lista de Resultados</h2>
+                        <h2>Resultado e Listagem</h2>
                     </div>
                     <div class="secao-conteudo">
-                        <h3>4.1 Visualização de Arquivos</h3>
-                        <p>A tabela exibe os arquivos encontrados, destacando o período de competência, o tipo (Original ou Retificadora) e os valores de crédito apurados.</p>
+                        <h3>4.1 Tabela de Arquivos</h3>
+                        <p>O sistema lista todos os arquivos que coincidem com o período selecionado. A tabela fornece uma visão rápida da "saúde" fiscal do período.</p>
                         <div class="img-container">
                             <div class="img-wrapper">
                                 <img src="imagens/03-01-lista-arquivos.png" class="img-screenshot" alt="Tabela de Resultados">
                             </div>
-                            <p class="img-caption">Lista de arquivos com indicadores visuais de status</p>
                         </div>
+
+                        <h3>4.2 Detalhes das Colunas</h3>
+                        <ul class="lista-dicas">
+                            <li><strong>Arquivo:</strong> Nome do arquivo e ID interno.</li>
+                            <li><strong>Período:</strong> Data de início e fim da competência do arquivo.</li>
+                            <li><strong>Tipo:</strong> Indica se é Original (Azul) ou Retificadora (Amarelo).</li>
+                            <li><strong>Crédito PIS/COFINS:</strong> Valores totais extraídos do Bloco M para conferência rápida.</li>
+                        </ul>
                     </div>
                 </section>
 
-                <!-- SEÇÃO 5: DOWNLOADS (TXT/ZIP) -->
+                <!-- SEÇÃO 5: BAIXANDO ARQUIVOS -->
                 <section class="secao" id="secao-5">
                     <div class="secao-header">
                         <span class="secao-numero">5</span>
-                        <h2>Downloads (TXT/ZIP)</h2>
+                        <h2>Baixando Arquivos</h2>
                     </div>
                     <div class="secao-conteudo">
-                        <h3>5.1 Download Individual</h3>
-                        <p>Clique no ícone de seta na coluna de ações para baixar o arquivo TXT original.</p>
+                        <h3>5.1 Download Individual (TXT)</h3>
+                        <p>Para baixar o arquivo original transmitido à Receita, clique no botão de <strong>Download</strong> (ícone de seta) na coluna de Ações.</p>
                         <div class="img-container">
                             <div class="img-wrapper">
                                 <img src="imagens/03-02-tooltip-baixar-txt.png" class="img-screenshot" alt="Ação Baixar TXT">
                             </div>
                         </div>
+                        <p>Uma notificação confirmará o início do download.</p>
                         <div class="img-container">
                             <div class="img-wrapper">
-                                <img src="imagens/03-03-toast-download-iniciado.png" class="img-screenshot" alt="Confirmação de Download">
+                                <img src="imagens/03-03-toast-download-iniciado.png" class="img-screenshot" alt="Notificação de Download">
                             </div>
-                            <p class="img-caption">Notificação de sucesso</p>
                         </div>
 
-                        <h3>5.2 Download em Lote</h3>
-                        <p>Para baixar o histórico completo, use o botão <strong>Baixar Todos</strong> no topo da tabela.</p>
+                        <h3>5.2 Download em Massa (ZIP)</h3>
+                        <p>Para baixar todo o histórico listado de uma vez, clique no botão <strong>Baixar Todos</strong> localizado no cabeçalho da tabela.</p>
                         <div class="img-container">
                             <div class="img-wrapper">
                                 <img src="imagens/03-04-tooltip-baixar-todos.png" class="img-screenshot" alt="Botão Baixar Todos">
                             </div>
                         </div>
-                        <p>O sistema gerará um arquivo ZIP contendo todos os períodos localizados.</p>
+                        <p>O sistema compilará todos os arquivos TXT em um único arquivo ZIP.</p>
                         <div class="img-container">
                             <div class="img-wrapper">
-                                <img src="imagens/03-06-toast-download-zip.png" class="img-screenshot" alt="Confirmação ZIP">
+                                <img src="imagens/03-06-toast-download-zip.png" class="img-screenshot" alt="Download ZIP Concluído">
                             </div>
                         </div>
                     </div>
@@ -439,202 +463,245 @@
                         <h2>Configuração de Colunas</h2>
                     </div>
                     <div class="secao-conteudo">
-                        <h3>6.1 Abertura do Modal</h3>
-                        <p>Clique no ícone de Planilha para iniciar a configuração de exportação personalizada.</p>
+                        <h3>6.1 Acessando o Modal</h3>
+                        <p>A ferramenta de exportação permite converter dados do SPED para Excel. Clique no ícone de <strong>Planilha</strong> na coluna de ações.</p>
                         <div class="img-container">
                             <div class="img-wrapper">
-                                <img src="imagens/04-01-tooltip-exportar-excel.png" class="img-screenshot" alt="Botão Exportar">
+                                <img src="imagens/04-01-tooltip-exportar-excel.png" class="img-screenshot" alt="Ícone Exportar">
                             </div>
                         </div>
                         <div class="img-container">
                             <div class="img-wrapper">
-                                <img src="imagens/04-02-modal-exportar-inicial.png" class="img-screenshot" alt="Modal de Exportação">
+                                <img src="imagens/04-02-modal-exportar-inicial.png" class="img-screenshot" alt="Modal Inicial">
                             </div>
-                            <p class="img-caption">Visão geral do modal de seleção de registros</p>
+                            <p class="img-caption">Modal de seleção de registros</p>
                         </div>
 
-                        <h3>6.2 Seleção de Dados</h3>
-                        <p>Você pode selecionar registros específicos expandindo os blocos. O sistema permite seleção granular (ex: apenas C100 e C170).</p>
+                        <h3>6.2 Selecionando Todos os Registros</h3>
+                        <p>Para uma exportação completa, clique na opção <strong>Selecionar Todos</strong>. Isso marcará todos os blocos disponíveis no arquivo.</p>
+                        <div class="img-container">
+                            <div class="img-wrapper">
+                                <img src="imagens/04-04-todos-registros-selecionados.png" class="img-screenshot" alt="Seleção Total">
+                            </div>
+                        </div>
+
+                        <h3>6.3 Expandindo Blocos</h3>
+                        <p>Clique sobre o nome de um Bloco (ex: Bloco 0) para ver os registros contidos nele.</p>
                         <div class="img-container">
                             <div class="img-wrapper">
                                 <img src="imagens/04-05-bloco0-expandido.png" class="img-screenshot" alt="Bloco Expandido">
                             </div>
                         </div>
+
+                        <h3>6.4 Seleção Granular</h3>
+                        <p>Você pode selecionar registros específicos clicando nos checkboxes individuais. O contador do bloco atualizará para mostrar quantos registros foram selecionados (ex: 7 de 9).</p>
                         <div class="img-container">
                             <div class="img-wrapper">
                                 <img src="imagens/04-06-bloco0-selecao-parcial.png" class="img-screenshot" alt="Seleção Parcial">
                             </div>
-                            <p class="img-caption">Indicador de seleção parcial de registros</p>
-                        </div>
-
-                        <h3>6.3 Seleção em Massa</h3>
-                        <p>Para exportar o arquivo completo, utilize a opção "Selecionar Todos".</p>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/04-04-todos-registros-selecionados.png" class="img-screenshot" alt="Seleção Total">
-                            </div>
-                            <p class="img-caption">Todos os registros marcados para exportação</p>
                         </div>
                     </div>
                 </section>
 
-                <!-- SEÇÃO 7: GERENCIAMENTO DE PERFIS -->
+                <!-- SEÇÃO 7: CRIANDO E SALVANDO PERFIS -->
                 <section class="secao" id="secao-7">
                     <div class="secao-header">
                         <span class="secao-numero">7</span>
-                        <h2>Gerenciamento de Perfis</h2>
+                        <h2>Criando e Salvando Perfis</h2>
                     </div>
                     <div class="secao-conteudo">
-                        <h3>7.1 Criação de Perfis</h3>
-                        <p>Após definir sua seleção de colunas, salve-a como um Perfil para reutilização. Clique no botão <strong>+</strong>.</p>
+                        <h3>7.1 Iniciando a Criação</h3>
+                        <p>Perfis economizam tempo salvando sua seleção de colunas. Após marcar os registros desejados, clique no botão <strong>+ (Adicionar)</strong>.</p>
                         <div class="img-container">
                             <div class="img-wrapper">
-                                <img src="imagens/05-01-modal-salvar-perfil.png" class="img-screenshot" alt="Salvar Perfil">
-                            </div>
-                        </div>
-                        
-                        <h3>7.2 Definição de Padrão</h3>
-                        <p>Você pode marcar um perfil como padrão para que ele seja carregado automaticamente nas próximas vezes.</p>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/05-04-checkbox-perfil-padrao.png" class="img-screenshot" alt="Opção Padrão">
-                            </div>
-                        </div>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/05-06-toast-perfil-criado.png" class="img-screenshot" alt="Confirmação de Criação">
+                                <img src="imagens/05-01-modal-salvar-perfil.png" class="img-screenshot" alt="Botão Adicionar Perfil">
                             </div>
                         </div>
 
-                        <h3>7.3 Uso e Exclusão</h3>
-                        <p>Alterne entre perfis usando o menu suspenso. Perfis favoritos são marcados com estrela. Use o ícone de lixeira para remover perfis antigos.</p>
+                        <h3>7.2 Definindo Nome e Padrão</h3>
+                        <p>Digite um nome descritivo para o perfil (ex: "Auditoria Créditos"). Se desejar que este perfil seja carregado sempre que você abrir a ferramenta, marque a opção <strong>Definir como perfil padrão</strong>.</p>
+                        <div class="img-container">
+                            <div class="img-wrapper">
+                                <img src="imagens/05-02-input-nome-perfil.png" class="img-screenshot" alt="Input Nome">
+                            </div>
+                        </div>
+                        <div class="img-container">
+                            <div class="img-wrapper">
+                                <img src="imagens/05-04-checkbox-perfil-padrao.png" class="img-screenshot" alt="Checkbox Padrão">
+                            </div>
+                        </div>
+
+                        <h3>7.3 Confirmando</h3>
+                        <p>Clique em <strong>Salvar Perfil</strong>. O sistema confirmará a criação e aplicará o perfil imediatamente.</p>
+                        <div class="img-container">
+                            <div class="img-wrapper">
+                                <img src="imagens/05-06-toast-perfil-criado.png" class="img-screenshot" alt="Sucesso na Criação">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SEÇÃO 8: GERENCIAMENTO DE PERFIS -->
+                <section class="secao" id="secao-8">
+                    <div class="secao-header">
+                        <span class="secao-numero">8</span>
+                        <h2>Gerenciamento de Perfis</h2>
+                    </div>
+                    <div class="secao-conteudo">
+                        <h3>8.1 Carregando um Perfil</h3>
+                        <p>Para alternar entre configurações salvas, clique no dropdown de perfis. Sua lista de perfis personalizados aparecerá abaixo das opções padrão.</p>
                         <div class="img-container">
                             <div class="img-wrapper">
                                 <img src="imagens/05-18-dropdown-multiplos-perfis.png" class="img-screenshot" alt="Lista de Perfis">
                             </div>
                         </div>
+
+                        <h3>8.2 Identificando o Padrão</h3>
+                        <p>O perfil definido como padrão é marcado com uma <strong>estrela amarela</strong>. Isso indica que ele é carregado automaticamente ao abrir o modal.</p>
                         <div class="img-container">
                             <div class="img-wrapper">
-                                <img src="imagens/05-20-modal-confirmar-exclusao.png" class="img-screenshot" alt="Excluir Perfil">
+                                <img src="imagens/05-10-estrela-favorito.png" class="img-screenshot" alt="Ícone de Favorito">
+                            </div>
+                        </div>
+
+                        <h3>8.3 Excluindo um Perfil</h3>
+                        <p>Para remover um perfil obsoleto, abra o dropdown e passe o mouse sobre o nome do perfil. Um ícone de <strong>Lixeira</strong> aparecerá à direita.</p>
+                        <div class="img-container">
+                            <div class="img-wrapper">
+                                <img src="imagens/05-19-icone-lixeira-hover.png" class="img-screenshot" alt="Ícone Lixeira">
+                            </div>
+                        </div>
+                        <p>Ao clicar na lixeira, uma confirmação será solicitada para evitar exclusões acidentais.</p>
+                        <div class="img-container">
+                            <div class="img-wrapper">
+                                <img src="imagens/05-20-modal-confirmar-exclusao.png" class="img-screenshot" alt="Confirmação de Exclusão">
                             </div>
                         </div>
                     </div>
                 </section>
 
-                <!-- SEÇÃO 8: GERAÇÃO E STATUS -->
-                <section class="secao" id="secao-8">
+                <!-- SEÇÃO 9: GERAÇÃO DO RELATÓRIO -->
+                <section class="secao" id="secao-9">
                     <div class="secao-header">
-                        <span class="secao-numero">8</span>
-                        <h2>Geração e Status</h2>
+                        <span class="secao-numero">9</span>
+                        <h2>Geração do Relatório</h2>
                     </div>
                     <div class="secao-conteudo">
-                        <h3>8.1 Processamento</h3>
-                        <p>Ao clicar em Gerar, o sistema processa o arquivo. Se o relatório já tiver sido gerado anteriormente, o download é instantâneo (cache).</p>
+                        <h3>9.1 Iniciando o Processo</h3>
+                        <p>Com os registros selecionados (ou perfil carregado), clique no botão <strong>Gerar Relatório</strong>. O contador indica quantos tipos de registros serão processados.</p>
                         <div class="img-container">
                             <div class="img-wrapper">
                                 <img src="imagens/06-01-modal-pronto-exportar.png" class="img-screenshot" alt="Botão Gerar">
                             </div>
                         </div>
+
+                        <h3>9.2 Status de Processamento</h3>
+                        <p>O sistema iniciará a geração do arquivo Excel no servidor. O botão mudará para o estado de "Processando...".</p>
                         <div class="img-container">
                             <div class="img-wrapper">
                                 <img src="imagens/06-02-exportacao-processando.png" class="img-screenshot" alt="Processando">
                             </div>
                         </div>
+
+                        <h3>9.3 Download Final</h3>
+                        <p>Assim que o processamento terminar, o download iniciará automaticamente e uma mensagem de sucesso será exibida.</p>
                         <div class="img-container">
                             <div class="img-wrapper">
-                                <img src="imagens/06-03-toast-exportacao-concluida.png" class="img-screenshot" alt="Concluído">
+                                <img src="imagens/06-03-toast-exportacao-concluida.png" class="img-screenshot" alt="Conclusão">
                             </div>
                         </div>
                     </div>
                 </section>
 
-                <!-- SEÇÃO 9: INTERFACE DE ANÁLISE -->
-                <section class="secao" id="secao-9">
-                    <div class="secao-header">
-                        <span class="secao-numero">9</span>
-                        <h2>Interface de Análise</h2>
-                    </div>
-                    <div class="secao-conteudo">
-                        <h3>9.1 Acesso à Análise</h3>
-                        <p>Clique no botão <strong>Analisar</strong> na lista de arquivos para abrir o visualizador web.</p>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/07-01-lista-pre-analise.png" class="img-screenshot" alt="Botão Analisar">
-                            </div>
-                        </div>
-
-                        <h3>9.2 Visão Geral</h3>
-                        <p>O modal exibe o cabeçalho com totais fiscais (PIS/COFINS) e a estrutura de navegação lateral.</p>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/07-03-modal-analise-inicial.png" class="img-screenshot" alt="Dashboard de Análise">
-                            </div>
-                            <p class="img-caption">Visualização inicial do arquivo</p>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- SEÇÃO 10: NAVEGAÇÃO E DETALHES -->
+                <!-- SEÇÃO 10: INTERFACE DE ANÁLISE -->
                 <section class="secao" id="secao-10">
                     <div class="secao-header">
                         <span class="secao-numero">10</span>
-                        <h2>Navegação e Detalhes</h2>
+                        <h2>Interface de Análise</h2>
                     </div>
                     <div class="secao-conteudo">
-                        <h3>10.1 Navegação em Árvore</h3>
-                        <p>Explore a estrutura do arquivo expandindo os blocos na lateral esquerda. Isso permite acesso rápido a qualquer registro.</p>
+                        <h3>10.1 Acesso à Análise</h3>
+                        <p>Para auditar o conteúdo sem baixar o arquivo, clique no botão <strong>Analisar</strong> (ícone de gráfico) na tabela de arquivos.</p>
                         <div class="img-container">
                             <div class="img-wrapper">
-                                <img src="imagens/07-04-sidebar-bloco0-expandido.png" class="img-screenshot" alt="Bloco 0 Expandido">
+                                <img src="imagens/07-01-lista-pre-analise.png" class="img-screenshot" alt="Ação Analisar">
                             </div>
                         </div>
+
+                        <h3>10.2 Visão Geral do Modal</h3>
+                        <p>A tela de análise abre em modo expandido. O cabeçalho exibe informações vitais como a Razão Social, Período e Tipo (Original/Retificadora).</p>
                         <div class="img-container">
                             <div class="img-wrapper">
-                                <img src="imagens/07-05-sidebar-blocoC-expandido.png" class="img-screenshot" alt="Bloco C Expandido">
+                                <img src="imagens/07-03-modal-analise-inicial.png" class="img-screenshot" alt="Visão Geral Análise">
                             </div>
                         </div>
+                    </div>
+                </section>
+
+                <!-- SEÇÃO 11: NAVEGAÇÃO HIERÁRQUICA -->
+                <section class="secao" id="secao-11">
+                    <div class="secao-header">
+                        <span class="secao-numero">11</span>
+                        <h2>Navegação Hierárquica</h2>
+                    </div>
+                    <div class="secao-conteudo">
+                        <h3>11.1 Árvore de Blocos</h3>
+                        <p>A barra lateral esquerda organiza os dados na estrutura do SPED. Clique em um bloco para expandi-lo.</p>
+                        <div class="img-container">
+                            <div class="img-wrapper">
+                                <img src="imagens/07-04-sidebar-bloco0-expandido.png" class="img-screenshot" alt="Bloco 0">
+                            </div>
+                        </div>
+
+                        <h3>11.2 Explorando Registros Fiscais</h3>
+                        <p>O Bloco C contém as Notas Fiscais. Ao expandi-lo, você verá registros como C100 (Nota) e C170 (Itens).</p>
+                        <div class="img-container">
+                            <div class="img-wrapper">
+                                <img src="imagens/07-05-sidebar-blocoC-expandido.png" class="img-screenshot" alt="Bloco C">
+                            </div>
+                        </div>
+                        <p>Você pode manter múltiplos blocos abertos simultaneamente para comparar estruturas.</p>
                         <div class="img-container">
                             <div class="img-wrapper">
                                 <img src="imagens/07-12-sidebar-todos-blocos.png" class="img-screenshot" alt="Árvore Completa">
                             </div>
-                            <p class="img-caption">Visão completa da estrutura do arquivo</p>
                         </div>
+                    </div>
+                </section>
 
-                        <h3>10.2 Tabela de Dados</h3>
-                        <p>Os dados do registro selecionado são carregados na tabela central. Você pode selecionar linhas para destacar informações importantes durante a auditoria.</p>
+                <!-- SEÇÃO 12: TABELA DINÂMICA -->
+                <section class="secao" id="secao-12">
+                    <div class="secao-header">
+                        <span class="secao-numero">12</span>
+                        <h2>Tabela Dinâmica</h2>
+                    </div>
+                    <div class="secao-conteudo">
+                        <h3>12.1 Visualização de Dados</h3>
+                        <p>Ao clicar em um registro (ex: C170), os dados são carregados na área principal.</p>
                         <div class="img-container">
                             <div class="img-wrapper">
-                                <img src="imagens/07-07-tabela-c170-dados.png" class="img-screenshot" alt="Dados Tabulares">
-                            </div>
-                        </div>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/07-11-tabela-linha-selecionada.png" class="img-screenshot" alt="Seleção de Linha">
+                                <img src="imagens/07-07-tabela-c170-dados.png" class="img-screenshot" alt="Dados C170">
                             </div>
                         </div>
 
-                        <h3>10.3 Visualização Estendida</h3>
-                        <p>Para registros com muitas colunas, utilize a barra de rolagem horizontal para visualizar campos adicionais.</p>
+                        <h3>12.2 Scroll Horizontal</h3>
+                        <p>Para registros extensos, utilize a barra de rolagem horizontal para ver colunas ocultas como valores de PIS/COFINS por item.</p>
                         <div class="img-container">
                             <div class="img-wrapper">
                                 <img src="imagens/07-08-tabela-scroll-horizontal.png" class="img-screenshot" alt="Scroll Horizontal">
                             </div>
                         </div>
-                    </div>
-                </section>
 
-                <!-- SEÇÃO 11: DICAS -->
-                <section class="secao" id="secao-11">
-                    <div class="secao-header">
-                        <span class="secao-numero">11</span>
-                        <h2>Dicas de Produtividade</h2>
-                    </div>
-                    <div class="secao-conteudo">
-                        <ul class="lista-dicas">
-                            <li><strong>Atalhos de Perfil:</strong> Crie perfis para tarefas rotineiras (ex: "Conferência C100") para agilizar a exportação.</li>
-                            <li><strong>Verificação Prévia:</strong> Use a coluna "Crédito PIS/COFINS" na lista de busca para detectar anomalias antes de abrir o arquivo.</li>
-                            <li><strong>Gestão de Versões:</strong> Sempre verifique o selo "Original" ou "Retificadora" para garantir que está auditando a versão válida.</li>
-                        </ul>
+                        <h3>12.3 Seleção e Foco</h3>
+                        <p>Clique em qualquer linha para destacá-la. Isso ajuda a manter o foco durante a conferência de valores.</p>
+                        <div class="img-container">
+                            <div class="img-wrapper">
+                                <img src="imagens/07-11-tabela-linha-selecionada.png" class="img-screenshot" alt="Linha Selecionada">
+                            </div>
+                        </div>
+
+                        <h3>12.4 Paginação</h3>
+                        <p>O rodapé da tabela permite navegar entre páginas de registros, essencial para arquivos com milhares de itens.</p>
                     </div>
                 </section>
 
