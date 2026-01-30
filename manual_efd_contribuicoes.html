@@ -509,20 +509,31 @@
         .marker {
             position: absolute;
             width: 40px;
-            height: 40px;
-            border: 3px solid #EF4444;
-            border-radius: 50%;
-            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.4);
+            height: 48px;
+            /* border: 3px solid #EF4444; */
+            /* border-radius: 50%; */
+            /* box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.4); */
+            background: transparent;
             cursor: move;
             z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
+
+        .marker .material-icons-round {
+            font-size: 48px;
+            color: var(--teal-700);
+            /* Verde Petróleo */
         }
 
         .marker-delete-btn {
             position: absolute;
-            top: -8px;
-            right: -8px;
-            width: 18px;
-            height: 18px;
+            top: -5px;
+            right: -5px;
+            width: 20px;
+            height: 20px;
             background: #EF4444;
             color: white;
             border-radius: 50%;
@@ -566,8 +577,8 @@
         <button class="admin-btn" onclick="downloadHtml()" data-tooltip="Baixar HTML Editado">
             <span class="material-icons-round">save_alt</span>
         </button>
-        <button class="admin-btn" onclick="printManual()" data-tooltip="Imprimir / PDF">
-            <span class="material-icons-round">print</span>
+        <button class="admin-btn" onclick="shareManual()" data-tooltip="Compartilhar">
+            <span class="material-icons-round">share</span>
         </button>
     </div>
 
@@ -1378,19 +1389,33 @@
             document.body.removeChild(a);
         }
 
-        // 4. LÓGICA DE EXPORTAÇÃO SOMENTE LEITURA
-        function printManual() {
+        // 4. LÓGICA DE EXPORTAÇÃO COMPARTILHAR (READ-ONLY)
+        function shareManual() {
             // Clona o documento
             const clone = document.documentElement.cloneNode(true);
 
-            // Limpeza completa de ferramentas
+            // 1. Remove barra de admin principal
             const toolbar = clone.querySelector('#admin-toolbar');
             if (toolbar) toolbar.remove();
-            clone.querySelectorAll('.floating-toolbar').forEach(t => t.remove());
+
+            // 2. Remove botão de deletar seção
             clone.querySelectorAll('.section-delete-btn').forEach(b => b.remove());
+
+            // 3. Remove botões de deletar marcador
             clone.querySelectorAll('.marker-delete-btn').forEach(b => b.remove());
 
-            // Remove capacidade de edição (Read-Only)
+            // 4. Na barra de zoom (floating-toolbar), remover apenas o botão de adicionar marcador (último botão ou específico)
+            clone.querySelectorAll('.floating-toolbar').forEach(ft => {
+                // O botão de marcador é o que chama addMarker. Vamos encontrar e remover.
+                const btnMarker = ft.querySelector('button[onclick*="addMarker"]');
+                if (btnMarker) btnMarker.remove();
+
+                // Remove separador visual se necessário
+                const divider = ft.querySelector('div[style*="width:1px"]');
+                if (divider) divider.remove();
+            });
+
+            // 5. Remove capacidade de edição (Read-Only)
             clone.querySelectorAll('[contenteditable="true"]').forEach(el => {
                 el.removeAttribute('contenteditable');
                 el.classList.remove('editable-text', 'editable-area');
@@ -1399,6 +1424,7 @@
             const body = clone.querySelector('body');
             body.classList.remove('editing-mode');
 
+            // 6. Gera o HTML
             const htmlContent = clone.outerHTML;
             const blob = new Blob([htmlContent], { type: 'text/html' });
             const url = URL.createObjectURL(blob);
@@ -1492,7 +1518,7 @@
             el.dataset.x = x; el.dataset.y = y;
         }
 
-        // 3. Lógica de Pan (Arrastar imagem com zoom)
+        // 3. Lógica de Pan (Arrastar imagem com zoom) com Limites
         function initDragEvent(viewport) {
             let isPanning = false, startX, startY, initialX, initialY;
 
@@ -1511,20 +1537,58 @@
             window.addEventListener('mousemove', (e) => {
                 if (!isPanning) return;
                 const scale = parseFloat(viewport.dataset.scale || 1);
+
+                // Calcula variação
                 const dx = e.clientX - startX;
                 const dy = e.clientY - startY;
 
-                // Lógica simples de pan (pode adicionar limites de borda se quiser aprimorar)
-                updateTransform(viewport, initialX + dx, initialY + dy, scale);
+                let proposedX = initialX + dx;
+                let proposedY = initialY + dy;
+
+                // --- APLICANDO LIMITES (CONSTRAINTS) ---
+                // O viewport tem width/height 100%. A imagem interna escala.
+                // A wrapper define a janela visível.
+                // O tamanho "real" da imagem escalada é wrapper.width * scale.
+                // O range de movimento válido é de (wrapper.width - scale * wrapper.width) até 0.
+                // Exemplo: W=1000, Scale=2. RealW=2000. Range: -1000 a 0.
+
+                const wrapper = viewport.parentElement;
+                const rect = wrapper.getBoundingClientRect();
+
+                const w = rect.width;
+                const h = rect.height;
+
+                const minX = w * (1 - scale);
+                const maxX = 0;
+
+                const minY = h * (1 - scale);
+                const maxY = 0;
+
+                // Garante que a imagem não saia da borda do card
+                if (proposedX > maxX) proposedX = maxX;
+                if (proposedX < minX) proposedX = minX;
+
+                if (proposedY > maxY) proposedY = maxY;
+                if (proposedY < minY) proposedY = minY;
+
+                updateTransform(viewport, proposedX, proposedY, scale);
             });
 
             window.addEventListener('mouseup', () => {
                 isPanning = false;
                 viewport.classList.remove('grabbing');
             });
+
+            // Adiciona listener para mouse leave para evitar prender o drag
+            viewport.addEventListener('mouseleave', () => {
+                if (isPanning) {
+                    isPanning = false;
+                    viewport.classList.remove('grabbing');
+                }
+            });
         }
 
-        // 4. Lógica de Marcadores
+
         function addMarker(btn) {
             const wrapper = btn.closest('.img-wrapper');
             const viewport = wrapper.querySelector('.img-viewport');
@@ -1533,6 +1597,14 @@
             marker.className = 'marker';
             marker.style.top = '50%'; marker.style.left = '50%';
             marker.style.transform = 'translate(-50%, -50%)'; // Centraliza criação
+
+            // Adiciona Ícone de Seta
+            const icon = document.createElement('span');
+            icon.className = 'material-icons-round';
+            icon.innerText = 'arrow_upward';
+            // Opcional: Rotacionar levemente para parecer seta de aponte?
+            // icon.style.transform = 'rotate(-45deg)'; 
+            marker.appendChild(icon);
 
             // Botão Fechar
             const close = document.createElement('div');
