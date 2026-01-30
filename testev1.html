@@ -3,105 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manual do Usuário — Consulta EFD Contribuições v1.0</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8 28L20 16L32 28' stroke='%2384CC16' stroke-width='4' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3Cpath d='M8 20L20 8L32 20' stroke='%2314B8A6' stroke-width='4' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
+    <title>Template Editável de Manual</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    
     <style>
+        /* --- CSS ORIGINAL (Visual e Layout) --- */
         :root {
-            --teal-500: #14B8A6;
-            --teal-600: #0D9488;
-            --teal-700: #0F766E;
-            --lime-400: #A3E635;
-            --lime-500: #84CC16;
-            --lime-600: #65A30D;
-            --gray-50: #F9FAFB;
-            --gray-100: #F3F4F6;
-            --gray-200: #E5E7EB;
-            --gray-400: #9CA3AF;
-            --gray-500: #6B7280;
-            --gray-600: #4B5563;
-            --gray-700: #374151;
-            --gray-800: #1F2937;
-            --gray-900: #111827;
-            --red-500: #EF4444;
-            --amber-500: #F59E0B;
-            --amber-100: #FEF3C7;
+            --teal-500: #14B8A6; --teal-600: #0D9488; --teal-700: #0F766E;
+            --lime-400: #A3E635; --lime-500: #84CC16;
+            --gray-50: #F9FAFB; --gray-100: #F3F4F6; --gray-200: #E5E7EB;
+            --gray-400: #9CA3AF; --gray-500: #6B7280; --gray-600: #4B5563;
+            --gray-700: #374151; --gray-800: #1F2937; --gray-900: #111827;
+            --amber-100: #FEF3C7; --amber-500: #F59E0B;
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Work Sans', sans-serif;
-            font-size: 16px;
-            line-height: 1.7;
-            color: var(--gray-700);
-            background-color: var(--gray-100);
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            overflow: hidden;
-        }
-
+        body { font-family: 'Work Sans', sans-serif; font-size: 16px; line-height: 1.7; color: var(--gray-700); background-color: var(--gray-100); display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+        
         /* HEADER */
-        .header {
-            background-color: var(--gray-900);
-            padding: 0 1.5rem;
-            height: 72px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-shrink: 0;
-            z-index: 100;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-        }
+        .header { background-color: var(--gray-900); padding: 0 1.5rem; height: 72px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
         .header-left { display: flex; align-items: center; gap: 1rem; }
         .logo { height: 48px; width: auto; }
         .header-divider { width: 1px; height: 28px; background-color: var(--gray-600); margin: 0 0.5rem; }
         .header-title { color: var(--gray-200); font-size: 1rem; font-weight: 400; }
         .header-right { display: flex; align-items: center; gap: 1rem; }
-        .badge-versao {
-            background-color: rgba(20, 184, 166, 0.15); color: var(--teal-500);
-            border: 1px solid rgba(20, 184, 166, 0.3); padding: 0.25rem 0.75rem;
-            border-radius: 20px; font-size: 0.75rem; font-weight: 600;
-        }
-
-        /* LAYOUT */
+        .badge-versao { background-color: rgba(20, 184, 166, 0.15); color: var(--teal-500); border: 1px solid rgba(20, 184, 166, 0.3); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
+        
+        /* LAYOUT & SIDEBAR */
         .layout { display: flex; flex: 1; overflow: hidden; }
-
-        /* SIDEBAR */
-        .sidebar {
-            width: 280px; background-color: #fff; border-right: 1px solid var(--gray-200);
-            display: flex; flex-direction: column; overflow-y: auto; flex-shrink: 0;
-            transition: margin-left 0.3s ease; z-index: 90;
-        }
+        .sidebar { width: 280px; background-color: #fff; border-right: 1px solid var(--gray-200); display: flex; flex-direction: column; overflow-y: auto; flex-shrink: 0; transition: margin-left 0.3s ease; z-index: 90; }
         .sidebar.collapsed { margin-left: -280px; }
         .sidebar-header { padding: 1.5rem; border-bottom: 1px solid var(--gray-100); }
         .sidebar-header h2 { font-size: 0.6875rem; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.1em; }
         .sidebar-nav { padding: 1rem; flex: 1; }
-
-        /* NAV ACCORDION */
+        
         .nav-group { border: 1px solid var(--gray-200); border-radius: 8px; margin-bottom: 1rem; overflow: hidden; }
-        .nav-group-header {
-            background-color: var(--gray-50); padding: 0.75rem 1rem; cursor: pointer;
-            display: flex; align-items: center; justify-content: space-between;
-            font-weight: 600; font-size: 0.875rem; color: var(--gray-800);
-            transition: background 0.2s;
-        }
+        .nav-group-header { background-color: var(--gray-50); padding: 0.75rem 1rem; cursor: pointer; display: flex; align-items: center; justify-content: space-between; font-weight: 600; font-size: 0.875rem; color: var(--gray-800); transition: background 0.2s; }
         .nav-group-header:hover { background-color: var(--gray-100); }
-        .nav-group-header .material-icons-round { color: var(--gray-500); transition: transform 0.3s; }
+        .nav-group.collapsed .nav-group-content { display: none; }
         .nav-group.collapsed .nav-group-header .material-icons-round { transform: rotate(-90deg); }
         .nav-group-content { display: block; border-top: 1px solid var(--gray-200); }
-        .nav-group.collapsed .nav-group-content { display: none; }
-
-        .sidebar-nav a {
-            display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.75rem 1rem;
-            text-decoration: none; font-size: 0.8125rem; font-weight: 500;
-            color: var(--gray-600); border-left: 3px solid transparent;
-            white-space: normal; line-height: 1.4; transition: all 0.2s;
-        }
+        .sidebar-nav a { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.75rem 1rem; text-decoration: none; font-size: 0.8125rem; font-weight: 500; color: var(--gray-600); border-left: 3px solid transparent; white-space: normal; line-height: 1.4; transition: all 0.2s; }
         .sidebar-nav a:hover { background-color: var(--gray-50); color: var(--teal-600); }
         .sidebar-nav a.active { background-color: rgba(20, 184, 166, 0.1); border-left-color: var(--teal-500); color: var(--teal-700); }
 
@@ -109,102 +53,90 @@
         .main-content { flex: 1; overflow-y: auto; padding: 2rem 3rem; background-color: var(--gray-50); scroll-behavior: smooth; }
         .content-wrapper { max-width: 900px; margin: 0 auto; padding-bottom: 100px; }
 
-        /* SEÇÕES */
-        .secao {
-            background-color: #fff; border-radius: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            margin-bottom: 2rem; overflow: hidden; position: relative; scroll-margin-top: 90px;
-        }
+        /* COMPONENTES */
+        .secao { background-color: #fff; border-radius: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); margin-bottom: 2rem; overflow: hidden; position: relative; scroll-margin-top: 90px; }
         .secao-header { display: flex; align-items: center; gap: 1rem; padding: 1.5rem 2rem; border-bottom: 1px solid var(--gray-100); }
-        .secao-numero {
-            width: 40px; height: 40px; border-radius: 50%; background-color: rgba(20, 184, 166, 0.1);
-            color: var(--teal-600); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.125rem; flex-shrink: 0;
-        }
-        .secao-header h2 { font-size: 1.5rem; font-weight: 700; color: var(--gray-800); flex: 1; }
-
-        .secao-conteudo { padding: 2rem; }
+        .secao-numero { width: 40px; height: 40px; border-radius: 50%; background-color: rgba(20, 184, 166, 0.1); color: var(--teal-600); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.125rem; flex-shrink: 0; }
+        .secao-header h2 { font-size: 1.5rem; font-weight: 700; color: var(--gray-800); flex: 1; outline: none; }
+        .secao-conteudo { padding: 2rem; outline: none; }
         .secao-conteudo h3 { font-size: 1.125rem; font-weight: 600; color: var(--gray-800); margin: 2rem 0 0.75rem 0; }
-        .secao-conteudo h3:first-child { margin-top: 0; }
         .secao-conteudo p { margin-bottom: 1rem; color: var(--gray-600); }
-        .secao-conteudo strong { color: var(--teal-600); font-weight: 600; }
-
-        /* IMAGENS */
+        
         .img-container { margin: 1.5rem 0; text-align: center; }
-        .img-wrapper {
-            position: relative; width: 100%; border: 1px solid var(--gray-200);
-            border-radius: 12px; overflow: hidden; background-color: var(--gray-100);
-        }
+        .img-wrapper { position: relative; width: 100%; border: 1px solid var(--gray-200); border-radius: 12px; overflow: hidden; background-color: #f3f4f6; display: flex; align-items: center; justify-content: center; min-height: 200px; }
         .img-screenshot { display: block; width: 100%; height: auto; }
-        .img-caption {
-            margin-top: 0.75rem; font-size: 0.8125rem; font-weight: 400; color: var(--gray-500); 
-            font-style: italic;
-        }
+        
+        .dica, .aviso { display: flex; gap: 1rem; padding: 1rem 1.25rem; border-radius: 8px; margin: 1.5rem 0; }
+        .dica { background-color: rgba(20, 184, 166, 0.08); border-left: 4px solid var(--teal-500); }
+        .dica .material-icons-round { color: var(--teal-500); }
+        .aviso { background-color: var(--amber-100); border-left: 4px solid var(--amber-500); }
+        .aviso .material-icons-round { color: var(--amber-500); }
 
-        /* DICA / AVISO */
-        .dica, .aviso {
-            display: flex; gap: 1rem; padding: 1rem 1.25rem; border-radius: 8px; margin: 1.5rem 0;
-        }
-        .dica {
-            background-color: rgba(20, 184, 166, 0.08); border-left: 4px solid var(--teal-500);
-        }
-        .dica .material-icons-round { color: var(--teal-500); flex-shrink: 0; }
-        .dica p { color: var(--teal-700); margin: 0; font-size: 0.9375rem; }
-        .aviso {
-            background-color: var(--amber-100); border-left: 4px solid var(--amber-500);
-        }
-        .aviso .material-icons-round { color: var(--amber-500); flex-shrink: 0; }
-        .aviso p { color: var(--gray-700); margin: 0; font-size: 0.9375rem; }
+        .tabela-info { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.9375rem; }
+        .tabela-info th, .tabela-info td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--gray-200); }
+        .tabela-info th { background-color: var(--gray-50); font-weight: 600; color: var(--gray-700); }
+        
+        .btn-toggle-sidebar { background: none; border: none; color: var(--gray-400); padding: 0.5rem; cursor: pointer; }
 
-        /* LISTA */
-        .lista-dicas {
-            list-style: none; padding: 0;
+        /* --- NOVO CSS: BARRA DE FERRAMENTAS DO EDITOR --- */
+        #admin-toolbar {
+            position: fixed; bottom: 20px; right: 20px; 
+            background: var(--gray-900); padding: 10px; border-radius: 50px;
+            display: flex; gap: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); z-index: 1000;
         }
-        .lista-dicas li {
-            position: relative; padding: 0.75rem 0 0.75rem 2rem; border-bottom: 1px solid var(--gray-100);
+        .admin-btn {
+            background: rgba(255,255,255,0.1); border: none; width: 44px; height: 44px;
+            border-radius: 50%; color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s; position: relative;
         }
-        .lista-dicas li:last-child { border-bottom: none; }
-        .lista-dicas li::before {
-            content: "✓"; position: absolute; left: 0; color: var(--teal-500); font-weight: 700;
+        .admin-btn:hover { background: var(--teal-500); transform: translateY(-2px); }
+        .admin-btn.active { background: var(--teal-500); box-shadow: 0 0 10px var(--teal-500); }
+        
+        /* Tooltip simples */
+        .admin-btn::after {
+            content: attr(data-tooltip); position: absolute; bottom: 55px; left: 50%; transform: translateX(-50%);
+            background: #000; color: #fff; padding: 5px 10px; border-radius: 4px; font-size: 12px;
+            white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.2s;
         }
+        .admin-btn:hover::after { opacity: 1; }
 
-        /* TABELA */
-        .tabela-info {
-            width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.9375rem;
+        /* Estilo visual quando em modo edição */
+        body.editing-mode [contenteditable="true"] {
+            outline: 2px dashed rgba(20, 184, 166, 0.3);
+            cursor: text;
         }
-        .tabela-info th, .tabela-info td {
-            padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--gray-200);
+        body.editing-mode [contenteditable="true"]:focus {
+            outline: 2px solid var(--teal-500); background-color: rgba(255,255,255,0.8);
         }
-        .tabela-info th {
-            background-color: var(--gray-50); font-weight: 600; color: var(--gray-700);
-        }
-        .tabela-info td { color: var(--gray-600); }
-        .tabela-info code {
-            background-color: var(--gray-100); padding: 0.125rem 0.5rem; border-radius: 4px;
-            font-family: monospace; font-size: 0.8125rem; color: var(--teal-700);
-        }
-
-        /* TOGGLE SIDEBAR */
-        .btn-toggle-sidebar {
-            background: none; border: none; color: var(--gray-400); padding: 0.5rem;
-            cursor: pointer; border-radius: 4px; display: flex; align-items: center; justify-content: center;
-        }
-        .btn-toggle-sidebar:hover { background: rgba(255,255,255,0.1); color: #fff; }
     </style>
 </head>
 <body>
-    <!-- HEADER -->
+
+    <div id="admin-toolbar">
+        <button class="admin-btn" onclick="toggleEditMode()" data-tooltip="Ativar/Desativar Edição">
+            <span class="material-icons-round" id="icon-edit">edit</span>
+        </button>
+        <button class="admin-btn" onclick="downloadHtml()" data-tooltip="Baixar HTML Editado">
+            <span class="material-icons-round">save_alt</span>
+        </button>
+        <button class="admin-btn" onclick="printManual()" data-tooltip="Imprimir / PDF">
+            <span class="material-icons-round">print</span>
+        </button>
+    </div>
+
     <header class="header">
         <div class="header-left">
             <svg class="logo" viewBox="0 0 180 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M8 38L20 26L32 38" stroke="#84CC16" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M8 28L20 16L32 28" stroke="#14B8A6" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-                <text x="44" y="34" fill="#E5E7EB" font-family="Work Sans" font-weight="700" font-size="22">PSA</text>
-                <text x="90" y="34" fill="#9CA3AF" font-family="Work Sans" font-weight="400" font-size="22">Consultores</text>
+                <text x="44" y="34" fill="#E5E7EB" font-family="Work Sans" font-weight="700" font-size="22" class="editable-text">EMPRESA</text>
+                <text x="150" y="34" fill="#9CA3AF" font-family="Work Sans" font-weight="400" font-size="22" class="editable-text">Manual</text>
             </svg>
             <div class="header-divider"></div>
-            <span class="header-title">Manual do Usuário</span>
+            <span class="header-title editable-text">Nome do Sistema v1.0</span>
         </div>
         <div class="header-right">
-            <span class="badge-versao">EFD Contribuições v1.0</span>
+            <span class="badge-versao editable-text">Versão 1.0</span>
             <button class="btn-toggle-sidebar" onclick="toggleSidebar()">
                 <span class="material-icons-round">menu</span>
             </button>
@@ -212,496 +144,107 @@
     </header>
 
     <div class="layout">
-        <!-- SIDEBAR -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <h2>Sumário</h2>
+                <h2 class="editable-text">Sumário</h2>
             </div>
             <nav class="sidebar-nav">
                 <div class="nav-group">
                     <div class="nav-group-header" onclick="toggleNavGroup(this)">
-                        Introdução
+                        <span class="editable-text">Introdução</span>
                         <span class="material-icons-round">expand_more</span>
                     </div>
                     <div class="nav-group-content">
-                        <a href="#secao-1">1. Visão Geral</a>
-                        <a href="#secao-2">2. Acesso ao Sistema</a>
+                        <a href="#secao-1" class="editable-text">1. Visão Geral</a>
+                        <a href="#secao-2" class="editable-text">2. Funcionalidades</a>
                     </div>
                 </div>
                 <div class="nav-group">
                     <div class="nav-group-header" onclick="toggleNavGroup(this)">
-                        Consulta e Filtros
+                        <span class="editable-text">Configurações</span>
                         <span class="material-icons-round">expand_more</span>
                     </div>
                     <div class="nav-group-content">
-                        <a href="#secao-3">3. Configuração de Filtros</a>
-                        <a href="#secao-4">4. Resultado e Listagem</a>
-                    </div>
-                </div>
-                <div class="nav-group">
-                    <div class="nav-group-header" onclick="toggleNavGroup(this)">
-                        Downloads e Ações
-                        <span class="material-icons-round">expand_more</span>
-                    </div>
-                    <div class="nav-group-content">
-                        <a href="#secao-5">5. Baixando Arquivos</a>
-                    </div>
-                </div>
-                <div class="nav-group">
-                    <div class="nav-group-header" onclick="toggleNavGroup(this)">
-                        Exportação Personalizada
-                        <span class="material-icons-round">expand_more</span>
-                    </div>
-                    <div class="nav-group-content">
-                        <a href="#secao-6">6. Configuração de Colunas</a>
-                        <a href="#secao-7">7. Criando e Salvando Perfis</a>
-                        <a href="#secao-8">8. Gerenciamento de Perfis</a>
-                        <a href="#secao-9">9. Geração do Relatório</a>
-                    </div>
-                </div>
-                <div class="nav-group">
-                    <div class="nav-group-header" onclick="toggleNavGroup(this)">
-                        Análise de Dados
-                        <span class="material-icons-round">expand_more</span>
-                    </div>
-                    <div class="nav-group-content">
-                        <a href="#secao-10">10. Interface de Análise</a>
-                        <a href="#secao-11">11. Navegação Hierárquica</a>
-                        <a href="#secao-12">12. Tabela Dinâmica</a>
+                        <a href="#secao-3" class="editable-text">3. Tabelas</a>
+                        <a href="#secao-4" class="editable-text">4. Dicas</a>
                     </div>
                 </div>
             </nav>
         </aside>
 
-        <!-- MAIN CONTENT -->
         <main class="main-content">
             <div class="content-wrapper">
 
-                <!-- SEÇÃO 1: VISÃO GERAL -->
                 <section class="secao" id="secao-1">
                     <div class="secao-header">
-                        <span class="secao-numero">1</span>
-                        <h2>Visão Geral</h2>
+                        <span class="secao-numero editable-text">1</span>
+                        <h2 class="editable-text">Visão Geral</h2>
                     </div>
-                    <div class="secao-conteudo">
-                        <h3>1.1 O que é a Consulta EFD Contribuições?</h3>
-                        <p>A ferramenta de <strong>Consulta EFD Contribuições</strong> é um ambiente desenvolvido para simplificar a auditoria, extração e conferência de arquivos SPED (PIS/COFINS). Ela conecta diretamente à base de dados de arquivos transmitidos, oferecendo uma camada de inteligência que elimina a necessidade de softwares pesados como o PVA para tarefas cotidianas.</p>
-                        
-                        <h3>1.2 Funcionalidades Principais</h3>
-                        <ul class="lista-dicas">
-                            <li><strong>Repositório Centralizado:</strong> Histórico completo de arquivos transmitidos.</li>
-                            <li><strong>Exportação Inteligente:</strong> Crie planilhas Excel apenas com os registros que você precisa (ex: C100, M200).</li>
-                            <li><strong>Perfis de Exportação:</strong> Salve configurações de colunas para usar repetidamente.</li>
-                            <li><strong>Análise Web:</strong> Visualize dados brutos formatados sem precisar baixar o TXT.</li>
-                        </ul>
+                    <div class="secao-conteudo editable-area">
+                        <h3>1.1 Subtítulo Editável</h3>
+                        <p>Clique no botão de lápis (canto inferior direito) para começar a editar este texto. Você pode escrever o que quiser aqui.</p>
+                        <p>Lorem ipsum dolor sit amet.</p>
                     </div>
                 </section>
 
-                <!-- SEÇÃO 2: ACESSO AO SISTEMA -->
                 <section class="secao" id="secao-2">
                     <div class="secao-header">
-                        <span class="secao-numero">2</span>
-                        <h2>Acesso ao Sistema</h2>
+                        <span class="secao-numero editable-text">2</span>
+                        <h2 class="editable-text">Telas do Sistema</h2>
                     </div>
-                    <div class="secao-conteudo">
-                        <h3>2.1 Login na Área da Equipe</h3>
-                        <p>Para iniciar, acesse o portal da PSA Consultores. Na página inicial, localize e clique no botão <strong>Área da Equipe</strong> no cabeçalho.</p>
+                    <div class="secao-conteudo editable-area">
+                        <h3>2.1 Exemplo de Imagem</h3>
+                        <p>Para mudar a imagem abaixo, no modo edição, você precisará alterar o 'src' no código ou colar uma URL.</p>
                         <div class="img-container">
                             <div class="img-wrapper">
-                                <img src="imagens/01-01-homepage-psa.png" class="img-screenshot" alt="Homepage PSA">
+                                <img src="https://placehold.co/800x400/e5e7eb/6b7280?text=Screenshot+Exemplo" class="img-screenshot" alt="Print">
                             </div>
-                            <p class="img-caption">Tela inicial do portal PSA Consultores</p>
-                        </div>
-
-                        <h3>2.2 Seleção de Ambiente</h3>
-                        <p>No menu suspenso de seleção de áreas, escolha a opção <strong>Digital</strong>.</p>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/01-04-area-equipe-dropdown.png" class="img-screenshot" alt="Dropdown de Áreas">
-                            </div>
-                        </div>
-
-                        <h3>2.3 Autenticação</h3>
-                        <p>Insira seu e-mail corporativo e senha para acessar o ambiente seguro.</p>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/01-05-tela-login.png" class="img-screenshot" alt="Tela de Login">
-                            </div>
-                        </div>
-
-                        <h3>2.4 Navegação no Dashboard</h3>
-                        <p>Após o login, você verá o Dashboard da equipe Digital. No menu lateral esquerdo, sob a seção "Digital Dev", clique em <strong>EFD Contribuições</strong>.</p>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/01-08-dashboard-dev.png" class="img-screenshot" alt="Menu Lateral">
-                            </div>
-                            <p class="img-caption">Menu de ferramentas do desenvolvedor/auditor</p>
+                            <p class="img-caption">Legenda da imagem</p>
                         </div>
                     </div>
                 </section>
 
-                <!-- SEÇÃO 3: CONFIGURAÇÃO DE FILTROS -->
                 <section class="secao" id="secao-3">
                     <div class="secao-header">
-                        <span class="secao-numero">3</span>
-                        <h2>Configuração de Filtros</h2>
+                        <span class="secao-numero editable-text">3</span>
+                        <h2 class="editable-text">Dados Estruturados</h2>
                     </div>
-                    <div class="secao-conteudo">
-                        <h3>3.1 Visão Geral dos Filtros</h3>
-                        <p>A tela inicial apresenta quatro critérios principais de busca. Todos devem ser preenchidos para garantir uma busca precisa.</p>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/02-01-filtros-vazio.png" class="img-screenshot" alt="Filtros Vazios">
-                            </div>
-                        </div>
-
-                        <h3>3.2 Selecionando o Cliente</h3>
-                        <p>Clique no dropdown <strong>Cliente</strong>. A lista exibirá todos os clientes ativos vinculados à sua conta.</p>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/02-02-dropdown-cliente.png" class="img-screenshot" alt="Lista de Clientes">
-                            </div>
-                        </div>
-
-                        <h3>3.3 Selecionando o Contribuinte</h3>
-                        <p>Após selecionar o cliente, o campo <strong>Contribuinte</strong> será desbloqueado. O sistema exibe a Razão Social seguida do CNPJ.</p>
-                        <div class="dica">
-                            <span class="material-icons-round">auto_awesome</span>
-                            <p>Se o cliente possuir apenas um contribuinte cadastrado, o sistema o selecionará automaticamente para você.</p>
-                        </div>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/02-03-dropdown-contribuinte.png" class="img-screenshot" alt="Lista de Contribuintes">
-                            </div>
-                        </div>
-
-                        <h3>3.4 Definindo o Período</h3>
-                        <p>Utilize os seletores de Data Início e Data Fim. O calendário permite navegar entre anos e meses facilmente.</p>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/02-05-calendario-2026.png" class="img-screenshot" alt="Calendário">
-                            </div>
-                            <p class="img-caption">Seleção de período (Mês/Ano)</p>
-                        </div>
-
-                        <h3>3.5 Executando a Busca</h3>
-                        <p>Com todos os campos preenchidos, o botão <strong>Buscar Arquivos</strong> ficará habilitado. Clique nele para consultar a base de dados.</p>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/02-06-filtros-preenchidos.png" class="img-screenshot" alt="Filtros Prontos">
-                            </div>
-                        </div>
+                    <div class="secao-conteudo editable-area">
+                        <p>Edite os valores da tabela abaixo diretamente:</p>
+                        <table class="tabela-info">
+                            <tr>
+                                <th>Parâmetro</th>
+                                <th>Descrição</th>
+                                <th>Ações (Exemplo Visual)</th>
+                            </tr>
+                            <tr>
+                                <td>Campo Nome</td>
+                                <td>Descrição do campo nome</td>
+                                <td><span class="material-icons-round" style="font-size:18px; color:#14B8A6">edit</span></td>
+                            </tr>
+                            <tr>
+                                <td>Campo Email</td>
+                                <td>Validação de email obrigatória</td>
+                                <td><span class="material-icons-round" style="font-size:18px; color:#EF4444">delete</span></td>
+                            </tr>
+                        </table>
                     </div>
                 </section>
 
-                <!-- SEÇÃO 4: RESULTADO E LISTAGEM -->
                 <section class="secao" id="secao-4">
                     <div class="secao-header">
-                        <span class="secao-numero">4</span>
-                        <h2>Resultado e Listagem</h2>
+                        <span class="secao-numero editable-text">4</span>
+                        <h2 class="editable-text">Alertas</h2>
                     </div>
-                    <div class="secao-conteudo">
-                        <h3>4.1 Tabela de Arquivos</h3>
-                        <p>O sistema lista todos os arquivos que coincidem com o período selecionado. A tabela fornece uma visão rápida da "saúde" fiscal do período.</p>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/03-01-lista-arquivos.png" class="img-screenshot" alt="Tabela de Resultados">
-                            </div>
+                    <div class="secao-conteudo editable-area">
+                        <div class="dica">
+                            <span class="material-icons-round">lightbulb</span>
+                            <p><strong>Dica:</strong> Edite este texto para dar uma dica útil.</p>
                         </div>
-
-                        <h3>4.2 Detalhes das Colunas</h3>
-                        <ul class="lista-dicas">
-                            <li><strong>Arquivo:</strong> Nome do arquivo e ID interno.</li>
-                            <li><strong>Período:</strong> Data de início e fim da competência do arquivo.</li>
-                            <li><strong>Tipo:</strong> Indica se é Original (Azul) ou Retificadora (Amarelo).</li>
-                            <li><strong>Crédito PIS/COFINS:</strong> Valores totais extraídos do Bloco M para conferência rápida.</li>
-                        </ul>
-                    </div>
-                </section>
-
-                <!-- SEÇÃO 5: BAIXANDO ARQUIVOS -->
-                <section class="secao" id="secao-5">
-                    <div class="secao-header">
-                        <span class="secao-numero">5</span>
-                        <h2>Baixando Arquivos</h2>
-                    </div>
-                    <div class="secao-conteudo">
-                        <h3>5.1 Download Individual (TXT)</h3>
-                        <p>Para baixar o arquivo original transmitido à Receita, clique no botão de <strong>Download</strong> (ícone de seta) na coluna de Ações.</p>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/03-02-tooltip-baixar-txt.png" class="img-screenshot" alt="Ação Baixar TXT">
-                            </div>
+                        <div class="aviso">
+                            <span class="material-icons-round">warning</span>
+                            <p><strong>Aviso:</strong> Edite este texto para um alerta de perigo.</p>
                         </div>
-                        <p>Uma notificação confirmará o início do download.</p>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/03-03-toast-download-iniciado.png" class="img-screenshot" alt="Notificação de Download">
-                            </div>
-                        </div>
-
-                        <h3>5.2 Download em Massa (ZIP)</h3>
-                        <p>Para baixar todo o histórico listado de uma vez, clique no botão <strong>Baixar Todos</strong> localizado no cabeçalho da tabela.</p>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/03-04-tooltip-baixar-todos.png" class="img-screenshot" alt="Botão Baixar Todos">
-                            </div>
-                        </div>
-                        <p>O sistema compilará todos os arquivos TXT em um único arquivo ZIP.</p>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/03-06-toast-download-zip.png" class="img-screenshot" alt="Download ZIP Concluído">
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- SEÇÃO 6: CONFIGURAÇÃO DE COLUNAS (EXPORTAÇÃO) -->
-                <section class="secao" id="secao-6">
-                    <div class="secao-header">
-                        <span class="secao-numero">6</span>
-                        <h2>Configuração de Colunas</h2>
-                    </div>
-                    <div class="secao-conteudo">
-                        <h3>6.1 Acessando o Modal</h3>
-                        <p>A ferramenta de exportação permite converter dados do SPED para Excel. Clique no ícone de <strong>Planilha</strong> na coluna de ações.</p>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/04-01-tooltip-exportar-excel.png" class="img-screenshot" alt="Ícone Exportar">
-                            </div>
-                        </div>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/04-02-modal-exportar-inicial.png" class="img-screenshot" alt="Modal Inicial">
-                            </div>
-                            <p class="img-caption">Modal de seleção de registros</p>
-                        </div>
-
-                        <h3>6.2 Selecionando Todos os Registros</h3>
-                        <p>Para uma exportação completa, clique na opção <strong>Selecionar Todos</strong>. Isso marcará todos os blocos disponíveis no arquivo.</p>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/04-04-todos-registros-selecionados.png" class="img-screenshot" alt="Seleção Total">
-                            </div>
-                        </div>
-
-                        <h3>6.3 Expandindo Blocos</h3>
-                        <p>Clique sobre o nome de um Bloco (ex: Bloco 0) para ver os registros contidos nele.</p>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/04-05-bloco0-expandido.png" class="img-screenshot" alt="Bloco Expandido">
-                            </div>
-                        </div>
-
-                        <h3>6.4 Seleção Granular</h3>
-                        <p>Você pode selecionar registros específicos clicando nos checkboxes individuais. O contador do bloco atualizará para mostrar quantos registros foram selecionados (ex: 7 de 9).</p>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/04-06-bloco0-selecao-parcial.png" class="img-screenshot" alt="Seleção Parcial">
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- SEÇÃO 7: CRIANDO E SALVANDO PERFIS -->
-                <section class="secao" id="secao-7">
-                    <div class="secao-header">
-                        <span class="secao-numero">7</span>
-                        <h2>Criando e Salvando Perfis</h2>
-                    </div>
-                    <div class="secao-conteudo">
-                        <h3>7.1 Iniciando a Criação</h3>
-                        <p>Perfis economizam tempo salvando sua seleção de colunas. Após marcar os registros desejados, clique no botão <strong>+ (Adicionar)</strong>.</p>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/05-01-modal-salvar-perfil.png" class="img-screenshot" alt="Botão Adicionar Perfil">
-                            </div>
-                        </div>
-
-                        <h3>7.2 Definindo Nome e Padrão</h3>
-                        <p>Digite um nome descritivo para o perfil (ex: "Auditoria Créditos"). Se desejar que este perfil seja carregado sempre que você abrir a ferramenta, marque a opção <strong>Definir como perfil padrão</strong>.</p>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/05-02-input-nome-perfil.png" class="img-screenshot" alt="Input Nome">
-                            </div>
-                        </div>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/05-04-checkbox-perfil-padrao.png" class="img-screenshot" alt="Checkbox Padrão">
-                            </div>
-                        </div>
-
-                        <h3>7.3 Confirmando</h3>
-                        <p>Clique em <strong>Salvar Perfil</strong>. O sistema confirmará a criação e aplicará o perfil imediatamente.</p>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/05-06-toast-perfil-criado.png" class="img-screenshot" alt="Sucesso na Criação">
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- SEÇÃO 8: GERENCIAMENTO DE PERFIS -->
-                <section class="secao" id="secao-8">
-                    <div class="secao-header">
-                        <span class="secao-numero">8</span>
-                        <h2>Gerenciamento de Perfis</h2>
-                    </div>
-                    <div class="secao-conteudo">
-                        <h3>8.1 Carregando um Perfil</h3>
-                        <p>Para alternar entre configurações salvas, clique no dropdown de perfis. Sua lista de perfis personalizados aparecerá abaixo das opções padrão.</p>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/05-18-dropdown-multiplos-perfis.png" class="img-screenshot" alt="Lista de Perfis">
-                            </div>
-                        </div>
-
-                        <h3>8.2 Identificando o Padrão</h3>
-                        <p>O perfil definido como padrão é marcado com uma <strong>estrela amarela</strong>. Isso indica que ele é carregado automaticamente ao abrir o modal.</p>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/05-10-estrela-favorito.png" class="img-screenshot" alt="Ícone de Favorito">
-                            </div>
-                        </div>
-
-                        <h3>8.3 Excluindo um Perfil</h3>
-                        <p>Para remover um perfil obsoleto, abra o dropdown e passe o mouse sobre o nome do perfil. Um ícone de <strong>Lixeira</strong> aparecerá à direita.</p>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/05-19-icone-lixeira-hover.png" class="img-screenshot" alt="Ícone Lixeira">
-                            </div>
-                        </div>
-                        <p>Ao clicar na lixeira, uma confirmação será solicitada para evitar exclusões acidentais.</p>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/05-20-modal-confirmar-exclusao.png" class="img-screenshot" alt="Confirmação de Exclusão">
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- SEÇÃO 9: GERAÇÃO DO RELATÓRIO -->
-                <section class="secao" id="secao-9">
-                    <div class="secao-header">
-                        <span class="secao-numero">9</span>
-                        <h2>Geração do Relatório</h2>
-                    </div>
-                    <div class="secao-conteudo">
-                        <h3>9.1 Iniciando o Processo</h3>
-                        <p>Com os registros selecionados (ou perfil carregado), clique no botão <strong>Gerar Relatório</strong>. O contador indica quantos tipos de registros serão processados.</p>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/06-01-modal-pronto-exportar.png" class="img-screenshot" alt="Botão Gerar">
-                            </div>
-                        </div>
-
-                        <h3>9.2 Status de Processamento</h3>
-                        <p>O sistema iniciará a geração do arquivo Excel no servidor. O botão mudará para o estado de "Processando...".</p>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/06-02-exportacao-processando.png" class="img-screenshot" alt="Processando">
-                            </div>
-                        </div>
-
-                        <h3>9.3 Download Final</h3>
-                        <p>Assim que o processamento terminar, o download iniciará automaticamente e uma mensagem de sucesso será exibida.</p>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/06-03-toast-exportacao-concluida.png" class="img-screenshot" alt="Conclusão">
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- SEÇÃO 10: INTERFACE DE ANÁLISE -->
-                <section class="secao" id="secao-10">
-                    <div class="secao-header">
-                        <span class="secao-numero">10</span>
-                        <h2>Interface de Análise</h2>
-                    </div>
-                    <div class="secao-conteudo">
-                        <h3>10.1 Acesso à Análise</h3>
-                        <p>Para auditar o conteúdo sem baixar o arquivo, clique no botão <strong>Analisar</strong> (ícone de gráfico) na tabela de arquivos.</p>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/07-01-lista-pre-analise.png" class="img-screenshot" alt="Ação Analisar">
-                            </div>
-                        </div>
-
-                        <h3>10.2 Visão Geral do Modal</h3>
-                        <p>A tela de análise abre em modo expandido. O cabeçalho exibe informações vitais como a Razão Social, Período e Tipo (Original/Retificadora).</p>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/07-03-modal-analise-inicial.png" class="img-screenshot" alt="Visão Geral Análise">
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- SEÇÃO 11: NAVEGAÇÃO HIERÁRQUICA -->
-                <section class="secao" id="secao-11">
-                    <div class="secao-header">
-                        <span class="secao-numero">11</span>
-                        <h2>Navegação Hierárquica</h2>
-                    </div>
-                    <div class="secao-conteudo">
-                        <h3>11.1 Árvore de Blocos</h3>
-                        <p>A barra lateral esquerda organiza os dados na estrutura do SPED. Clique em um bloco para expandi-lo.</p>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/07-04-sidebar-bloco0-expandido.png" class="img-screenshot" alt="Bloco 0">
-                            </div>
-                        </div>
-
-                        <h3>11.2 Explorando Registros Fiscais</h3>
-                        <p>O Bloco C contém as Notas Fiscais. Ao expandi-lo, você verá registros como C100 (Nota) e C170 (Itens).</p>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/07-05-sidebar-blocoC-expandido.png" class="img-screenshot" alt="Bloco C">
-                            </div>
-                        </div>
-                        <p>Você pode manter múltiplos blocos abertos simultaneamente para comparar estruturas.</p>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/07-12-sidebar-todos-blocos.png" class="img-screenshot" alt="Árvore Completa">
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- SEÇÃO 12: TABELA DINÂMICA -->
-                <section class="secao" id="secao-12">
-                    <div class="secao-header">
-                        <span class="secao-numero">12</span>
-                        <h2>Tabela Dinâmica</h2>
-                    </div>
-                    <div class="secao-conteudo">
-                        <h3>12.1 Visualização de Dados</h3>
-                        <p>Ao clicar em um registro (ex: C170), os dados são carregados na área principal.</p>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/07-07-tabela-c170-dados.png" class="img-screenshot" alt="Dados C170">
-                            </div>
-                        </div>
-
-                        <h3>12.2 Scroll Horizontal</h3>
-                        <p>Para registros extensos, utilize a barra de rolagem horizontal para ver colunas ocultas como valores de PIS/COFINS por item.</p>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/07-08-tabela-scroll-horizontal.png" class="img-screenshot" alt="Scroll Horizontal">
-                            </div>
-                        </div>
-
-                        <h3>12.3 Seleção e Foco</h3>
-                        <p>Clique em qualquer linha para destacá-la. Isso ajuda a manter o foco durante a conferência de valores.</p>
-                        <div class="img-container">
-                            <div class="img-wrapper">
-                                <img src="imagens/07-11-tabela-linha-selecionada.png" class="img-screenshot" alt="Linha Selecionada">
-                            </div>
-                        </div>
-
-                        <h3>12.4 Paginação</h3>
-                        <p>O rodapé da tabela permite navegar entre páginas de registros, essencial para arquivos com milhares de itens.</p>
                     </div>
                 </section>
 
@@ -710,31 +253,77 @@
     </div>
 
     <script>
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('collapsed');
-        }
-
-        function toggleNavGroup(header) {
-            header.parentElement.classList.toggle('collapsed');
-        }
+        // 1. LÓGICA DE NAVEGAÇÃO (ORIGINAL)
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); }
+        function toggleNavGroup(header) { header.parentElement.classList.toggle('collapsed'); }
 
         const sections = document.querySelectorAll('.secao');
         const navLinks = document.querySelectorAll('.sidebar-nav a');
-
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     navLinks.forEach(link => {
                         link.classList.remove('active');
-                        if (link.getAttribute('href') === '#' + entry.target.id) {
+                        if (link.getAttribute('href').substring(1) === entry.target.id) {
                             link.classList.add('active');
                         }
                     });
                 }
             });
         }, { threshold: 0.3 });
-
         sections.forEach(section => observer.observe(section));
+
+        // 2. LÓGICA DE EDIÇÃO (NOVA)
+        let isEditing = false;
+        
+        function toggleEditMode() {
+            isEditing = !isEditing;
+            const body = document.body;
+            const btnIcon = document.getElementById('icon-edit');
+            
+            // Alterna classe para visual
+            if(isEditing) {
+                body.classList.add('editing-mode');
+                btnIcon.textContent = 'check'; // Muda ícone para Check
+                
+                // Torna elementos editáveis
+                document.querySelectorAll('.editable-text, .editable-area').forEach(el => {
+                    el.contentEditable = "true";
+                });
+            } else {
+                body.classList.remove('editing-mode');
+                btnIcon.textContent = 'edit'; // Volta ícone para Lápis
+                
+                // Remove edição
+                document.querySelectorAll('.editable-text, .editable-area').forEach(el => {
+                    el.contentEditable = "false";
+                });
+            }
+        }
+
+        // 3. LÓGICA DE DOWNLOAD (NOVA)
+        function downloadHtml() {
+            // Clona o documento atual
+            const htmlContent = document.documentElement.outerHTML;
+            
+            // Cria um blob
+            const blob = new Blob([htmlContent], {type: 'text/html'});
+            const url = URL.createObjectURL(blob);
+            
+            // Cria link falso e clica
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'manual_novo.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        // 4. LÓGICA DE IMPRESSÃO (NOVA)
+        function printManual() {
+            // Esconde sidebar e toolbar para impressão limpa
+            window.print();
+        }
     </script>
 </body>
 </html>
